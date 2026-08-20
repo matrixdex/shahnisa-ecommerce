@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shop All — Dastkari Chikan</title>
+<meta name="description" content="Shop hand-embroidered chikankari kurtas, sarees, suit sets and dupattas from Dastkari Chikan — filter by stitch, colour, size and price." />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>" />
+<style>
+  .shop-head { background: var(--ivory-deep); padding: 2.5rem 0 2rem; }
+  .facets-head { display: none; }
+  @media (max-width: 900px) { .facets-head { display: flex; } }
+</style>
+</head>
+<body>
+
+<div data-include="partials/chrome-top.html"></div>
+
+<section class="shop-head">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span class="sep">/</span><span class="current" id="crumbLabel">Shop All</span>
+    </div>
+    <span class="eyebrow" id="shopEyebrow">The Full Edit</span>
+    <h1 id="shopTitle" style="font-size:clamp(2rem,4vw,2.8rem);">All Products</h1>
+    <p id="shopDesc" style="color:var(--ink-muted); max-width:40rem; margin-top:0.6rem;">Every hand-embroidered piece, in one place.</p>
+  </div>
+</section>
+
+<section style="padding-top:2.5rem;">
+  <div class="container">
+
+    <button class="mobile-filter-toggle" id="openFilters">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+      Filter &amp; Sort
+    </button>
+
+    <div class="shop-layout">
+      <aside class="facets" id="facets">
+        <div class="facets-head">
+          <h3>Filters</h3>
+          <button class="icon-btn" id="closeFilters" aria-label="Close filters">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+
+        <div class="facet-group">
+          <div class="facet-title">Category</div>
+          <div class="facet-list" id="facetCategory"></div>
+        </div>
+        <div class="facet-group">
+          <div class="facet-title">Stitch / Collection</div>
+          <div class="facet-list" id="facetCollection"></div>
+        </div>
+        <div class="facet-group">
+          <div class="facet-title">Colour</div>
+          <div class="facet-colors" id="facetColor"></div>
+        </div>
+        <div class="facet-group">
+          <div class="facet-title">Size</div>
+          <div class="facet-sizes" id="facetSize"></div>
+        </div>
+        <div class="facet-group">
+          <div class="facet-title">Price</div>
+          <div class="facet-list" id="facetPrice"></div>
+        </div>
+        <div class="facet-group" style="border-bottom:none;">
+          <button class="clear-filters" id="clearFilters">Clear all filters</button>
+        </div>
+      </aside>
+
+      <div class="overlay-backdrop" id="facetsBackdrop"></div>
+
+      <div class="shop-main">
+        <div class="active-chips" id="activeChips"></div>
+        <div class="shop-toolbar">
+          <div class="result-count" id="resultCount">Loading…</div>
+          <div class="sort-select">
+            <label for="sortSelect">Sort by</label>
+            <select id="sortSelect">
+              <option value="featured">Featured</option>
+              <option value="newest">Newest</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-3" id="productGrid"></div>
+        <div id="emptyState" style="display:none;"></div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/include.js"></script>
+<script src="js/shop.js"></script>
+</body>
+</html>

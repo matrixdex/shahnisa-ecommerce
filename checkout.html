@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout — Dastkari Chikan</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>" />
+<style>
+  .checkout-page-head { padding: 2rem 0 0; }
+  #paymentFields .field { margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+
+<div data-include="partials/chrome-top.html"></div>
+
+<section class="checkout-page-head">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span class="sep">/</span><span class="current">Checkout</span>
+    </div>
+    <div class="checkout-steps">
+      <span class="step">Bag</span><span class="sep">&rarr;</span>
+      <span class="step active">Information &amp; Payment</span><span class="sep">&rarr;</span>
+      <span class="step">Confirmation</span>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0.5rem;">
+  <div class="container" id="checkoutContainer">
+
+    <div class="demo-notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+      <div><strong>This is a demo checkout.</strong> No real payment is processed and no card details are transmitted anywhere — placing an order simply simulates one for this prototype. Connect a real payment gateway (Razorpay, Stripe, etc.) before going live.</div>
+    </div>
+
+    <form class="checkout-layout" id="checkoutForm" novalidate>
+      <div>
+        <div class="checkout-section">
+          <h2>Contact</h2>
+          <div class="field-row">
+            <div class="field" id="f-email">
+              <label for="email">Email</label>
+              <input type="email" id="email" required placeholder="you@email.com">
+              <div class="field-error">Enter a valid email address.</div>
+            </div>
+            <div class="field" id="f-phone">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" required placeholder="10-digit mobile number">
+              <div class="field-error">Enter a valid 10-digit phone number.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-section">
+          <h2>Shipping Address</h2>
+          <div class="field" id="f-name">
+            <label for="fullName">Full name</label>
+            <input type="text" id="fullName" required placeholder="Full name">
+            <div class="field-error">Enter your full name.</div>
+          </div>
+          <div class="field" id="f-address1">
+            <label for="address1">Address</label>
+            <input type="text" id="address1" required placeholder="House no., street, area">
+            <div class="field-error">Enter your address.</div>
+          </div>
+          <div class="field">
+            <label for="address2">Apartment, suite, etc. <span class="optional">(optional)</span></label>
+            <input type="text" id="address2" placeholder="Apartment, floor, landmark">
+          </div>
+          <div class="field-row">
+            <div class="field" id="f-city">
+              <label for="city">City</label>
+              <input type="text" id="city" required placeholder="City">
+              <div class="field-error">Enter your city.</div>
+            </div>
+            <div class="field" id="f-state">
+              <label for="state">State</label>
+              <input type="text" id="state" required placeholder="State">
+              <div class="field-error">Enter your state.</div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field" id="f-pincode">
+              <label for="pincode">PIN Code</label>
+              <input type="text" id="pincode" required placeholder="6-digit PIN code" maxlength="6">
+              <div class="field-error">Enter a valid 6-digit PIN code.</div>
+            </div>
+            <div class="field">
+              <label for="country">Country</label>
+              <select id="country">
+                <option>India</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>United Arab Emirates</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-section">
+          <h2>Shipping Method</h2>
+          <div id="shippingMethods"></div>
+        </div>
+
+        <div class="checkout-section">
+          <h2>Payment</h2>
+          <div class="tab-row" id="paymentTabs">
+            <button type="button" class="tab-btn active" data-pay="card">Card</button>
+            <button type="button" class="tab-btn" data-pay="upi">UPI</button>
+            <button type="button" class="tab-btn" data-pay="cod">Cash on Delivery</button>
+          </div>
+          <div id="paymentFields"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="placeOrderBtn" style="padding:1.1rem;">Place Order</button>
+      </div>
+
+      <aside class="order-summary">
+        <h2>Order Summary</h2>
+        <div id="summaryLines"></div>
+        <div class="promo-row">
+          <input type="text" id="promoInput" placeholder="Discount code">
+          <button type="button" class="btn btn-outline btn-sm" id="promoApply">Apply</button>
+        </div>
+        <div class="summary-totals" id="summaryTotals"></div>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<div data-include="partials/footer.html"></div>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script src="js/include.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
