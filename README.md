@@ -104,6 +104,8 @@ Export/download your photos from Instagram yourself and drop them into
 
 ## Deployment (Render)
 
+**Live**: backend at [shahnisa-backend.onrender.com](https://shahnisa-backend.onrender.com) (Singapore), frontend at [shahnisa.onrender.com](https://shahnisa.onrender.com). Database is a free Neon Postgres project (not on Render).
+
 Two Render services, deployed from this repo:
 
 **Backend** — Web Service, root directory `backend`, Node.
@@ -111,25 +113,27 @@ Two Render services, deployed from this repo:
 | | |
 |---|---|
 | Build command | `npm install && npm run build --workspace=@dtc/backend && cd apps/backend/.medusa/server && npm install` |
-| Start command | `cd apps/backend/.medusa/server && npm run predeploy && npm run start` |
+| Start command | `cd apps/backend/.medusa/server && npx medusa db:migrate && npm run start` |
 | Env vars | `DATABASE_URL` (Postgres), `JWT_SECRET`, `COOKIE_SECRET`, `AUTH_MFA_ENCRYPTION_KEY`, `STORE_CORS`, `ADMIN_CORS`, `AUTH_CORS`, `NODE_VERSION` |
 
-`predeploy` runs Medusa's migrations against `DATABASE_URL` before the
-server starts. No Redis is configured — Medusa falls back to its
+`medusa db:migrate` also runs any script under `src/migration-scripts/`
+(e.g. `initial-data-seed.ts`) exactly once, tracked in the database —
+safe to redeploy or point a new Render service at the same database
+without reseeding. No Redis is configured — Medusa falls back to its
 in-memory event bus/cache/locking modules, which is fine for a single
 instance; add `REDIS_URL` if this ever scales to multiple instances.
 
-After the first deploy, seed the catalog and create an admin login with
-one-off jobs run from `apps/backend/.medusa/server`:
+The very first deploy's seed run prints a publishable API key in the
+logs — that's the `MEDUSA_PUBLISHABLE_KEY` the frontend needs (see
+below). The admin dashboard is at `<backend-url>/app`.
 
-```bash
-npx medusa exec ./src/migration-scripts/initial-data-seed.ts
-npx medusa user -e you@example.com -p <password>
-```
-
-The seed job prints a publishable API key — that's the
-`MEDUSA_PUBLISHABLE_KEY` the frontend needs (see below). The admin
-dashboard is at `<backend-url>/app`.
+Render's free plan doesn't allow one-off Jobs, so there's no
+`medusa user -e -p` post-deploy step to run for the first admin login —
+that account was created once via a temporary bootstrap API route
+(see the "Add/Remove temporary admin-bootstrap route" commits). To add
+more admins later, either use the Medusa Admin dashboard's own invite
+flow (once logged in) or run `npx medusa user -e ... -p ...` from a
+local checkout against the production `DATABASE_URL`.
 
 **Frontend** — Static Site, root directory `.` (repo root).
 
