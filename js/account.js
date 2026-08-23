@@ -1,8 +1,7 @@
 /* ============================================================
    DASTKARI CHIKAN — account.js
-   Dummy auth (accepts any email/password — see api.js) plus an
-   order-history view read from localStorage. Swap Api.login /
-   Api.signup internals for real auth when the backend is ready.
+   Real Medusa customer auth (see api.js) plus an order-history
+   view backed by the customer's real order history.
    ============================================================ */
 
 let authMode = 'login';
@@ -63,19 +62,30 @@ function renderAuthGate() {
 
     const email = document.getElementById('authEmail').value.trim();
     const password = document.getElementById('authPassword').value;
-    if (authMode === 'signup') {
-      await Api.signup(document.getElementById('authName').value.trim(), email, password);
-    } else {
-      await Api.login(email, password);
+    try {
+      if (authMode === 'signup') {
+        await Api.signup(document.getElementById('authName').value.trim(), email, password);
+      } else {
+        await Api.login(email, password);
+      }
+    } catch (err) {
+      console.error('Auth failed', err);
+      showToast(err.message || 'Something went wrong — please try again.');
+      return;
     }
     showToast(authMode === 'signup' ? 'Account created — welcome!' : 'Welcome back!');
-    renderDashboard();
+    await renderDashboard();
   });
 }
 
-function renderDashboard() {
+async function renderDashboard() {
   const session = Api.getSession();
-  const orders = JSON.parse(localStorage.getItem('dastkari_orders') || '[]').reverse();
+  let orders = [];
+  try {
+    orders = await Api.getOrderHistory();
+  } catch (err) {
+    console.error('Could not load order history', err);
+  }
   const root = document.getElementById('accountRoot');
 
   root.innerHTML = `
@@ -126,8 +136,9 @@ function renderDashboard() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await Api.ready();
   const session = Api.getSession();
-  if (session) renderDashboard();
+  if (session) await renderDashboard();
   else renderAuthGate();
 });

@@ -1,17 +1,38 @@
 # Dastkari Chikan — Storefront
 
 A full HTML/CSS/JS storefront (home, catalog, product pages, cart drawer,
-checkout, order confirmation, account) built as a static site with a
-**dummy backend** you can swap for a real one later.
+checkout, order confirmation, account) backed by a real **MedusaJS**
+backend in [`backend/`](backend) — real products, cart, checkout/orders
+and customer accounts. Payment stays a front-end simulation on top of a
+real order (see the on-page notice in checkout).
 
 ## Running it locally
 
-This site uses `fetch()` to load `partials/*.html` (header/footer/cart
-drawer) and `data/products.json`, which browsers block when a page is
-opened directly as a `file://` URL. Serve it over local HTTP instead:
+Two things need to be running: the Medusa backend, and this static
+frontend.
+
+**1. Backend** (needs Node 20+/22+ and PostgreSQL — see
+[`backend/AGENTS.md`](backend/AGENTS.md) for the full layout):
 
 ```bash
-cd dastkari
+cd backend
+npm run backend:dev
+# Medusa on http://localhost:9000, admin dashboard at /app
+```
+
+The first run seeds the catalog from `data/products.json` automatically
+(see `backend/apps/backend/src/migration-scripts/initial-data-seed.ts`)
+and prints a publishable API key — [`js/api.js`](js/api.js) already has
+a matching dev key wired in as its fallback, alongside `MEDUSA_URL`.
+Change those two constants if you point local dev at a different
+backend. In production these are overridden via `window.__ENV__` — see
+[Deployment](#deployment-render) below.
+
+**2. Frontend** — this site uses `fetch()` to load `partials/*.html`
+(header/footer/cart drawer), which browsers block when a page is opened
+directly as a `file://` URL. Serve it over local HTTP:
+
+```bash
 python3 -m http.server 8000
 # then open http://localhost:8000
 ```
@@ -29,26 +50,25 @@ python3 -m http.server 8000
 | `order-confirmation.html`| Thank-you page for the order just placed |
 | `account.html`           | Dummy sign in / sign up + order history |
 
-## The "dummy backend" — `js/api.js`
+## `js/api.js` — the one file that talks to the backend
 
 Every page talks **only** to `window.Api` and `window.Cart` (both defined
-in `js/api.js`) — nothing else touches `localStorage` or the JSON file
-directly. That means swapping in a real backend is a matter of editing
-the *inside* of the functions in this one file; every other file stays
-the same.
+in `js/api.js`) — nothing else touches the network or `localStorage`
+directly.
 
-Current stand-ins:
+| Feature   | Backed by |
+|-----------|-----------|
+| Product catalog | Medusa Store API (`GET /store/products`, `/store/collections`), cached client-side |
+| Cart | A real Medusa cart; `js/api.js` keeps an optimistic local mirror so the UI updates instantly while it syncs in the background |
+| Checkout totals / shipping / tax / promo codes | The real Medusa cart's totals — see `checkout.js` |
+| Orders | Real Medusa orders (`POST .../complete`); order history via `GET /store/orders` |
+| Auth | Real Medusa customer accounts (`/auth/customer/emailpass`) |
+| Newsletter | Still a local `localStorage` stub — no Medusa equivalent; wire up Klaviyo/Mailchimp/your ESP here |
 
-| Feature   | Dummy implementation | Replace with |
-|-----------|----------------------|--------------|
-| Product catalog | `data/products.json`, fetched once and cached | `GET /api/products` |
-| Cart | `localStorage`, this browser only | A cart API / session, or keep client-side if you prefer |
-| Orders | `localStorage`, fake `DC######` order IDs | `POST /api/orders`, real order IDs |
-| Auth | `localStorage`, accepts any email/password | Real auth (sessions, JWT, etc.) |
-| Newsletter | `localStorage` list | Klaviyo / Mailchimp / your ESP |
-
-Each function in `api.js` has a `// TODO` comment showing the real
-`fetch()` call it's standing in for.
+`data/products.json` is no longer read at runtime — it's kept as the
+historical source the backend's seed script was transcribed from. Add,
+edit or remove products via the Medusa admin dashboard (`/app`) or by
+editing the seed script and reseeding.
 
 ## Adding real product photography
 
@@ -56,23 +76,23 @@ Right now every image slot renders a **"pattern card"** — a placeholder
 that shows the product's chikankari stitch name as line art, defined in
 `js/main.js` (`STITCH_ICONS` / `patternCard()`). To swap in real photos:
 
-1. Add an `images: ["/assets/products/xyz-front.jpg", ...]` array to each
-   product in `data/products.json`.
+1. Add product images in the Medusa admin dashboard (`/app` → a
+   product's Media section), or via the seed script's `images` field.
 2. In `js/main.js` (`productCardHTML`) and `js/product.js`
    (`renderPDP`'s gallery block), replace the `patternCard(...)` calls
-   with an `<img src="${p.images[0]}">`.
+   with an `<img src="${p.images[0]}">` — `js/api.js`'s `mapProduct`
+   would need a matching `images` field added to what it reads back.
 
 Everything else (cart, checkout, filters) is already keyed off product
 `id`/`slug`, so this is a purely visual swap.
 
 ## Editing the catalog
 
-Add, edit, or remove products directly in `data/products.json` — no
-code changes needed. Each product needs: `id`, `slug` (used in the PDP
-URL), `name`, `category`, `collection` (must match an id in the
-`collections` array), `stitch`, `fabric`, `price`, optional `compareAt`,
-`isNew`, `colors[]`, `sizes[]`, `rating`, `reviews`, `description`,
-`care`, `artisanNote`.
+Add, edit, or remove products via the Medusa admin dashboard (`/app`),
+or edit `backend/apps/backend/src/migration-scripts/initial-data-seed.ts`
+and reseed against a fresh database. `data/products.json` is not read at
+runtime — it only documents the original catalog the seed script was
+transcribed from.
 
 ## Instagram
 
@@ -82,11 +102,57 @@ signed CDN URLs — so this site can't pull your posts in automatically.
 Export/download your photos from Instagram yourself and drop them into
 `assets/products/` (see above) when you're ready.
 
+## Deployment (Render)
+
+Two Render services, deployed from this repo:
+
+**Backend** — Web Service, root directory `backend`, Node.
+
+| | |
+|---|---|
+| Build command | `npm install && npm run build --workspace=@dtc/backend && cd apps/backend/.medusa/server && npm install` |
+| Start command | `cd apps/backend/.medusa/server && npm run predeploy && npm run start` |
+| Env vars | `DATABASE_URL` (Postgres), `JWT_SECRET`, `COOKIE_SECRET`, `AUTH_MFA_ENCRYPTION_KEY`, `STORE_CORS`, `ADMIN_CORS`, `AUTH_CORS`, `NODE_VERSION` |
+
+`predeploy` runs Medusa's migrations against `DATABASE_URL` before the
+server starts. No Redis is configured — Medusa falls back to its
+in-memory event bus/cache/locking modules, which is fine for a single
+instance; add `REDIS_URL` if this ever scales to multiple instances.
+
+After the first deploy, seed the catalog and create an admin login with
+one-off jobs run from `apps/backend/.medusa/server`:
+
+```bash
+npx medusa exec ./src/migration-scripts/initial-data-seed.ts
+npx medusa user -e you@example.com -p <password>
+```
+
+The seed job prints a publishable API key — that's the
+`MEDUSA_PUBLISHABLE_KEY` the frontend needs (see below). The admin
+dashboard is at `<backend-url>/app`.
+
+**Frontend** — Static Site, root directory `.` (repo root).
+
+| | |
+|---|---|
+| Build command | `node scripts/render-frontend-build.mjs` |
+| Publish directory | `dist` |
+| Env vars | `MEDUSA_URL` (the backend's Render URL), `MEDUSA_PUBLISHABLE_KEY` (from the seed job above) |
+
+The build script ([`scripts/render-frontend-build.mjs`](scripts/render-frontend-build.mjs))
+copies the site's pages/assets into `dist/` and writes `dist/env-config.js`
+from those two env vars — that's what `js/api.js` reads at runtime
+instead of its localhost fallback (see `window.__ENV__` near the top of
+that file). Once both services are up, set the backend's `STORE_CORS` /
+`ADMIN_CORS` / `AUTH_CORS` to the frontend's real `onrender.com` URL and
+redeploy.
+
 ## What's still a placeholder / demo
 
 - **Checkout does not process real payments** — it's a front-end
-  simulation only (see the on-page notice). Wire up Razorpay, Stripe,
-  or similar before accepting real orders.
-- **Account system** accepts any email/password — no real auth.
-- **Newsletter, orders, cart** all live in this browser's `localStorage`
-  only — clearing browser data clears them.
+  simulation on top of a real Medusa order (paid via the `pp_system_default`
+  manual provider). Wire up Razorpay, Stripe, or similar before accepting
+  real orders.
+- **Newsletter** is still a `localStorage` stub — no Medusa equivalent.
+- Real product photography and transactional email are also not wired up
+  (see above).

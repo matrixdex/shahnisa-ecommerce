@@ -1,20 +1,14 @@
 /* ============================================================
    DASTKARI CHIKAN — checkout.js
-   Single-page checkout. Everything here is a front-end
-   simulation — see api.js for what a real integration replaces.
+   Single-page checkout. Shipping methods, tax and totals come
+   from the real Medusa cart (see api.js) — this file only wires
+   the form. Payment stays a front-end simulation on top of a
+   real order (see the on-page notice).
    ============================================================ */
 
-const SHIPPING_METHODS = [
-  { id: 'standard', label: 'Standard Shipping', sub: '5–7 business days', cost: 99 },
-  { id: 'express', label: 'Express Shipping', sub: '2–3 business days', cost: 249 }
-];
-const FREE_SHIPPING_THRESHOLD = 3500;
-const TAX_RATE = 0.05;
-const PROMO_CODES = { 'DASTKARI10': 0.10 };
-
 let selectedShipping = 'standard';
-let appliedDiscountRate = 0;
 let selectedPayment = 'card';
+let shippingOptionsList = [];
 
 function renderEmptyCheckout() {
   document.getElementById('checkoutContainer').innerHTML = `
@@ -26,16 +20,7 @@ function renderEmptyCheckout() {
     </div>`;
 }
 
-function computeTotals(lines) {
-  const subtotal = lines.reduce((s, l) => s + l.qty * l.price, 0);
-  const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : (SHIPPING_METHODS.find(m => m.id === selectedShipping)?.cost || 0);
-  const discount = Math.round(subtotal * appliedDiscountRate);
-  const tax = Math.round((subtotal - discount) * TAX_RATE);
-  const total = subtotal - discount + shippingCost + tax;
-  return { subtotal, shippingCost, discount, tax, total };
-}
-
-function renderSummary() {
+function renderSummary(totals) {
   const lines = Cart.get();
   const linesEl = document.getElementById('summaryLines');
   linesEl.innerHTML = lines.map(l => `
@@ -49,7 +34,7 @@ function renderSummary() {
     </div>
   `).join('');
 
-  const t = computeTotals(lines);
+  const t = totals;
   const totalsEl = document.getElementById('summaryTotals');
   totalsEl.innerHTML = `
     <div class="row"><span>Subtotal</span><span>${Api.money(t.subtotal)}</span></div>
@@ -58,30 +43,36 @@ function renderSummary() {
     <div class="row"><span>Tax (GST 5%)</span><span>${Api.money(t.tax)}</span></div>
     <div class="row total"><span>Total</span><span>${Api.money(t.total)}</span></div>
   `;
-  return t;
 }
 
 function renderShippingMethods() {
-  const lines = Cart.get();
-  const subtotal = lines.reduce((s, l) => s + l.qty * l.price, 0);
-  const freeEligible = subtotal >= FREE_SHIPPING_THRESHOLD;
   const el = document.getElementById('shippingMethods');
-  el.innerHTML = SHIPPING_METHODS.map(m => `
-    <label class="radio-card ${selectedShipping === m.id ? 'selected' : ''}" data-ship="${m.id}">
+  el.innerHTML = shippingOptionsList.map(m => `
+    <label class="radio-card ${selectedShipping === m.code ? 'selected' : ''}" data-ship="${m.code}">
       <div class="radio-card-left">
-        <input type="radio" name="shipping" value="${m.id}" ${selectedShipping === m.id ? 'checked' : ''}>
+        <input type="radio" name="shipping" value="${m.code}" ${selectedShipping === m.code ? 'checked' : ''}>
         <div><div class="label">${m.label}</div><div class="sub">${m.sub}</div></div>
       </div>
-      <div class="amount">${freeEligible && m.id === 'standard' ? 'Free' : Api.money(m.cost)}</div>
+      <div class="amount">${Api.money(m.cost)}</div>
     </label>
   `).join('');
   el.querySelectorAll('[data-ship]').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', async () => {
       selectedShipping = card.getAttribute('data-ship');
       renderShippingMethods();
-      renderSummary();
+      await applyShippingAndRefresh();
     });
   });
+}
+
+async function applyShippingAndRefresh() {
+  try {
+    const totals = await Api.selectShippingMethod(selectedShipping);
+    renderSummary(totals);
+  } catch (err) {
+    console.error('Could not select shipping method', err);
+    showToast('Could not update shipping — please try again.');
+  }
 }
 
 function renderPaymentFields() {
@@ -138,16 +129,12 @@ function wirePaymentTabs() {
 }
 
 function wirePromo() {
-  document.getElementById('promoApply').addEventListener('click', () => {
+  document.getElementById('promoApply').addEventListener('click', async () => {
     const code = document.getElementById('promoInput').value.trim().toUpperCase();
-    if (PROMO_CODES[code]) {
-      appliedDiscountRate = PROMO_CODES[code];
-      showToast(`Code applied — ${PROMO_CODES[code] * 100}% off`);
-    } else {
-      appliedDiscountRate = 0;
-      showToast('That code is not valid');
-    }
-    renderSummary();
+    if (!code) return;
+    const applied = await Api.applyPromoCode(code);
+    showToast(applied ? `Code applied — ${code}` : 'That code is not valid');
+    renderSummary(await Api.getCartTotals());
   });
 }
 
@@ -206,7 +193,7 @@ async function handleSubmit(e) {
   btn.textContent = 'Placing your order…';
 
   const lines = Cart.get();
-  const totals = computeTotals(lines);
+  const totals = await Api.getCartTotals();
 
   const orderPayload = {
     items: lines,
@@ -225,14 +212,24 @@ async function handleSubmit(e) {
     totals
   };
 
-  const order = await Api.placeOrder(orderPayload);
-  Cart.clear();
-  location.href = `order-confirmation.html?order=${order.orderId}`;
+  try {
+    const order = await Api.placeOrder(orderPayload);
+    Cart.clear();
+    location.href = `order-confirmation.html?order=${order.orderId}`;
+  } catch (err) {
+    console.error('Could not place order', err);
+    showToast('Could not place your order — please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Place Order';
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await Api.ready();
   if (!Cart.get().length) { renderEmptyCheckout(); return; }
-  renderSummary();
+
+  shippingOptionsList = await Api.getShippingMethods();
+  await applyShippingAndRefresh();
   renderShippingMethods();
   renderPaymentFields();
   wirePaymentTabs();
