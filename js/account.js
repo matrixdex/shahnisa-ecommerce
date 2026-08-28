@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — account.js
+   SHAHNISA — account.js
    Real Medusa customer auth (see api.js) plus an order-history
    view backed by the customer's real order history.
    ============================================================ */

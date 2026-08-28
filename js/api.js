@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — api.js
+   SHAHNISA — api.js
    ------------------------------------------------------------
    This is the ONE file that talks to the real backend. Every page
    calls functions on `window.Api` and `window.Cart` — nothing else
@@ -34,8 +34,8 @@
   // promotion's own rule gates whether it actually discounts anything.
   const FREE_SHIPPING_CODE = 'FREESHIP3500';
 
-  const TOKEN_KEY = 'dastkari_medusa_token';
-  const CART_ID_KEY = 'dastkari_cart_id';
+  const TOKEN_KEY = 'shahnisa_medusa_token';
+  const CART_ID_KEY = 'shahnisa_cart_id';
   // "+" makes this additive to Medusa's default cart fields (which already
   // include items, shipping_methods, promotions and all the total/tax/
   // discount fields) — a bare field list would replace those defaults
@@ -329,17 +329,17 @@
         throw new Error((completeData.error && completeData.error.message) || 'Could not complete the order.');
       }
       const medusaOrder = completeData.order;
-      const orderId = 'DC' + String(medusaOrder.display_id).padStart(6, '0');
+      const orderId = 'SH' + String(medusaOrder.display_id).padStart(6, '0');
       const order = {
         orderId,
         placedAt: medusaOrder.created_at || new Date().toISOString(),
         ...orderPayload,
       };
 
-      const orders = JSON.parse(localStorage.getItem('dastkari_orders') || '[]');
+      const orders = JSON.parse(localStorage.getItem('shahnisa_orders') || '[]');
       orders.push(order);
-      localStorage.setItem('dastkari_orders', JSON.stringify(orders));
-      localStorage.setItem('dastkari_last_order', JSON.stringify(order));
+      localStorage.setItem('shahnisa_orders', JSON.stringify(orders));
+      localStorage.setItem('shahnisa_last_order', JSON.stringify(order));
 
       // A completed cart can't be reused — start a fresh one for next time.
       _cart = null;
@@ -351,7 +351,7 @@
     },
 
     getLastOrder() {
-      const raw = localStorage.getItem('dastkari_last_order');
+      const raw = localStorage.getItem('shahnisa_last_order');
       return raw ? JSON.parse(raw) : null;
     },
 
@@ -360,7 +360,7 @@
       const data = await medusaFetch('/store/orders?fields=id,display_id,created_at,total,items.id');
       return data.orders
         .map(o => ({
-          orderId: 'DC' + String(o.display_id).padStart(6, '0'),
+          orderId: 'SH' + String(o.display_id).padStart(6, '0'),
           placedAt: o.created_at,
           items: o.items || [],
           totals: { total: o.total },
@@ -408,9 +408,9 @@
 
     /* ── Newsletter (still a local stub — no Medusa equivalent) ── */
     async subscribeNewsletter(email) {
-      const list = JSON.parse(localStorage.getItem('dastkari_newsletter') || '[]');
+      const list = JSON.parse(localStorage.getItem('shahnisa_newsletter') || '[]');
       if (!list.includes(email)) list.push(email);
-      localStorage.setItem('dastkari_newsletter', JSON.stringify(list));
+      localStorage.setItem('shahnisa_newsletter', JSON.stringify(list));
       return { subscribed: true };
     },
   };

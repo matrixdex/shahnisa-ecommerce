@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — Design System
+   SHAHNISA — Design System
    Concept: "Woven from Shadow" — grounded in bakhiya, chikankari's
    signature shadow-work stitch, worked from the reverse of sheer
    fabric so the motif falls in silhouette on the front.
@@ -215,6 +215,9 @@ header.site-header {
   .nav-toggle { display: flex; }
   .nav-inner { grid-template-columns: auto 1fr auto; }
   .wordmark { font-size: 1.4rem; }
+  /* Only the hamburger + cart icon stay in the mobile nav bar — search
+     and account move into the slide-out menu instead. */
+  .nav-desktop-only { display: none; }
   .mobile-nav {
     position: fixed; inset: 0; top: 0; z-index: 1200;
     background: var(--bone);
@@ -225,12 +228,16 @@ header.site-header {
   }
   .mobile-nav.open { transform: translateX(0); }
   .mobile-nav-top { display: flex; justify-content: flex-end; margin-bottom: 2rem; }
-  .mobile-nav a {
+  .mobile-nav a, .mobile-nav-search {
     display: block;
+    width: 100%;
+    text-align: left;
     font-family: var(--display);
     font-size: 1.6rem;
     padding: 0.6rem 0;
     border-bottom: 1px solid var(--line);
+    background: none;
+    color: inherit;
   }
 }
 @media (min-width: 861px) { .mobile-nav { display: none; } }

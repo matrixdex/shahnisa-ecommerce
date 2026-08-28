@@ -1,4 +1,4 @@
-# Dastkari Chikan — Storefront
+# Shahnisa — Storefront
 
 A full HTML/CSS/JS storefront (home, catalog, product pages, cart drawer,
 checkout, order confirmation, account) backed by a real **MedusaJS**

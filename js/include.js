@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — include.js
+   SHAHNISA — include.js
    Minimal client-side include system so header/footer/cart-drawer
    markup lives in one place (partials/) instead of being copy-
    pasted into every page. Requires the site to be served over

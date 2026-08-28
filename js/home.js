@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — home.js
+   SHAHNISA — home.js
    Renders the "New Arrivals" carousel and wires the newsletter
    form. Independent of the header/footer partials, so it runs on
    DOMContentLoaded rather than waiting for 'chrome:ready'.
@@ -47,7 +47,7 @@ function wireNewsletter() {
     btn.disabled = true;
     btn.textContent = 'Joining…';
     await Api.subscribeNewsletter(input.value.trim());
-    showToast("You're on the list — welcome to Dastkari Chikan.");
+    showToast("You're on the list — welcome to Shahnisa.");
     form.reset();
     btn.disabled = false;
     btn.textContent = original;

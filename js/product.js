@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — product.js
+   SHAHNISA — product.js
    Renders a single product from ?slug=... — one template, driven
    entirely by data/products.json via Api.getProductBySlug.
    ============================================================ */
@@ -30,7 +30,7 @@ function renderNotFound() {
 }
 
 function renderPDP(p) {
-  document.title = `${p.name} — Dastkari Chikan`;
+  document.title = `${p.name} — Shahnisa`;
   document.getElementById('pageDesc')?.setAttribute('content', p.description.slice(0, 155));
   document.getElementById('breadcrumb').innerHTML = `
     <a href="index.html">Home</a><span class="sep">/</span>

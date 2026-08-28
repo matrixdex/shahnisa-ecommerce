@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Render Static Site build command for the Dastkari Chikan frontend.
+// Render Static Site build command for the Shahnisa frontend.
 //
 // Copies just the static site's own files into dist/ (leaving the backend/
 // monorepo, node_modules, etc. out of what gets published) and writes

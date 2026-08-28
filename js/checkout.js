@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — checkout.js
+   SHAHNISA — checkout.js
    Single-page checkout. Shipping methods, tax and totals come
    from the real Medusa cart (see api.js) — this file only wires
    the form. Payment stays a front-end simulation on top of a

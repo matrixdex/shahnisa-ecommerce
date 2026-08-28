@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — shop.js
+   SHAHNISA — shop.js
    Catalog page: facets, sorting, pagination. Filter state lives
    in the URL query string, so filtered views are shareable/
    bookmarkable — same as a real Shopify collection page.
@@ -79,7 +79,7 @@ function updateHeaderCopy() {
   if (state.category) {
     eyebrow.textContent = 'Shop By Category';
     title.textContent = state.category;
-    desc.textContent = `Every ${state.category.toLowerCase()} piece in the Dastkari Chikan edit.`;
+    desc.textContent = `Every ${state.category.toLowerCase()} piece in the Shahnisa edit.`;
     crumb.textContent = state.category;
     return;
   }

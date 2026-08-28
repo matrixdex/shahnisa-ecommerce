@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — confirmation.js
+   SHAHNISA — confirmation.js
    Reads the last placed order (dummy backend, localStorage) and
    renders a thank-you summary. Redirects home if there's nothing
    to show (e.g. page opened directly with no order placed).

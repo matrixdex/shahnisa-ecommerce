@@ -1,5 +1,5 @@
 /* ============================================================
-   DASTKARI CHIKAN — main.js
+   SHAHNISA — main.js
    Shared UI wiring used on every page: header cart badge, cart
    drawer, mobile nav, search overlay, toasts, scroll reveal,
    and the stitch-icon placeholder system.
