@@ -152,18 +152,6 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
   display: flex; align-items: center; justify-content: center;
 }
 
-/* ── Announcement bar ──────────────────────────────────────── */
-.announce {
-  background: var(--ink);
-  color: var(--bone);
-  text-align: center;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.6rem 1rem;
-}
-
 /* ── Header / Nav ──────────────────────────────────────────── */
 header.site-header {
   position: sticky;
@@ -173,11 +161,11 @@ header.site-header {
   border-bottom: 1px solid var(--line);
 }
 .nav-inner {
+  position: relative; /* containing block for .account-page-wordmark below */
   max-width: var(--container);
   margin: 0 auto;
   padding: 1.1rem clamp(1.25rem, 4vw, 3rem);
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
   gap: 1.5rem;
 }
@@ -200,47 +188,55 @@ header.site-header {
   font-size: 1.7rem;
   line-height: 1;
   letter-spacing: 0.02em;
-  text-align: center;
   white-space: nowrap;
 }
-.nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.35rem; min-width: 0; }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; width: 24px; }
+/* Centered on the nav bar itself (not just between the nav-links and the
+   icon cluster) so it stays dead-center regardless of how wide either
+   side is — same on mobile, since .nav-inner's own width doesn't change,
+   only what's visible on either side of the wordmark does. */
+.nav-inner .wordmark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.35rem; min-width: 0; margin-left: auto; }
+/* The hamburger opens the same slide-out panel at every screen size —
+   it's now the only way to reach Search, since the header no longer
+   carries a search icon of its own (account access moved into the
+   cart drawer instead — see .cart-empty in main.js). */
+.nav-toggle { display: flex; flex-direction: column; gap: 5px; width: 24px; }
 .nav-toggle span { display: block; height: 2px; width: 100%; background: var(--ink); transition: var(--ease); transform-origin: center; }
 .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+.mobile-nav {
+  position: fixed; inset: 0; top: 0; z-index: 1200;
+  background: var(--bone);
+  padding: 1.4rem clamp(1.25rem, 4vw, 3rem) 2rem;
+  transform: translateX(100%);
+  transition: transform var(--ease);
+  overflow-y: auto;
+}
+.mobile-nav.open { transform: translateX(0); }
+.mobile-nav-top { display: flex; justify-content: flex-end; margin-bottom: 2rem; }
+.mobile-nav a, .mobile-nav-search {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: var(--display);
+  font-size: 1.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: inherit;
+}
+
 @media (max-width: 860px) {
   .nav-links { display: none; }
-  .nav-toggle { display: flex; }
-  .nav-inner { grid-template-columns: auto 1fr auto; }
   .wordmark { font-size: 1.4rem; }
-  /* Only the hamburger + cart icon stay in the mobile nav bar — search
-     and account move into the slide-out menu instead. */
-  .nav-desktop-only { display: none; }
-  .mobile-nav {
-    position: fixed; inset: 0; top: 0; z-index: 1200;
-    background: var(--bone);
-    padding: 1.4rem clamp(1.25rem, 4vw, 3rem) 2rem;
-    transform: translateX(100%);
-    transition: transform var(--ease);
-    overflow-y: auto;
-  }
-  .mobile-nav.open { transform: translateX(0); }
-  .mobile-nav-top { display: flex; justify-content: flex-end; margin-bottom: 2rem; }
-  .mobile-nav a, .mobile-nav-search {
-    display: block;
-    width: 100%;
-    text-align: left;
-    font-family: var(--display);
-    font-size: 1.6rem;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid var(--line);
-    background: none;
-    color: inherit;
-  }
 }
-@media (min-width: 861px) { .mobile-nav { display: none; } }
 
 /* ── Cart drawer ───────────────────────────────────────────── */
 .overlay-backdrop {
@@ -265,6 +261,7 @@ header.site-header {
   padding: 1.4rem 1.5rem; border-bottom: 1px solid var(--line);
 }
 .cart-drawer-head h3 { font-size: 1.2rem; }
+.cart-account-row { text-align: center; padding: 0.9rem 1.5rem; border-bottom: 1px solid var(--line); }
 .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
 .cart-line {
   display: grid; grid-template-columns: 72px 1fr auto;
@@ -528,6 +525,7 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
   .mobile-filter-toggle {
     display: inline-flex; align-items: center; gap: 0.5rem;
     border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.6rem 1rem; font-size: 0.82rem; font-weight: 600;
+    margin-bottom: 1.25rem;
   }
 }
 

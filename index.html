@@ -13,9 +13,42 @@
   .hero .container { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 3rem; align-items: center; min-height: 60vh; }
   .hero h1 { font-size: clamp(2.6rem, 5.2vw, 4.4rem); margin: 0.6rem 0 1.3rem; }
   .hero p.lede { color: rgba(239,234,224,0.7); max-width: 30rem; margin-bottom: 2rem; font-size: 1.02rem; }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    /* Optical alignment: pull the row left by the buttons' own left
+       padding so the button LABEL lines up with the h1/lede text above
+       it, instead of the button's outer box (which looks flush but
+       leaves its text visibly indented). */
+    margin-left: -1.9rem;
+  }
+  /* "Shop Shahnisa" only — every other .btn-primary on the site keeps
+     the gold hover background. This recreates .nav-links a's sliding
+     underline (a positioned line, not text-decoration), just with a
+     bigger gap under the text to suit a button instead of a nav link. */
+  .hero-actions .btn-primary { position: relative; }
+  .hero-actions .btn-primary::after {
+    content: '';
+    position: absolute;
+    left: 1.9rem;
+    right: 1.9rem;
+    bottom: 0.65rem;
+    height: 2px;
+    background: var(--bone);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--ease);
+  }
+  .hero-actions .btn-primary:hover,
+  .hero-actions .btn-primary:active {
+    background: var(--ink);
+  }
+  .hero-actions .btn-primary:hover::after,
+  .hero-actions .btn-primary:active::after {
+    transform: scaleX(1);
+  }
   .hero-motif { display: flex; align-items: center; justify-content: center; }
   .hero-motif svg { width: 100%; max-width: 340px; height: auto; }
+  .hero-title-mobile { display: none; }
   .stitch-path {
     fill: none; stroke: var(--gold); stroke-width: 1.6;
     stroke-dasharray: 1; stroke-dashoffset: 1;
@@ -25,10 +58,25 @@
   @keyframes draw-stitch { to { stroke-dashoffset: 0; } }
   @keyframes dot-in { to { opacity: 0.85; } }
   @media (max-width: 900px) {
-    .hero .container { grid-template-columns: 1fr; text-align: center; min-height: auto; }
-    .hero-actions { justify-content: center; }
-    .hero-motif { order: -1; max-width: 220px; margin: 0 auto; }
+    .hero .container { grid-template-columns: 1fr; gap: 0; text-align: center; min-height: auto; }
+    .hero-actions { justify-content: center; margin-left: 0; }
+    .hero-motif { order: -2; max-width: 220px; margin: 0 auto; }
     .hero p.lede { margin-left: auto; margin-right: auto; }
+    .hero-eyebrow { display: none; }
+    .hero h1 { margin-top: 0; } /* so it sits flush under the title, not pushed further down */
+    /* Between the animation and the copy text, mobile only — see
+       partials/chrome-top.html for the (separate, smaller) nav-bar
+       wordmark that stays on every page. More space above (from the
+       design) than below (to the copy) is deliberate. */
+    .hero-title-mobile {
+      display: block;
+      order: -1;
+      font-family: var(--display);
+      font-size: clamp(2.6rem, 14vw, 3.4rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin: 1.75rem 0 0;
+    }
   }
 
   /* ── New arrivals carousel ── */
@@ -63,11 +111,12 @@
 
   /* ── Craft story ── */
   .craft { background: var(--ink); color: var(--bone); position: relative; overflow: hidden; }
-  .craft .container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .craft .container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
   .craft p { color: rgba(239,234,224,0.72); margin-bottom: 1.2rem; line-height: 1.8; }
-  .craft-stats { display: flex; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
+  .craft-stats { display: flex; gap: 5rem; margin-top: 2rem; flex-wrap: wrap; }
   .craft-stats .num { font-family: var(--display); font-size: 2.2rem; color: var(--gold); }
   .craft-stats .lbl { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(239,234,224,0.55); margin-top: 0.3rem; }
+  .craft-motif { display: flex; align-items: center; justify-content: center; margin-top: 3rem; }
   .craft-motif svg { width: 100%; max-width: 300px; opacity: 0.9; }
   @media (max-width: 900px) { .craft .container { grid-template-columns: 1fr; } .craft-motif { order: -1; max-width: 200px; margin: 0 auto; } }
 
@@ -99,14 +148,15 @@
 <section class="hero">
   <div class="container">
     <div class="hero-copy reveal">
-      <span class="eyebrow">Lucknow, India &middot; Est. Chikankari Atelier</span>
+      <span class="eyebrow hero-eyebrow">Chikankari Atelier</span>
       <h1>Shadow-work, stitched by hand.</h1>
-      <p class="lede">Shahnisa brings hand-embroidered chikankari — bakhiya, jaali, murri and phanda — from Lucknow's artisans to your wardrobe. Every piece carries the maker's hand in it.</p>
+      <p class="lede">Hand-embroidered chikankari — bakhiya, jaali, murri and phanda — from Lucknow's artisans to your wardrobe. Every piece carries the maker's hand in it.</p>
       <div class="hero-actions">
-        <a href="shop.html" class="btn btn-primary">Shop the Edit</a>
+        <a href="shop.html" class="btn btn-primary">Shop Shahnisa</a>
         <a href="our-craft.html" class="btn btn-outline-light">Our Craft</a>
       </div>
     </div>
+    <div class="hero-title-mobile">Shahnisa</div>
     <div class="hero-motif" aria-hidden="true">
       <svg viewBox="0 0 200 260" fill="none">
         <path class="stitch-path" pathLength="1" d="M100,14 C146,14 168,60 156,104 C147,138 118,152 104,184 C95,204 103,222 122,226 C104,238 74,231 70,208 C66,185 84,167 98,149 C112,131 108,103 84,94 C65,87 49,99 53,118 C42,104 46,79 70,73 C90,68 99,49 88,36 C93,26 100,14 100,14 Z"/>
@@ -122,7 +172,6 @@
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="eyebrow">Just In</span>
         <h2>New Arrivals</h2>
       </div>
       <div class="carousel-nav">
@@ -140,7 +189,6 @@
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="eyebrow">Shop By Technique</span>
         <h2>Every Piece Named For Its Stitch</h2>
         <p>Chikankari isn't one embroidery — it's over thirty distinct stitches. We group our pieces by the technique used, not just the garment.</p>
       </div>
@@ -178,7 +226,6 @@
       <p>Bakhiya — "shadow work" — is chikankari's signature stitch, and its most difficult. It's worked entirely from the wrong side of the fabric, in a herringbone path the embroiderer can't see from the front. Held up to the light, the thread falls into a soft, translucent shadow on the right side — a technique unique to chikankari, found nowhere else in Indian embroidery.</p>
       <p>Every Shahnisa piece is hand-embroidered by artisans in Lucknow, most of them women working from home — the same cottage-industry model that has sustained this craft for four centuries.</p>
       <div class="craft-stats">
-        <div><div class="num">32</div><div class="lbl">Traditional Stitches</div></div>
         <div><div class="num">100%</div><div class="lbl">Hand-Embroidered</div></div>
         <div><div class="num">4</div><div class="lbl">Centuries of Craft</div></div>
       </div>
@@ -197,8 +244,7 @@
 <section>
   <div class="container">
     <div class="section-head reveal text-center" style="display:block;">
-      <span class="eyebrow">In Their Words</span>
-      <h2>Loved, Then Loved Again</h2>
+      <h2>What Shahnisa Customers Say</h2>
     </div>
     <div class="testi-grid reveal">
       <div class="testi-card">

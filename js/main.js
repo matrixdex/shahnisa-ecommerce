@@ -98,6 +98,15 @@ function renderCartDrawer() {
   });
 }
 
+/** The cart drawer is the only place account access lives now (the header
+    icon is gone) — this keeps the "Sign In" / "Account" label next to
+    "Your Bag" honest whether or not a session is already hydrated. */
+function updateCartAccountLink() {
+  const link = document.getElementById('cartAccountLink');
+  if (!link) return;
+  link.textContent = Api.getSession() ? 'Account' : 'Sign In';
+}
+
 function updateCartBadge() {
   const badge = document.getElementById('cartBadge');
   if (!badge) return;
@@ -234,6 +243,8 @@ function wireQuickAdd(container, products) {
 document.addEventListener('partials:loaded', () => {
   updateCartBadge();
   renderCartDrawer();
+  updateCartAccountLink();
+  Api.ready().then(updateCartAccountLink); // session may still be hydrating
   wireMobileNav();
   wireSearch();
 
@@ -254,6 +265,7 @@ document.addEventListener('partials:loaded', () => {
   window.addEventListener('cart:updated', () => {
     updateCartBadge();
     renderCartDrawer();
+    updateCartAccountLink();
   });
 
   document.dispatchEvent(new Event('chrome:ready'));
