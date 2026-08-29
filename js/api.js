@@ -8,8 +8,9 @@
    Backend: MedusaJS Store API (see ../backend). Products, cart,
    checkout/orders and customer auth are all real; payment stays a
    front-end simulation on top of a real Medusa order (see
-   checkout.js) and the newsletter box is still a local stub — there
-   is no newsletter concept in Medusa.
+   checkout.js). Newsletter signups go to a small custom Medusa module
+   (see ../backend/apps/backend/src/modules/newsletter) — there's no
+   built-in newsletter concept in Medusa.
    ============================================================ */
 
 (function () {
@@ -406,12 +407,24 @@
       _session = null;
     },
 
-    /* ── Newsletter (still a local stub — no Medusa equivalent) ── */
+    /* ── Newsletter — a small custom Medusa module (see backend/apps/backend/
+       src/modules/newsletter), not a built-in Medusa concept. Subscribers
+       show up under the "Newsletter" tab in the admin dashboard. */
     async subscribeNewsletter(email) {
-      const list = JSON.parse(localStorage.getItem('shahnisa_newsletter') || '[]');
-      if (!list.includes(email)) list.push(email);
-      localStorage.setItem('shahnisa_newsletter', JSON.stringify(list));
-      return { subscribed: true };
+      try {
+        return await medusaFetch('/store/newsletter', {
+          method: 'POST',
+          body: JSON.stringify({ email }),
+        });
+      } catch (err) {
+        console.error('Could not save newsletter signup to the backend', err);
+        // Fall back to a local record so the signup isn't silently lost if
+        // the backend is unreachable — not visible in admin, but not gone.
+        const list = JSON.parse(localStorage.getItem('shahnisa_newsletter') || '[]');
+        if (!list.includes(email)) list.push(email);
+        localStorage.setItem('shahnisa_newsletter', JSON.stringify(list));
+        return { subscribed: true };
+      }
     },
   };
 
