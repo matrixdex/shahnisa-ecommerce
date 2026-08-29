@@ -36,7 +36,6 @@ function renderAuthGate() {
           <div class="field-error">Password must be at least 6 characters.</div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">${authMode === 'login' ? 'Sign In' : 'Create Account'}</button>
-        <div class="field-hint" style="text-align:center; margin-top:1rem;">Demo account system — any email/password combination works.</div>
       </form>
     </div>
   `;
@@ -113,7 +112,6 @@ async function renderDashboard() {
           <h2 style="margin-bottom:1.5rem;">Account Details</h2>
           <p style="font-size:0.92rem; color:var(--ink-soft);"><strong>Email:</strong> ${session.email}</p>
           ${session.name ? `<p style="font-size:0.92rem; color:var(--ink-soft); margin-top:0.5rem;"><strong>Name:</strong> ${session.name}</p>` : ''}
-          <p style="font-size:0.8rem; color:var(--ink-muted); margin-top:1.5rem;">This is a demo account — details aren't sent anywhere or stored beyond this browser.</p>
         </div>
       </div>
     </div>

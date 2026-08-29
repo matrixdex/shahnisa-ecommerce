@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shahnisa — Hand-Embroidered Chikankari from Lucknow</title>
-<meta name="description" content="Hand-embroidered chikankari kurtas, sarees, suit sets and dupattas from Lucknow — bakhiya, jaali, murri and phanda, worked by hand the traditional way." />
+<title>Shahnisa — Hand-Embroidered Chikankari from Lucknow in Delhi, India</title>
+<meta name="description" content="Hand-embroidered chikankari kurtas, sarees, suit sets and dupattas from Lucknow — bakhiya, jaali, murri and phanda, worked by hand the traditional way. Available in Delhi, Dubai, Abu Dhabi, UAE and London, United Kingdom." />
 <link rel="stylesheet" href="css/style.css" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>" />
 <style>
@@ -13,19 +13,12 @@
   .hero .container { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 3rem; align-items: center; min-height: 60vh; }
   .hero h1 { font-size: clamp(2.6rem, 5.2vw, 4.4rem); margin: 0.6rem 0 1.3rem; }
   .hero p.lede { color: rgba(239,234,224,0.7); max-width: 30rem; margin-bottom: 2rem; font-size: 1.02rem; }
-  .hero-actions {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    /* Optical alignment: pull the row left by the buttons' own left
-       padding so the button LABEL lines up with the h1/lede text above
-       it, instead of the button's outer box (which looks flush but
-       leaves its text visibly indented). */
-    margin-left: -1.9rem;
-  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
   /* "Shop Shahnisa" only — every other .btn-primary on the site keeps
      the gold hover background. This recreates .nav-links a's sliding
      underline (a positioned line, not text-decoration), just with a
      bigger gap under the text to suit a button instead of a nav link. */
-  .hero-actions .btn-primary { position: relative; }
+  .hero-actions .btn-primary { position: relative; border-color: rgba(239,234,224,0.5); }
   .hero-actions .btn-primary::after {
     content: '';
     position: absolute;
@@ -49,6 +42,7 @@
   .hero-motif { display: flex; align-items: center; justify-content: center; }
   .hero-motif svg { width: 100%; max-width: 340px; height: auto; }
   .hero-title-mobile { display: none; }
+  .stitch-section-title { margin-top: 0; margin-bottom: clamp(2rem, 5vw, 4rem); }
   .stitch-path {
     fill: none; stroke: var(--gold); stroke-width: 1.6;
     stroke-dasharray: 1; stroke-dashoffset: 1;
@@ -59,7 +53,7 @@
   @keyframes dot-in { to { opacity: 0.85; } }
   @media (max-width: 900px) {
     .hero .container { grid-template-columns: 1fr; gap: 0; text-align: center; min-height: auto; }
-    .hero-actions { justify-content: center; margin-left: 0; }
+    .hero-actions { justify-content: center; }
     .hero-motif { order: -2; max-width: 220px; margin: 0 auto; }
     .hero p.lede { margin-left: auto; margin-right: auto; }
     .hero-eyebrow { display: none; }
@@ -150,10 +144,10 @@
     <div class="hero-copy reveal">
       <span class="eyebrow hero-eyebrow">Chikankari Atelier</span>
       <h1>Shadow-work, stitched by hand.</h1>
-      <p class="lede">Hand-embroidered chikankari — bakhiya, jaali, murri and phanda — from Lucknow's artisans to your wardrobe. Every piece carries the maker's hand in it.</p>
+      <p class="lede">Handmade chikankari from Lucknow to you. Every piece carries the maker's hand in it.</p>
       <div class="hero-actions">
         <a href="shop.html" class="btn btn-primary">Shop Shahnisa</a>
-        <a href="our-craft.html" class="btn btn-outline-light">Our Craft</a>
+        <a href="our-craft.html" class="btn btn-outline-light">The Craft</a>
       </div>
     </div>
     <div class="hero-title-mobile">Shahnisa</div>
@@ -189,7 +183,7 @@
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <h2>Every Piece Named For Its Stitch</h2>
+        <h2 class="stitch-section-title">Stitches at Shahnisa</h2>
         <p>Chikankari isn't one embroidery — it's over thirty distinct stitches. We group our pieces by the technique used, not just the garment.</p>
       </div>
     </div>
