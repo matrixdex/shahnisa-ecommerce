@@ -17,5 +17,19 @@ module.exports = defineConfig({
     {
       resolve: "./src/modules/newsletter",
     },
+    {
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "./src/modules/razorpay",
+            options: {
+              keyId: process.env.RAZORPAY_KEY_ID,
+              keySecret: process.env.RAZORPAY_KEY_SECRET,
+            },
+          },
+        ],
+      },
+    },
   ],
 })

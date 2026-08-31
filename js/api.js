@@ -320,10 +320,25 @@
         method: 'POST',
         body: JSON.stringify({ cart_id: cartId }),
       });
-      await medusaFetch(`/store/payment-collections/${payColData.payment_collection.id}/payment-sessions`, {
-        method: 'POST',
-        body: JSON.stringify({ provider_id: 'pp_system_default' }),
-      });
+      const payCollectionId = payColData.payment_collection.id;
+
+      if (orderPayload.paymentMethod === 'cod') {
+        await medusaFetch(`/store/payment-collections/${payCollectionId}/payment-sessions`, {
+          method: 'POST',
+          body: JSON.stringify({ provider_id: 'pp_system_default' }),
+        });
+      } else {
+        const sessionData = await medusaFetch(`/store/payment-collections/${payCollectionId}/payment-sessions`, {
+          method: 'POST',
+          body: JSON.stringify({ provider_id: 'pp_razorpay' }),
+        });
+        const session = sessionData.payment_collection.payment_sessions.find(s => s.provider_id === 'pp_razorpay');
+        // Waits for the Razorpay modal to succeed and the payment to be
+        // verified server-side — only then is the cart completed below.
+        // Rejects (modal dismissed / payment.failed) propagate straight to
+        // checkout.js's catch block as a human-readable message.
+        await payWithRazorpay(session, cartId, orderPayload);
+      }
 
       const completeData = await medusaFetch(`/store/carts/${cartId}/complete`, { method: 'POST' });
       if (completeData.type !== 'order') {
@@ -427,6 +442,59 @@
       }
     },
   };
+
+  /** Opens Razorpay's Standard Checkout modal for the given payment session
+      and resolves once the payment is verified server-side (see
+      backend/apps/backend/src/api/store/razorpay/verify). Rejects with a
+      human-readable message if the customer cancels or the payment fails —
+      checkout.js surfaces that message directly in a toast. */
+  function payWithRazorpay(session, cartId, orderPayload) {
+    return new Promise((resolve, reject) => {
+      if (typeof Razorpay === 'undefined') {
+        reject(new Error('Could not load the Razorpay checkout — please try again.'));
+        return;
+      }
+      const rzp = new Razorpay({
+        key: session.data.key_id,
+        amount: session.data.amount,
+        currency: session.data.currency,
+        order_id: session.data.razorpay_order_id,
+        name: 'Shahnisa',
+        description: 'Order payment',
+        prefill: {
+          email: orderPayload.contact.email,
+          contact: orderPayload.contact.phone,
+          name: orderPayload.shippingAddress.fullName,
+        },
+        theme: { color: '#1e241f' },
+        handler: async function (response) {
+          try {
+            await medusaFetch('/store/razorpay/verify', {
+              method: 'POST',
+              body: JSON.stringify({
+                cart_id: cartId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+            resolve();
+          } catch (err) {
+            reject(new Error('Payment could not be verified — please try again.'));
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            reject(new Error('Payment cancelled.'));
+          },
+        },
+      });
+      rzp.on('payment.failed', function (response) {
+        reject(new Error((response.error && response.error.description) || 'Payment failed — please try again.'));
+      });
+      rzp.open();
+    });
+  }
 
   async function hydrateSession() {
     const token = localStorage.getItem(TOKEN_KEY);

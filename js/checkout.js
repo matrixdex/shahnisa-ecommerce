@@ -1,13 +1,13 @@
 /* ============================================================
    SHAHNISA — checkout.js
    Single-page checkout. Shipping methods, tax and totals come
-   from the real Medusa cart (see api.js) — this file only wires
-   the form. Payment stays a front-end simulation on top of a
-   real order (see the on-page notice).
+   from the real Medusa cart (see api.js). "Pay Online" is real
+   Razorpay Standard Checkout (see Api.placeOrder); "Cash on
+   Delivery" skips it entirely.
    ============================================================ */
 
 let selectedShipping = 'standard';
-let selectedPayment = 'card';
+let selectedPayment = 'online';
 let shippingOptionsList = [];
 
 function renderEmptyCheckout() {
@@ -77,41 +77,8 @@ async function applyShippingAndRefresh() {
 
 function renderPaymentFields() {
   const el = document.getElementById('paymentFields');
-  if (selectedPayment === 'card') {
-    el.innerHTML = `
-      <div class="field" id="f-cardName">
-        <label for="cardName">Name on card</label>
-        <input type="text" id="cardName" placeholder="As shown on card">
-        <div class="field-error">Enter the name on the card.</div>
-      </div>
-      <div class="field" id="f-cardNumber">
-        <label for="cardNumber">Card number</label>
-        <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
-        <div class="field-error">Enter a valid card number.</div>
-      </div>
-      <div class="field-row">
-        <div class="field" id="f-cardExpiry">
-          <label for="cardExpiry">Expiry</label>
-          <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
-          <div class="field-error">Enter expiry as MM/YY.</div>
-        </div>
-        <div class="field" id="f-cardCvv">
-          <label for="cardCvv">CVV</label>
-          <input type="text" id="cardCvv" placeholder="123" maxlength="4">
-          <div class="field-error">Enter a valid CVV.</div>
-        </div>
-      </div>
-      <div class="field-hint">Demo field only — nothing is transmitted or stored.</div>
-    `;
-  } else if (selectedPayment === 'upi') {
-    el.innerHTML = `
-      <div class="field" id="f-upiId">
-        <label for="upiId">UPI ID</label>
-        <input type="text" id="upiId" placeholder="yourname@bank">
-        <div class="field-error">Enter a valid UPI ID.</div>
-      </div>
-      <div class="field-hint">Demo field only — you would be redirected to your UPI app in production.</div>
-    `;
+  if (selectedPayment === 'online') {
+    el.innerHTML = `<p style="font-size:0.88rem; color:var(--ink-muted);">Clicking "Place Order" opens a secure Razorpay window — pay by card, UPI, netbanking or wallet there.</p>`;
   } else {
     el.innerHTML = `<p style="font-size:0.88rem; color:var(--ink-muted);">Pay in cash when your order is delivered. A small COD handling fee may apply in a live store.</p>`;
   }
@@ -161,17 +128,6 @@ function validateForm() {
     ['f-pincode', () => /^\d{6}$/.test(document.getElementById('pincode').value.trim())]
   ];
 
-  if (selectedPayment === 'card') {
-    checks.push(
-      ['f-cardName', () => required('f-cardName')],
-      ['f-cardNumber', () => document.getElementById('cardNumber').value.replace(/\s/g, '').length >= 12],
-      ['f-cardExpiry', () => /^\d{2}\/\d{2}$/.test(document.getElementById('cardExpiry').value.trim())],
-      ['f-cardCvv', () => /^\d{3,4}$/.test(document.getElementById('cardCvv').value.trim())]
-    );
-  } else if (selectedPayment === 'upi') {
-    checks.push(['f-upiId', () => /^[\w.-]+@[\w.-]+$/.test(document.getElementById('upiId').value.trim())]);
-  }
-
   checks.forEach(([id, test]) => {
     const valid = test();
     markField(id, valid);
@@ -218,7 +174,7 @@ async function handleSubmit(e) {
     location.href = `order-confirmation.html?order=${order.orderId}`;
   } catch (err) {
     console.error('Could not place order', err);
-    showToast('Could not place your order — please try again.');
+    showToast(err.message || 'Could not place your order — please try again.');
     btn.disabled = false;
     btn.textContent = 'Place Order';
   }
