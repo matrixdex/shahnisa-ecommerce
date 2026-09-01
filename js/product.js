@@ -61,7 +61,7 @@ function renderPDP(p) {
           <span class="stars">${starString(p.rating)}</span>
           <span>${p.rating} (${p.reviews} reviews)</span>
         </div>
-        <div class="pdp-price price">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}${Api.money(p.price)}</div>
+        <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>
 
         <div class="variant-group">
           <div class="variant-label"><span>Colour</span><span class="selected-value" id="selColor">${p.colors[0]}</span></div>
@@ -87,7 +87,7 @@ function renderPDP(p) {
         </div>
 
         <div class="pdp-actions">
-          <button class="btn btn-primary btn-block" id="addToBagBtn">Add to Bag — ${Api.money(p.price)}</button>
+          <button class="btn btn-primary btn-block" id="addToBagBtn">Add to Bag — <span id="addToBagPrice">${Api.money(p.price)}</span></button>
           <button class="btn btn-outline btn-block" id="buyNowBtn">Buy It Now</button>
         </div>
 
@@ -128,6 +128,19 @@ function renderPDP(p) {
   initAccordion();
 }
 
+/** Finds the variant matching the currently selected color/size (falling
+    back to the product's base price if no size has been picked yet, or no
+    exact match exists) and updates the price display + Add to Bag label. */
+function updatePriceDisplay(p) {
+  const match = (p.variants || []).find(v =>
+    (!p.colors.length || v.color === selectedColor) &&
+    (!p.sizes.length || v.size === selectedSize)
+  );
+  const price = (match && match.price != null) ? match.price : p.price;
+  document.getElementById('pdpPriceValue').textContent = Api.money(price);
+  document.getElementById('addToBagPrice').textContent = Api.money(price);
+}
+
 function wirePDPInteractions(p) {
   document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach(thumb => {
     thumb.addEventListener('click', () => {
@@ -142,6 +155,7 @@ function wirePDPInteractions(p) {
       sw.classList.add('active');
       selectedColor = sw.getAttribute('data-color');
       document.getElementById('selColor').textContent = selectedColor;
+      updatePriceDisplay(p);
     });
   });
 
@@ -151,6 +165,7 @@ function wirePDPInteractions(p) {
       chip.classList.add('active');
       selectedSize = chip.getAttribute('data-size');
       document.getElementById('sizeError').style.display = 'none';
+      updatePriceDisplay(p);
     });
   });
 
