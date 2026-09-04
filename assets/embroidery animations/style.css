@@ -1,0 +1,274 @@
+/* ============================================================
+   EMBROIDERY ANIMATION GALLERY — style.css
+   Shared gallery chrome first, then one clearly-labeled section
+   per animation (01–10), each scoped under its .motif-0X card
+   so none of the class names collide with each other even though
+   they all live in this one file.
+   ============================================================ */
+
+:root {
+  --ink: #1e241f;
+  --bone: #efeae0;
+  --gold: #b8935a;
+  --gold-deep: #93702f;
+  --rose: #a05a42;
+  --mist: #e4e0d5;
+  --card: #262d26;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: 'Work Sans', 'Helvetica Neue', sans-serif;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3rem) 5rem;
+}
+
+/* ── Gallery chrome ─────────────────────────────────────────── */
+.gallery-head { max-width: 46rem; margin: 0 auto 3rem; text-align: center; }
+.eyebrow {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem;
+}
+.gallery-head h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 500; margin-bottom: 1rem; }
+.gallery-head p { color: rgba(239,234,224,0.65); line-height: 1.75; font-size: 0.95rem; }
+
+.gallery-grid {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem;
+}
+@media (max-width: 1000px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .gallery-grid { grid-template-columns: 1fr; } }
+
+.anim-card {
+  background: var(--card); border: 1px solid rgba(239,234,224,0.08); border-radius: 14px;
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.anim-card-head { display: flex; gap: 0.9rem; padding: 1.4rem 1.4rem 0; }
+.anim-num { font-family: monospace; font-size: 0.78rem; color: var(--gold); padding-top: 0.2rem; flex-shrink: 0; }
+.anim-card-head h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+.anim-card-head p { font-size: 0.78rem; color: rgba(239,234,224,0.55); line-height: 1.5; }
+
+.anim-stage {
+  aspect-ratio: 4 / 5; display: flex; align-items: center; justify-content: center;
+  padding: 1rem 1.5rem; margin-top: 0.75rem;
+}
+.anim-stage.wide { aspect-ratio: 16 / 9; }
+.anim-stage svg { width: 100%; height: 100%; overflow: visible; }
+
+.anim-card-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 1rem 1.4rem 1.4rem; margin-top: auto;
+}
+.replay-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: transparent; border: 1px solid rgba(239,234,224,0.3); color: var(--bone);
+  font-family: inherit; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 0.55rem 1rem; border-radius: 100px; cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease;
+  flex-shrink: 0;
+}
+.replay-btn:hover { border-color: var(--gold); background: rgba(184,147,90,0.12); }
+.replay-btn svg { width: 13px; height: 13px; }
+.anim-card-foot code {
+  font-size: 0.68rem; color: rgba(239,234,224,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.gallery-foot { max-width: 46rem; margin: 4.5rem auto 0; border-top: 1px solid rgba(239,234,224,0.12); padding-top: 2.5rem; }
+.gallery-foot h2 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; }
+.gallery-foot p { font-size: 0.86rem; color: rgba(239,234,224,0.6); line-height: 1.8; }
+.gallery-foot code { background: rgba(239,234,224,0.08); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+
+/* ============================================================
+   01 — PAISLEY BLOOM
+   ============================================================ */
+.motif-01 .a01-path-outer {
+  fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a01-draw 2.8s cubic-bezier(0.65,0,0.35,1) 0.3s forwards;
+}
+.motif-01 .a01-path-inner {
+  fill: none; stroke: var(--gold-deep); stroke-width: 1.2; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a01-draw 1.1s ease-out 2.5s forwards;
+}
+.motif-01 .a01-dot { fill: var(--bone); opacity: 0; animation: a01-pop 0.5s ease forwards; }
+@keyframes a01-draw { to { stroke-dashoffset: 0; } }
+@keyframes a01-pop {
+  0% { opacity: 0; transform: scale(0); }
+  60% { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 0.9; transform: scale(1); }
+}
+
+/* ============================================================
+   02 — FLORAL BUTA
+   ============================================================ */
+.motif-02 .a02-petal {
+  fill: none; stroke: var(--gold); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a02-draw 0.9s cubic-bezier(0.5,0,0.35,1) forwards;
+}
+.motif-02 .a02-center-knot { fill: var(--gold-deep); opacity: 0; animation: a02-knot 0.5s ease forwards; }
+.motif-02 .a02-tip-dot { fill: var(--bone); opacity: 0; animation: a02-dot 0.4s ease forwards; }
+@keyframes a02-draw { to { stroke-dashoffset: 0; } }
+@keyframes a02-knot { 0% { opacity:0; transform:scale(0);} 60%{opacity:1; transform:scale(1.4);} 100%{opacity:1; transform:scale(1);} }
+@keyframes a02-dot { 0% { opacity:0; transform:scale(0);} 60%{opacity:1; transform:scale(1.3);} 100%{opacity:0.85; transform:scale(1);} }
+
+/* ============================================================
+   03 — JAALI LATTICE
+   ============================================================ */
+.motif-03 .a03-frame {
+  fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a03-draw 1.1s cubic-bezier(0.6,0,0.4,1) 0.2s forwards;
+}
+.motif-03 .a03-thread {
+  fill: none; stroke: var(--gold-deep); stroke-width: 1; opacity: 0;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a03-thread-in 0.55s ease forwards;
+}
+.motif-03 .a03-knot {
+  fill: var(--bone); opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: a03-dot 0.28s ease-out forwards;
+}
+@keyframes a03-draw { to { stroke-dashoffset: 0; } }
+@keyframes a03-thread-in { 0% { opacity:0; stroke-dashoffset:1; } 15% { opacity:0.75; } 100% { opacity:0.75; stroke-dashoffset:0; } }
+@keyframes a03-dot { from { opacity:0; transform:scale(0.4); } to { opacity:0.9; transform:scale(1); } }
+
+/* ============================================================
+   04 — RUNNING STITCH BORDER
+   ============================================================ */
+.motif-04 .a04-guide { fill: none; stroke: var(--bone); stroke-width: 0.5; opacity: 0.12; }
+.motif-04 .a04-stitch-line { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; }
+
+/* ============================================================
+   05 — KNOT CLUSTER
+   ============================================================ */
+.motif-05 .a05-stem {
+  fill: none; stroke: var(--gold-deep); stroke-width: 1; opacity: 0.5;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a05-draw 1.6s ease-out 0.1s forwards;
+}
+.motif-05 .a05-spiral-guide {
+  fill: none; stroke: var(--gold-deep); stroke-width: 0.8; opacity: 0.35;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a05-draw 1.6s ease-out forwards;
+}
+.motif-05 .a05-knot {
+  opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: a05-tie 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes a05-draw { to { stroke-dashoffset: 0; } }
+@keyframes a05-tie { 0% { opacity: 0; transform: scale(0); } 55% { opacity: 1; transform: scale(1.35); } 100% { opacity: 1; transform: scale(1); } }
+
+/* ============================================================
+   06 — NEEDLE & THREAD
+   ============================================================ */
+.motif-06 .a06-trail {
+  fill: none; stroke: var(--gold); stroke-width: 1.8; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+}
+.motif-06 .a06-needle-mover {
+  offset-path: path('M14,90 C40,30 70,150 110,90 C150,30 180,150 220,90 C250,40 280,55 306,80');
+  offset-rotate: auto;
+  offset-distance: 0%;
+}
+.motif-06 .a06-needle { stroke: var(--bone); stroke-width: 1.6; stroke-linecap: round; }
+.motif-06 .a06-needle-eye { fill: none; stroke: var(--bone); stroke-width: 1.3; }
+#svg-06.run .a06-trail { animation: a06-trail-draw 3.4s cubic-bezier(0.5,0,0.4,1) 0.1s forwards; }
+#svg-06.run .a06-needle-mover { animation: a06-needle-move 3.4s cubic-bezier(0.5,0,0.4,1) 0.1s forwards; }
+@keyframes a06-trail-draw { to { stroke-dashoffset: 0; } }
+@keyframes a06-needle-move { to { offset-distance: 100%; } }
+
+/* ============================================================
+   07 — VINE GROWTH
+   ============================================================ */
+.motif-07 .a07-stem {
+  fill: none; stroke: var(--gold-deep); stroke-width: 1.6; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a07-draw 2s cubic-bezier(0.6,0,0.4,1) 0.2s forwards;
+}
+.motif-07 .a07-leaf { fill: var(--gold); opacity: 0; transform-box: fill-box; transform-origin: 0px 0px; animation: a07-unfurl 0.6s cubic-bezier(0.3,1.4,0.5,1) forwards; }
+.motif-07 .a07-bud { fill: var(--bone); opacity: 0; animation: a07-dot 0.4s ease forwards; }
+@keyframes a07-draw { to { stroke-dashoffset: 0; } }
+@keyframes a07-unfurl { 0% { opacity: 0; transform: scale(0.15); } 70% { opacity: 1; } 100% { opacity: 0.95; transform: scale(1); } }
+@keyframes a07-dot { 0% { opacity:0; transform:scale(0);} 60%{opacity:1; transform:scale(1.3);} 100%{opacity:0.9; transform:scale(1);} }
+
+/* ============================================================
+   08 — MANDALA ROSETTE
+   ============================================================ */
+.motif-08 .a08-segment {
+  fill: none; stroke: var(--gold); stroke-width: 1.3; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a08-draw 1s cubic-bezier(0.5,0,0.35,1) forwards;
+}
+.motif-08 .a08-ring {
+  fill: none; stroke: var(--gold-deep); stroke-width: 1; opacity: 0;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a08-ring-in 1.4s ease-out forwards;
+}
+.motif-08 .a08-center-dot { fill: var(--bone); opacity: 0; animation: a08-dot 0.5s ease forwards; }
+@keyframes a08-draw { to { stroke-dashoffset: 0; } }
+@keyframes a08-ring-in { 0% { opacity:0; stroke-dashoffset:1; } 10% { opacity:0.5; } 100% { opacity:0.5; stroke-dashoffset:0; } }
+@keyframes a08-dot { 0% { opacity:0; transform:scale(0);} 60%{opacity:1; transform:scale(1.4);} 100%{opacity:1; transform:scale(1);} }
+
+/* ============================================================
+   09 — CHAIN STITCH
+   ============================================================ */
+.motif-09 .a09-guide { fill: none; stroke: var(--bone); stroke-width: 0.5; opacity: 0.1; }
+.motif-09 .a09-loop {
+  fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-linejoin: round;
+  opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: a09-link-in 0.4s cubic-bezier(0.3,1.5,0.5,1) forwards;
+}
+@keyframes a09-link-in { 0% { opacity: 0; transform: scale(0.3) rotate(-15deg); } 100% { opacity: 0.95; transform: scale(1) rotate(0deg); } }
+
+/* ============================================================
+   10 — CROSS-STITCH FILL
+   ============================================================ */
+.motif-10 .a10-cross {
+  stroke: var(--gold); stroke-width: 2; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: a10-draw 0.28s ease-out forwards;
+}
+@keyframes a10-draw { to { stroke-dashoffset: 0; } }
+
+/* ============================================================================
+   THE 32 STITCHES — shared classes
+   ============================================================================
+   Everything the script.js generator functions (drawStrokePath, popShape,
+   popShapeAt, drawLatticeGrid, drawVineWithLeaves, drawKnotSpiral) hand out
+   is one of these four classes, with per-element color/duration/delay set
+   inline via style — so all 32 stitch cards share one small set of keyframes
+   instead of carrying a bespoke @keyframes block each.
+   ============================================================================ */
+.family-head { max-width: 640px; margin: 0 auto 2.5rem; text-align: center; }
+.family-head .eyebrow { display: block; margin-bottom: 0.6rem; }
+.family-head h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 500; margin-bottom: 0.75rem; }
+.family-head p { color: rgba(239,234,224,0.6); line-height: 1.7; font-size: 0.92rem; }
+.stitch-section { margin: 5rem auto 0; max-width: 1280px; }
+.stitch-section + .stitch-section { margin-top: 4.5rem; }
+.stitch-32-head { margin-top: 6rem; }
+
+.stitch-line { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; stroke: var(--gold); animation: stitch-draw var(--dur, 1s) cubic-bezier(0.6,0,0.4,1) forwards; }
+.stitch-dot { opacity: 0; fill: var(--bone); animation: stitch-pop var(--dur, 0.45s) cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.stitch-shape { opacity: 0; transform-box: fill-box; transform-origin: center; animation: stitch-pop var(--dur, 0.5s) cubic-bezier(0.34,1.56,0.64,1) forwards; }
+.stitch-fade { animation: stitch-fade-in var(--dur, 0.5s) ease forwards; }
+.stitch-dash-line { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; }
+.stitch-shimmer { animation-name: stitch-draw, stitch-shimmer-pulse; animation-duration: var(--dur, 0.2s), 1.6s; animation-timing-function: cubic-bezier(0.6,0,0.4,1), ease-in-out; animation-fill-mode: forwards, none; animation-iteration-count: 1, 2; }
+
+/* Jaali crossing-points: a plain appear-in-place, not a pop — no scale
+   overshoot (which, without a per-element transform-origin, briefly
+   displaces a dot away from the SVG's centre and reads as it "dropping"
+   onto the lattice from a distance) and no shared delay between dots, so
+   each lattice point lights up on its own rather than in simultaneous
+   rings. Used by drawLatticeGrid's knot pass and by motif-03's a03-knot. */
+.stitch-lattice-dot {
+  opacity: 0; fill: var(--bone); transform-box: fill-box; transform-origin: center;
+  animation: stitch-lattice-appear var(--dur, 0.28s) ease-out forwards;
+}
+
+@keyframes stitch-draw { to { stroke-dashoffset: 0; } }
+@keyframes stitch-pop { 0% { opacity: 0; transform: scale(0); } 60% { opacity: 1; transform: scale(1.3); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes stitch-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes stitch-shimmer-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes stitch-lattice-appear { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }

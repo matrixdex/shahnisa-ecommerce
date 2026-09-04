@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Embroidery Animation Gallery — Dastkari Chikan</title>
+<meta name="description" content="Ten stitch-and-embroidery-themed SVG animations in the style of the Dastkari Chikan homepage hero, for review and selection." />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="gallery-head">
+  <span class="eyebrow">Dastkari Chikan &middot; Motion Concepts</span>
+  <h1>Embroidery Animation Gallery</h1>
+  <p>Ten self-drawing stitch animations in the same visual language as the homepage hero — some continue that flowing paisley-line style, others explore more literal stitch techniques (running stitch, chain stitch, cross-stitch, a travelling needle). Click <strong>Replay</strong> on any card to watch it again. Each one is self-contained in the code below it so whichever you pick can be lifted straight out.</p>
+</header>
+
+<main class="gallery-grid">
+
+  <!-- 01 — Paisley Bloom -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">01</span>
+      <div><h3>Paisley Bloom</h3><p>A fuller paisley with a nested inner swirl — a variation on the current hero.</p></div>
+    </div>
+    <div class="anim-stage motif-01" id="stage-01">
+      <svg viewBox="0 0 200 260" fill="none" id="svg-01"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="01">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-01 · initAnim01()</code>
+    </div>
+  </section>
+
+  <!-- 02 — Floral Buta -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">02</span>
+      <div><h3>Floral Buta</h3><p>Six petals drawn in turn around a centre knot — petal count is a single JS constant.</p></div>
+    </div>
+    <div class="anim-stage motif-02" id="stage-02">
+      <svg viewBox="0 0 200 260" fill="none" id="svg-02"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="02">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-02 · initAnim02()</code>
+    </div>
+  </section>
+
+  <!-- 03 — Jaali Lattice -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">03</span>
+      <div><h3>Jaali Lattice</h3><p>A trellis that opens thread by thread from the centre outward, frame first.</p></div>
+    </div>
+    <div class="anim-stage motif-03" id="stage-03">
+      <svg viewBox="0 0 200 200" fill="none" id="svg-03"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="03">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-03 · initAnim03()</code>
+    </div>
+  </section>
+
+  <!-- 04 — Running Stitch -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">04</span>
+      <div><h3>Running Stitch Border</h3><p>A literal tepchi dash-and-gap stitch, sewn progressively along a vine.</p></div>
+    </div>
+    <div class="anim-stage motif-04 wide" id="stage-04">
+      <svg viewBox="0 0 320 160" fill="none" id="svg-04">
+        <path class="a04-guide" id="a04-guide" d="M10,80 C50,20 90,140 130,80 C170,20 210,140 250,80 C270,50 290,60 310,80"/>
+      </svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="04">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-04 · initAnim04()</code>
+    </div>
+  </section>
+
+  <!-- 05 — Knot Cluster -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">05</span>
+      <div><h3>Knot Cluster</h3><p>Murri and phanda knots tie themselves outward along a spiral, each with a pulled-tight bounce.</p></div>
+    </div>
+    <div class="anim-stage motif-05" id="stage-05">
+      <svg viewBox="0 0 200 260" fill="none" id="svg-05"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="05">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-05 · initAnim05()</code>
+    </div>
+  </section>
+
+  <!-- 06 — Needle & Thread -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">06</span>
+      <div><h3>Needle &amp; Thread</h3><p>The most literal one — a needle travels a CSS motion path with the trail drawn in sync behind it.</p></div>
+    </div>
+    <div class="anim-stage motif-06 wide" id="stage-06">
+      <svg viewBox="0 0 320 160" fill="none" id="svg-06" class="run">
+        <path class="a06-trail" d="M14,90 C40,30 70,150 110,90 C150,30 180,150 220,90 C250,40 280,55 306,80" pathLength="1"/>
+        <g class="a06-needle-mover">
+          <path class="a06-needle" d="M-9,0 L7,-1.1 L9,0 L7,1.1 Z"/>
+          <ellipse class="a06-needle-eye" cx="-6" cy="0" rx="2" ry="1.1"/>
+        </g>
+      </svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="06">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-06 · initAnim06()</code>
+    </div>
+  </section>
+
+  <!-- 07 — Vine Growth -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">07</span>
+      <div><h3>Vine Growth</h3><p>A curling stem draws upward, then leaves unfurl — position and angle sampled straight off the path.</p></div>
+    </div>
+    <div class="anim-stage motif-07" id="stage-07">
+      <svg viewBox="0 0 200 260" fill="none" id="svg-07"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="07">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-07 · initAnim07()</code>
+    </div>
+  </section>
+
+  <!-- 08 — Mandala Rosette -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">08</span>
+      <div><h3>Mandala Rosette</h3><p>One segment, cloned and rotated eight-fold in JS, building a full embroidered rosette.</p></div>
+    </div>
+    <div class="anim-stage motif-08" id="stage-08">
+      <svg viewBox="0 0 200 200" fill="none" id="svg-08"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="08">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-08 · initAnim08()</code>
+    </div>
+  </section>
+
+  <!-- 09 — Chain Stitch -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">09</span>
+      <div><h3>Chain Stitch</h3><p>Zanzeera worked link by link — small loops placed and rotated along a curve, one at a time.</p></div>
+    </div>
+    <div class="anim-stage motif-09 wide" id="stage-09">
+      <svg viewBox="0 0 320 160" fill="none" id="svg-09"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="09">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-09 · initAnim09()</code>
+    </div>
+  </section>
+
+  <!-- 10 — Cross Stitch -->
+  <section class="anim-card">
+    <div class="anim-card-head">
+      <span class="anim-num">10</span>
+      <div><h3>Cross-Stitch Fill</h3><p>A heart motif built cell by cell from little X stitches — real point-in-shape math in JS.</p></div>
+    </div>
+    <div class="anim-stage motif-10" id="stage-10">
+      <svg viewBox="0 0 200 200" fill="none" id="svg-10"></svg>
+    </div>
+    <div class="anim-card-foot">
+      <button class="replay-btn" data-target="10">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        Replay
+      </button>
+      <code>.motif-10 · initAnim10()</code>
+    </div>
+  </section>
+
+</main>
+
+<header class="gallery-head stitch-32-head">
+  <span class="eyebrow">Shahnisa &middot; Our Craft</span>
+  <h1>The 32 Stitches of Lucknowi Chikankari</h1>
+  <p>Every named stitch from the <strong>Our Craft</strong> page, animated, grouped into the same four families the site uses. Three lean on techniques already built above — Zanzeera reuses the Chain Stitch, Jaali reuses the Jaali Lattice, and Murri/Phanda/Dhum share the Knot Cluster's outward spiral — everything else is new. Numbers match the <code>our-craft.html</code> index (01–32) so a card here maps straight onto a stitch card there.</p>
+</header>
+
+<!-- ============================================================
+     FAMILY ONE — FLAT STITCHES (01–08)
+     ============================================================ -->
+<section class="stitch-section">
+  <div class="family-head">
+    <span class="eyebrow">Family One</span>
+    <h2>Flat Stitches</h2>
+    <p>Worked close to the surface of the fabric, merging with the cloth rather than sitting on top of it.</p>
+  </div>
+  <div class="gallery-grid">
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">01</span>
+        <div><h3>Tepchi</h3><p>A long running stitch catching four threads and picking up one — the foundational line most other stitches build on. Exact reuse of the Running Stitch technique above.</p></div>
+      </div>
+      <div class="anim-stage stitch-s01 wide" id="stage-s01">
+        <svg viewBox="0 0 320 160" fill="none" id="svg-s01">
+          <path id="a-s01-guide" d="M10,80 C50,20 90,140 130,80 C170,20 210,140 250,80 C270,50 290,60 310,80" style="stroke:var(--bone); stroke-width:0.5; opacity:0.12; fill:none;"/>
+        </svg>
+      </div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s01"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch01()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">02</span>
+        <div><h3>Bakhiya</h3><p>Chikankari's signature shadow-work, worked from the reverse in a herringbone path so the thread casts a soft shadow through the cloth.</p></div>
+      </div>
+      <div class="anim-stage stitch-s02 wide" id="stage-s02"><svg viewBox="0 0 320 160" fill="none" id="svg-s02"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s02"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch02()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">03</span>
+        <div><h3>Khatau</h3><p>An appliqué-like cousin of bakhiya: a motif is embroidered separately, then laid over and tacked onto the final fabric.</p></div>
+      </div>
+      <div class="anim-stage stitch-s03" id="stage-s03"><svg viewBox="0 0 200 200" fill="none" id="svg-s03"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s03"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch03()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">04</span>
+        <div><h3>Pechni</h3><p>A tightly twisted stitch that outlines motifs with a subtly coiled texture, often paired with bakhiya for definition.</p></div>
+      </div>
+      <div class="anim-stage stitch-s04 wide" id="stage-s04"><svg viewBox="0 0 320 160" fill="none" id="svg-s04"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s04"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch04()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">05</span>
+        <div><h3>Rahet</h3><p>A solid double-back stitch, most often doubled as "dohra bakhiya" to outline a motif with a firm, continuous line.</p></div>
+      </div>
+      <div class="anim-stage stitch-s05 wide" id="stage-s05"><svg viewBox="0 0 320 160" fill="none" id="svg-s05"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s05"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch05()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">06</span>
+        <div><h3>Banjkali</h3><p>An interlocking, twisted stitch used along borders and motif edges for a woven, textured finish.</p></div>
+      </div>
+      <div class="anim-stage stitch-s06 wide" id="stage-s06"><svg viewBox="0 0 320 160" fill="none" id="svg-s06"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s06"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch06()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">07</span>
+        <div><h3>Keel Kangan</h3><p>A stem-stitch variant used to outline stalks, vines, and bangle-shaped motif borders.</p></div>
+      </div>
+      <div class="anim-stage stitch-s07" id="stage-s07"><svg viewBox="0 0 200 200" fill="none" id="svg-s07"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s07"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch07()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">08</span>
+        <div><h3>Ghas Patti</h3><p>"Grass leaf" — graduated, V-shaped stitches worked in rows to fill petals and leaves like blades of grass.</p></div>
+      </div>
+      <div class="anim-stage stitch-s08" id="stage-s08"><svg viewBox="0 0 200 260" fill="none" id="svg-s08"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s08"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch08()</code>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FAMILY TWO — RAISED & EMBOSSED STITCHES (09–16)
+     ============================================================ -->
+<section class="stitch-section">
+  <div class="family-head">
+    <span class="eyebrow">Family Two</span>
+    <h2>Raised &amp; Embossed Stitches</h2>
+    <p>Tiny knots and eyelets that sit proudly above the cloth, giving chikankari its signature dimension.</p>
+  </div>
+  <div class="gallery-grid">
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">09</span>
+        <div><h3>Murri</h3><p>Diagonal satin stitches knotted over a tepchi base to form a tiny rice-grain shape. Reuses the Knot Cluster's outward spiral above, murri knots only.</p></div>
+      </div>
+      <div class="anim-stage stitch-s09" id="stage-s09"><svg viewBox="0 0 200 260" fill="none" id="svg-s09"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s09"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch09()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">10</span>
+        <div><h3>Phanda</h3><p>A millet-shaped knot, smaller and more delicate than murri, most often clustered at a flower's centre. Same spiral technique, sized down.</p></div>
+      </div>
+      <div class="anim-stage stitch-s10" id="stage-s10"><svg viewBox="0 0 200 260" fill="none" id="svg-s10"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch10()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">11</span>
+        <div><h3>Dhum (Gol Murri)</h3><p>A rounder, fuller knot stitch used as a variation on murri for denser floral centres. Same spiral again, fewer and larger knots.</p></div>
+      </div>
+      <div class="anim-stage stitch-s11" id="stage-s11"><svg viewBox="0 0 200 260" fill="none" id="svg-s11"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s11"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch11()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">12</span>
+        <div><h3>Muthra</h3><p>Tiny pearl-like stitches for a beaded texture along borders and motif edges.</p></div>
+      </div>
+      <div class="anim-stage stitch-s12 wide" id="stage-s12"><svg viewBox="0 0 320 160" fill="none" id="svg-s12"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch12()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">13</span>
+        <div><h3>Zanzeera (Chain)</h3><p>A fine chain stitch giving leaf and petal outlines a crisp, finished edge. Exact reuse of the Chain Stitch animation above.</p></div>
+      </div>
+      <div class="anim-stage stitch-s13 wide" id="stage-s13"><svg viewBox="0 0 320 160" fill="none" id="svg-s13"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s13"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch13()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">14</span>
+        <div><h3>Hool</h3><p>A fine detached eyelet — a small hole is punched and the threads teased apart, then rimmed in satin stitch to form a flower's centre.</p></div>
+      </div>
+      <div class="anim-stage stitch-s14" id="stage-s14"><svg viewBox="0 0 200 200" fill="none" id="svg-s14"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch14()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">15</span>
+        <div><h3>Bijli (Lightning)</h3><p>A dynamic zigzag stitch used for borders and accents, mimicking a lightning bolt.</p></div>
+      </div>
+      <div class="anim-stage stitch-s15 wide" id="stage-s15"><svg viewBox="0 0 320 160" fill="none" id="svg-s15"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch15()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">16</span>
+        <div><h3>Kapkapi</h3><p>A quivering, closely-set stitch that catches the light for a subtle shimmer texture.</p></div>
+      </div>
+      <div class="anim-stage stitch-s16 wide" id="stage-s16"><svg viewBox="0 0 320 160" fill="none" id="svg-s16"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s16"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch16()</code>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FAMILY THREE — JAALI, OPEN TRELLIS WORK (17–24)
+     ============================================================ -->
+<section class="stitch-section">
+  <div class="family-head">
+    <span class="eyebrow">Family Three</span>
+    <h2>Jaali — Open Trellis Work</h2>
+    <p>The fabric's own threads are teased apart and secured with minute buttonhole stitches, opening a net-like lattice without piercing the front.</p>
+  </div>
+  <div class="gallery-grid">
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">17</span>
+        <div><h3>Jaali</h3><p>The classic trellis stitch. Exact reuse of the Jaali Lattice animation above.</p></div>
+      </div>
+      <div class="anim-stage stitch-s17" id="stage-s17"><svg viewBox="0 0 200 200" fill="none" id="svg-s17"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s17"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch17()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">18</span>
+        <div><h3>Bulbul Chashm</h3><p>"Nightingale's eye" — a delicate, rounded variation of jaali worked in small, tight circles.</p></div>
+      </div>
+      <div class="anim-stage stitch-s18" id="stage-s18"><svg viewBox="0 0 200 200" fill="none" id="svg-s18"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s18"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch18()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">19</span>
+        <div><h3>Madrazi</h3><p>A denser, more closely-worked trellis variation, giving a firmer net-like texture than classic jaali.</p></div>
+      </div>
+      <div class="anim-stage stitch-s19" id="stage-s19"><svg viewBox="0 0 200 200" fill="none" id="svg-s19"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s19"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch19()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">20</span>
+        <div><h3>Sidhaul Jaali</h3><p>A straight-line variation of trellis work, used to build geometric fill patterns within a motif.</p></div>
+      </div>
+      <div class="anim-stage stitch-s20" id="stage-s20"><svg viewBox="0 0 200 200" fill="none" id="svg-s20"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s20"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch20()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">21</span>
+        <div><h3>Hathkadi</h3><p>A straight-line jaali worked in narrow bands, often used along borders and cuffs.</p></div>
+      </div>
+      <div class="anim-stage stitch-s21 wide" id="stage-s21"><svg viewBox="0 0 320 160" fill="none" id="svg-s21"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s21"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch21()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">22</span>
+        <div><h3>Bank Jaali</h3><p>An angled variation of trellis work, opened on the diagonal for a woven, basket-like look.</p></div>
+      </div>
+      <div class="anim-stage stitch-s22" id="stage-s22"><svg viewBox="0 0 200 200" fill="none" id="svg-s22"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s22"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch22()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">23</span>
+        <div><h3>Phool Jaali</h3><p>A floral variation of trellis work, opened within the exact shape of a flower or petal outline.</p></div>
+      </div>
+      <div class="anim-stage stitch-s23" id="stage-s23"><svg viewBox="0 0 200 200" fill="none" id="svg-s23"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s23"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch23()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">24</span>
+        <div><h3>Taj Mahal</h3><p>An elaborate, architecturally-inspired trellis pattern, named for its intricate, monument-like symmetry.</p></div>
+      </div>
+      <div class="anim-stage stitch-s24" id="stage-s24"><svg viewBox="0 0 200 260" fill="none" id="svg-s24"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch24()</code>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FAMILY FOUR — DECORATIVE & FINISHING STITCHES (25–32)
+     ============================================================ -->
+<section class="stitch-section">
+  <div class="family-head">
+    <span class="eyebrow">Family Four</span>
+    <h2>Decorative &amp; Finishing Stitches</h2>
+    <p>Hemming, seam-work and small motif details layered in once the primary embroidery is complete.</p>
+  </div>
+  <div class="gallery-grid">
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">25</span>
+        <div><h3>Turpai</h3><p>A fine hemming stitch that finishes raw edges with the appearance of a single, unbroken thread.</p></div>
+      </div>
+      <div class="anim-stage stitch-s25 wide" id="stage-s25"><svg viewBox="0 0 320 160" fill="none" id="svg-s25"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s25"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch25()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">26</span>
+        <div><h3>Darzdari</h3><p>A family of decorative seam stitches — Kohi Darz, Kamal Darz, Shankarpara Darz, Muchii and Singhbhada Darz — used to finish and embellish seams.</p></div>
+      </div>
+      <div class="anim-stage stitch-s26 wide" id="stage-s26"><svg viewBox="0 0 320 160" fill="none" id="svg-s26"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s26"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch26()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">27</span>
+        <div><h3>Chanapatti</h3><p>"Gram leaf" — a small, rounded leaf-shaped fill stitch worked in rows, tighter and fuller than ghas patti.</p></div>
+      </div>
+      <div class="anim-stage stitch-s27" id="stage-s27"><svg viewBox="0 0 200 200" fill="none" id="svg-s27"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s27"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch27()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">28</span>
+        <div><h3>Dhania Patti</h3><p>"Coriander leaf" — a fine leaf-shaped stitch for delicate borders and trailing vine motifs. Finer, denser variant of the vine/leaf technique above.</p></div>
+      </div>
+      <div class="anim-stage stitch-s28" id="stage-s28"><svg viewBox="0 0 200 260" fill="none" id="svg-s28"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s28"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch28()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">29</span>
+        <div><h3>Rozan</h3><p>A rose-inspired decorative stitch worked in small clustered florets. Reuses the Floral Buta bloom, three times over at a small scale.</p></div>
+      </div>
+      <div class="anim-stage stitch-s29" id="stage-s29"><svg viewBox="0 0 200 200" fill="none" id="svg-s29"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s29"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch29()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">30</span>
+        <div><h3>Meharki</h3><p>A combination stitch layering two or more techniques for a richly detailed, ornamental finish — a lattice patch with murri knots along its edge.</p></div>
+      </div>
+      <div class="anim-stage stitch-s30" id="stage-s30"><svg viewBox="0 0 200 160" fill="none" id="svg-s30"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s30"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch30()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">31</span>
+        <div><h3>Baalda</h3><p>A dense, textured combination stitch used to add weight and detail to statement motifs — a cross-stitch-filled disc, ringed for extra body.</p></div>
+      </div>
+      <div class="anim-stage stitch-s31" id="stage-s31"><svg viewBox="0 0 200 200" fill="none" id="svg-s31"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s31"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch31()</code>
+      </div>
+    </section>
+
+    <section class="anim-card">
+      <div class="anim-card-head">
+        <span class="anim-num">32</span>
+        <div><h3>Jora</h3><p>A paired stitch, worked in twos, used to finish and reinforce borders across garments and home linen alike.</p></div>
+      </div>
+      <div class="anim-stage stitch-s32 wide" id="stage-s32"><svg viewBox="0 0 320 160" fill="none" id="svg-s32"></svg></div>
+      <div class="anim-card-foot">
+        <button class="replay-btn" data-target="s32"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Replay</button>
+        <code>initStitch32()</code>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<footer class="gallery-foot">
+  <h2>Using one of these on the site</h2>
+  <p>Every animation's CSS is scoped under its card class (<code>.motif-01</code> through <code>.motif-10</code>), and its JS lives in its own named function (<code>initAnim01()</code> through <code>initAnim10()</code>) in <code>script.js</code> — nothing shared between them except the tiny replay-button wiring at the bottom of the file. To lift one out: copy its <code>&lt;svg&gt;</code> block from <code>index.html</code>, its one CSS section from <code>style.css</code>, and its one <code>initAnimXX()</code> function from <code>script.js</code> (dropping the surrounding <code>.motif-XX</code> wrapper class, or renaming it to match wherever it lands, e.g. <code>.hero-motif</code>). Colors are pulled from <code>--ink</code>, <code>--bone</code>, <code>--gold</code>, <code>--gold-deep</code> at the top of <code>style.css</code> — matching variable names to the site's real <code>style.css</code>, so if those variables are already defined on the page you drop it into, you can delete this file's <code>:root</code> block entirely and it'll pick up the real theme automatically.</p>
+  <p style="margin-top:1rem;">The 32 named stitches below reuse the same <code>.stitch-line</code> / <code>.stitch-dot</code> / <code>.stitch-shape</code> / <code>.stitch-fade</code> classes and the shared generator functions (<code>drawStrokePath</code>, <code>popShape</code>, <code>popShapeAt</code>, <code>drawLatticeGrid</code>, <code>drawKnotSpiral</code>, <code>drawVineWithLeaves</code>) in <code>script.js</code> — lifting one out means copying its card markup, its <code>initStitchNN()</code> function, <em>and</em> whichever shared generator(s) that function calls.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
