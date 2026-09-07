@@ -641,7 +641,17 @@
       }
       window.dispatchEvent(new CustomEvent('cart:updated', { detail: { lines: _cartCache } }));
 
-      (async () => {
+      // Returned (not just fired-and-forgotten) so callers that navigate
+      // right after adding — Buy Now — can await it first. Navigating
+      // before this settles is what used to race the line-item POST
+      // against the page unload: on mobile the browser cancels the
+      // in-flight request outright (checkout loads an empty cart), and
+      // even when it doesn't, checkout.html's own initial cart fetch can
+      // win the race and render before the item lands, only picking it up
+      // (slowly, and only on cart:updated) once this resolves after the
+      // fact. Callers that don't navigate (regular add-to-cart) can still
+      // ignore the returned promise exactly as before.
+      return (async () => {
         try {
           await ensureCart();
           const variantId = findVariantId(product, variant);
@@ -660,10 +670,9 @@
             _cart = data.cart;
             syncCacheFromCart();
           } catch (err2) { /* give up silently — next mutation will resync */ }
+          throw err;
         }
       })();
-
-      return _cartCache;
     },
 
     updateQty(lineId, qty) {

@@ -137,7 +137,10 @@ function closeCartDrawer() {
 
 /** Call this after Cart.add() anywhere in the site. */
 function addToCartFlow(product, variant, qty) {
-  Cart.add(product, variant, qty);
+  // Cart.add()'s returned promise rejects on a failed server sync (already
+  // surfaced via its own toast) — caught here only to avoid an unhandled
+  // rejection, since this flow doesn't navigate and has nothing further to do.
+  Cart.add(product, variant, qty).catch(() => {});
   showToast(`Added to bag — ${product.name}`);
   renderCartDrawer();
   openCartDrawer();
@@ -253,13 +256,21 @@ function wireProductCardActions(container, products) {
     });
   });
   container.querySelectorAll('[data-buy-now]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
       const product = products.find(p => p.id === btn.getAttribute('data-buy-now'));
       if (!product) return;
-      Cart.add(product, { color: product.colors[0], size: product.sizes[0] }, 1);
-      location.href = 'checkout.html';
+      const originalLabel = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Preparing…';
+      try {
+        await Cart.add(product, { color: product.colors[0], size: product.sizes[0] }, 1);
+        location.href = 'checkout.html';
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = originalLabel;
+      }
     });
   });
 }

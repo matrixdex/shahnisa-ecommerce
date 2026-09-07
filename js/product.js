@@ -215,10 +215,18 @@ function wirePDPInteractions(p) {
     addToCartFlow(p, { color: selectedColor, size: selectedSize }, currentQty);
   });
 
-  document.getElementById('buyNowBtn').addEventListener('click', () => {
+  document.getElementById('buyNowBtn').addEventListener('click', async () => {
     if (!validate()) return;
-    Cart.add(p, { color: selectedColor, size: selectedSize }, currentQty);
-    location.href = 'checkout.html';
+    const btn = document.getElementById('buyNowBtn');
+    btn.disabled = true;
+    btn.textContent = 'Preparing checkout…';
+    try {
+      await Cart.add(p, { color: selectedColor, size: selectedSize }, currentQty);
+      location.href = 'checkout.html';
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Buy It Now';
+    }
   });
 }
 
