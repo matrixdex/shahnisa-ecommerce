@@ -104,7 +104,7 @@ Export/download your photos from Instagram yourself and drop them into
 
 ## Deployment (Render)
 
-**Live**: backend at [shahnisa-backend.onrender.com](https://shahnisa-backend.onrender.com) (Singapore), frontend at [shahnisa.onrender.com](https://shahnisa.onrender.com). Database is a free Neon Postgres project (not on Render).
+**Live**: backend at [shahnisa-backend.onrender.com](https://shahnisa-backend.onrender.com) (Singapore), frontend at [shahnisa.com](https://shahnisa.com). Database is a Neon Postgres project (not on Render).
 
 Two Render services, deployed from this repo:
 
@@ -112,7 +112,7 @@ Two Render services, deployed from this repo:
 
 | | |
 |---|---|
-| Build command | `npm install && npm run build --workspace=@dtc/backend && cd apps/backend/.medusa/server && npm install` |
+| Build command | `npm ci --no-audit --no-fund && npm run build --workspace=@dtc/backend && cd apps/backend/.medusa/server && npm install --omit=dev --no-audit --no-fund` |
 | Start command | `cd apps/backend/.medusa/server && npx medusa db:migrate && npm run start` |
 | Env vars | `DATABASE_URL` (Postgres), `JWT_SECRET`, `COOKIE_SECRET`, `AUTH_MFA_ENCRYPTION_KEY`, `STORE_CORS`, `ADMIN_CORS`, `AUTH_CORS`, `NODE_VERSION` |
 
@@ -151,12 +151,10 @@ that file). Once both services are up, set the backend's `STORE_CORS` /
 `ADMIN_CORS` / `AUTH_CORS` to the frontend's real `onrender.com` URL and
 redeploy.
 
-## What's still a placeholder / demo
+**Backend bucket cleanup**
 
-- **Checkout does not process real payments** — it's a front-end
-  simulation on top of a real Medusa order (paid via the `pp_system_default`
-  manual provider). Wire up Razorpay, Stripe, or similar before accepting
-  real orders.
-- **Newsletter** is still a `localStorage` stub — no Medusa equivalent.
-- Real product photography and transactional email are also not wired up
-  (see above).
+Orphaned images in bucket are images that were added and exist in cloud bucket but are not referenced in MedusaJS because deleting images from the MedusaJS admin dashboard app does not delete them from the bucket automatically. These images must be deleted manually by running the following command in the browser console window of logged in MedusaJS admin dashboard.
+
+```bash
+fetch('/admin/r2-cleanup', { method: 'POST', credentials: 'include' }).then(r => r.json()).then(console.log)
+```
