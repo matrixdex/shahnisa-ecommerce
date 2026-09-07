@@ -3,7 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": [".medusa/server/**", ".next/**"]
     },
     "dev": {
       "cache": false,
