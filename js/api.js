@@ -34,6 +34,7 @@
   // Applying it is harmless when the cart doesn't qualify yet — the
   // promotion's own rule gates whether it actually discounts anything.
   const FREE_SHIPPING_CODE = 'FREESHIP3500';
+  const MAX_QTY_PER_ITEM = 3; // cap on how many of a single product+variant a cart line can hold
 
   const TOKEN_KEY = 'shahnisa_medusa_token';
   const CART_ID_KEY = 'shahnisa_cart_id';
@@ -170,6 +171,7 @@
   /* ── Api ───────────────────────────────────────────────── */
   const Api = {
     money,
+    MAX_QTY_PER_ITEM,
 
     /** Resolves once the cart and session have hydrated from Medusa. */
     ready() { return _readyPromise; },
@@ -594,8 +596,22 @@
 
     add(product, variant, qty = 1) {
       const existing = _cartCache.find(l => l.productId === product.id && l.color === variant.color && l.size === variant.size);
+      const currentQty = existing ? existing.qty : 0;
+      // Clamp to MAX_QTY_PER_ITEM here (not just in the UI) so this is the
+      // one place every add-to-cart path — quick add, PDP, buy-now — is
+      // guaranteed to respect the cap, including the case where some of
+      // this item is already in the bag. Only the resulting DELTA (not the
+      // raw requested qty) goes to the server, so a request that gets
+      // partially clamped doesn't overshoot the cap server-side too.
+      const finalQty = Math.min(currentQty + qty, MAX_QTY_PER_ITEM);
+      const qtyToAdd = finalQty - currentQty;
+      if (finalQty < currentQty + qty) {
+        notify(`Only ${MAX_QTY_PER_ITEM} of ${product.name} can be added to your bag.`);
+      }
+      if (qtyToAdd <= 0) return _cartCache; // already at the cap — nothing to do
+
       if (existing) {
-        existing.qty += qty;
+        existing.qty = finalQty;
       } else {
         _cartCache.push({
           lineId: `pending__${product.id}__${variant.color}__${variant.size}`,
@@ -606,7 +622,7 @@
           price: product.price,
           color: variant.color,
           size: variant.size,
-          qty,
+          qty: finalQty,
         });
       }
       window.dispatchEvent(new CustomEvent('cart:updated', { detail: { lines: _cartCache } }));
@@ -618,7 +634,7 @@
           if (!variantId) throw new Error(`No matching variant for ${product.name} (${variant.color}/${variant.size})`);
           const data = await medusaFetch(withFields(`/store/carts/${_cart.id}/line-items`), {
             method: 'POST',
-            body: JSON.stringify({ variant_id: variantId, quantity: qty }),
+            body: JSON.stringify({ variant_id: variantId, quantity: qtyToAdd }),
           });
           _cart = data.cart;
           syncCacheFromCart();
@@ -639,6 +655,10 @@
     updateQty(lineId, qty) {
       const line = _cartCache.find(l => l.lineId === lineId);
       if (!line) return _cartCache;
+      if (qty > MAX_QTY_PER_ITEM) {
+        qty = MAX_QTY_PER_ITEM;
+        notify(`Only ${MAX_QTY_PER_ITEM} of ${line.name} can be added to your bag.`);
+      }
       if (qty <= 0) {
         _cartCache = _cartCache.filter(l => l.lineId !== lineId);
       } else {

@@ -170,6 +170,10 @@ function wirePDPInteractions(p) {
   });
 
   document.getElementById('qtyUp').addEventListener('click', () => {
+    if (currentQty >= Api.MAX_QTY_PER_ITEM) {
+      showToast(`Only ${Api.MAX_QTY_PER_ITEM} of this item can be added to your bag.`);
+      return;
+    }
     currentQty += 1;
     document.getElementById('qtyValue').textContent = currentQty;
   });
@@ -230,7 +234,7 @@ async function renderRelated(product) {
   document.getElementById('relatedSection').style.display = 'block';
   const grid = document.getElementById('relatedGrid');
   grid.innerHTML = related.map(productCardHTML).join('');
-  wireQuickAdd(grid, related);
+  wireProductCardActions(grid, related);
 }
 
 function renderLoadError() {

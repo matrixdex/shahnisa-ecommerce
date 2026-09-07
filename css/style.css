@@ -43,6 +43,14 @@
 
 /* ── Reset ─────────────────────────────────────────────────── */
 * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Off-canvas panels (mobile nav, cart drawer — see partials/chrome-top.html)
+   sit positioned well outside the viewport until toggled open, which is
+   fine on its own, but with nothing else clamping horizontal overflow the
+   page itself becomes scrollable sideways to reveal them (most visible on
+   long/content-heavy pages). This is the standard guard against exactly
+   that class of bug — it doesn't change any page's visual layout, only
+   whether the viewport can scroll past its own edge. */
+html, body { overflow-x: hidden; }
 html { scroll-behavior: smooth; scrollbar-gutter: stable both-edges; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -199,6 +207,7 @@ header.site-header {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  font-weight: 600;
 }
 .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.35rem; min-width: 0; margin-left: auto; }
 /* The hamburger opens the same slide-out panel at every screen size —
@@ -364,16 +373,25 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 }
 .product-tag.new { background: var(--ink); color: var(--bone); }
 .product-tag.sale { background: var(--rose); color: var(--white); }
-.quick-add {
-  position: absolute; left: 0.6rem; right: 0.6rem; bottom: 0.6rem; z-index: 2;
-  opacity: 0; transform: translateY(6px);
-  transition: var(--ease);
-}
-.product-card:hover .quick-add { opacity: 1; transform: translateY(0); }
 .product-info { padding-top: 0.9rem; }
 .product-info .stitch-label { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-deep); }
 .product-info h3 { font-family: var(--sans); font-weight: 600; font-size: 0.98rem; color: var(--ink); margin: 0.25rem 0 0.35rem; }
 .product-info .price { font-size: 0.9rem; }
+/* Always-visible Add to Cart / Buy Now pair below the price — replaces
+   the old hover-only Quick Add overlay, so the actions are reachable on
+   touch devices without a hover state too. Both size to their own
+   content (not stretched to fill the card) — Add to Cart is an
+   icon-only, transparent/outlined button (fills solid on hover, same
+   "outline that fills in" pattern as .btn-outline elsewhere); Buy Now
+   is the site's standard dark .btn-primary treatment, just compact. */
+.product-card-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: stretch; }
+.btn-icon-cart {
+  flex: 0 0 auto; width: 40px; padding: 0; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--ink); border-radius: var(--radius-sm);
+  color: var(--ink); transition: var(--ease);
+}
+.btn-icon-cart svg { width: 23px; height: 23px; }
+.btn-icon-cart:hover { background: var(--ink); color: var(--bone); }
 
 /* Pattern-card placeholder: used everywhere a real product photo will
    eventually go. Shows the stitch name as line art instead of a blank
@@ -580,13 +598,6 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .checkout-steps .sep { opacity: 0.4; }
 .checkout-section { margin-bottom: 2.5rem; }
 .checkout-section h2 { font-size: 1.15rem; margin-bottom: 1.3rem; font-family: var(--sans); font-weight: 700; }
-.demo-notice {
-  display: flex; gap: 0.75rem; align-items: flex-start;
-  background: var(--ivory-deep); border-radius: var(--radius-sm); padding: 1rem 1.2rem;
-  font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 2rem; line-height: 1.6;
-}
-.demo-notice svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; color: var(--gold-deep); }
-
 .order-summary { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 1.75rem; position: sticky; top: 100px; }
 .order-summary h2 { font-size: 1.05rem; margin-bottom: 1.4rem; }
 .summary-line { display: grid; grid-template-columns: 56px 1fr auto; gap: 0.9rem; padding-bottom: 1.2rem; margin-bottom: 1.2rem; border-bottom: 1px solid var(--line-soft); }
@@ -599,7 +610,7 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .summary-line-meta { font-size: 0.74rem; color: var(--ink-muted); margin-top: 0.2rem; }
 .summary-line-price { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
 .promo-row { display: flex; gap: 0.6rem; margin: 1.4rem 0; }
-.promo-row input { flex: 1; }
+.promo-row input { flex: 1; padding-left: 0.375rem; }
 .summary-totals { display: flex; flex-direction: column; gap: 0.65rem; padding-top: 0.5rem; }
 .summary-totals .row { display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--ink-soft); }
 .summary-totals .row.discount { color: var(--rose-deep); }

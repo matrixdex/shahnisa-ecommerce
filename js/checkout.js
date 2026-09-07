@@ -184,6 +184,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Api.ready();
   if (!Cart.get().length) { renderEmptyCheckout(); return; }
 
+  // Signed-in customers land here (from Buy Now or the cart drawer) with
+  // their email already known — fill it in rather than making them retype
+  // it, same as any real checkout would.
+  const session = Api.getSession();
+  const emailField = document.getElementById('email');
+  if (session?.email && emailField && !emailField.value) emailField.value = session.email;
+
   shippingOptionsList = await Api.getShippingMethods();
   await applyShippingAndRefresh();
   renderShippingMethods();
