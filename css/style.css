@@ -419,6 +419,10 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .btn-icon-cart svg { width: 23px; height: 23px; }
 .btn-icon-cart:hover { background: var(--ink); color: var(--bone); }
 
+/* A real uploaded product photo, filling the same box the pattern-card
+   placeholder occupies. */
+.product-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 /* Pattern-card placeholder: used everywhere a real product photo will
    eventually go. Shows the stitch name as line art instead of a blank
    box, so the placeholder itself carries brand information. */
