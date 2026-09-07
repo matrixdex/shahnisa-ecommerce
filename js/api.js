@@ -45,6 +45,7 @@
   const CART_FIELDS = '+items.product.metadata';
 
   let _regionId = null;
+  let _shippingOptionsCache = null; // raw Medusa shipping options for the current cart
   let _catalogCache = null;
   let _collectionsCache = null;
   let _cart = null; // the raw Medusa cart
@@ -249,6 +250,7 @@
     async getShippingMethods() {
       await ensureCart();
       const data = await medusaFetch(`/store/shipping-options?cart_id=${_cart.id}`);
+      _shippingOptionsCache = data.shipping_options;
       return data.shipping_options.map(o => ({
         code: o.type ? o.type.code : o.id,
         label: o.name,
@@ -262,8 +264,15 @@
         that already exists on the cart). Returns the refreshed totals. */
     async selectShippingMethod(code) {
       await ensureCart();
-      const data = await medusaFetch(`/store/shipping-options?cart_id=${_cart.id}`);
-      const option = data.shipping_options.find(o => (o.type ? o.type.code : o.id) === code);
+      // Reuses the list getShippingMethods() already fetched instead of
+      // re-fetching it — this used to be a duplicate round trip on every
+      // checkout page load, on the critical path before the order summary
+      // could render.
+      if (!_shippingOptionsCache) {
+        const data = await medusaFetch(`/store/shipping-options?cart_id=${_cart.id}`);
+        _shippingOptionsCache = data.shipping_options;
+      }
+      const option = _shippingOptionsCache.find(o => (o.type ? o.type.code : o.id) === code);
       if (!option) throw new Error('That shipping method is not available.');
       const smData = await medusaFetch(withFields(`/store/carts/${_cart.id}/shipping-methods`), {
         method: 'POST',

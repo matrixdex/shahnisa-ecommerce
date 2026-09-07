@@ -191,11 +191,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   const emailField = document.getElementById('email');
   if (session?.email && emailField && !emailField.value) emailField.value = session.email;
 
-  shippingOptionsList = await Api.getShippingMethods();
-  await applyShippingAndRefresh();
-  renderShippingMethods();
+  // Paint the order summary immediately — the cart's already loaded from
+  // Api.ready(), and getCartTotals() just reads it (no network call), so
+  // there's no reason to make shoppers wait on shipping-method setup
+  // before they see what's in their bag.
+  renderSummary(await Api.getCartTotals());
   renderPaymentFields();
   wirePaymentTabs();
   wirePromo();
   document.getElementById('checkoutForm').addEventListener('submit', handleSubmit);
+
+  // Shipping options (and the totals update from picking a default one)
+  // load in the background and just re-render the summary once ready.
+  try {
+    shippingOptionsList = await Api.getShippingMethods();
+    renderShippingMethods();
+    await applyShippingAndRefresh();
+  } catch (err) {
+    console.error('Could not load shipping methods', err);
+    showToast('Could not load shipping options — please try again.');
+  }
 });
