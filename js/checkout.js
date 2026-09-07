@@ -25,7 +25,7 @@ function renderSummary(totals) {
   const linesEl = document.getElementById('summaryLines');
   linesEl.innerHTML = lines.map(l => `
     <div class="summary-line">
-      <div class="summary-line-thumb">${patternCard(l.stitch)}<span class="qty-badge">${l.qty}</span></div>
+      <div class="summary-line-thumb">${lineThumb(l)}<span class="qty-badge">${l.qty}</span></div>
       <div>
         <div class="summary-line-name">${l.name}</div>
         <div class="summary-line-meta">${l.color} &middot; ${l.size}</div>

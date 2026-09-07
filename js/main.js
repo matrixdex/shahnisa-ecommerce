@@ -39,6 +39,15 @@ function productMedia(p, index = 0) {
     : patternCard(p.stitch);
 }
 
+/** Cart/order-summary line thumbnail — Medusa's own small "thumbnail" image
+    (snapshotted onto the line item when it was added), not the full PDP
+    gallery. Falls back to the pattern-card placeholder if none was set. */
+function lineThumb(l) {
+  return l.thumbnail
+    ? `<img class="product-photo" src="${l.thumbnail}" alt="${l.name || ''}" loading="lazy">`
+    : patternCard(l.stitch);
+}
+
 /* ── Toasts ────────────────────────────────────────────────── */
 function ensureToastStack() {
   let stack = document.querySelector('.toast-stack');
@@ -78,7 +87,7 @@ function renderCartDrawer() {
 
   itemsEl.innerHTML = lines.map(l => `
     <div class="cart-line" data-line="${l.lineId}">
-      <div class="cart-line-thumb">${patternCard(l.stitch)}</div>
+      <div class="cart-line-thumb">${lineThumb(l)}</div>
       <div>
         <div class="cart-line-name">${l.name}</div>
         <div class="cart-line-meta">${l.color} &middot; ${l.size}</div>

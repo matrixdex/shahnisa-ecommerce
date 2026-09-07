@@ -132,11 +132,15 @@
     const m = p.metadata || {};
     const images = (p.images || []).map(i => i.url).filter(Boolean);
     if (!images.length && p.thumbnail) images.push(p.thumbnail);
+    // Medusa's dedicated small/summary image — used for cart lines and
+    // order summaries, as opposed to `images` (the full PDP gallery).
+    const thumbnail = p.thumbnail || images[0] || null;
     return {
       id: p.id,
       slug: p.handle,
       name: p.title,
       images,
+      thumbnail,
       category: p.type ? p.type.value : '',
       collection: p.collection ? p.collection.handle : '',
       collectionTitle: p.collection ? p.collection.title : '',
@@ -550,6 +554,7 @@
         slug: item.product_handle,
         name: item.product_title,
         stitch: (item.product && item.product.metadata && item.product.metadata.stitch) || '',
+        thumbnail: item.thumbnail || null,
         price: item.unit_price,
         color,
         size,
@@ -633,6 +638,7 @@
           slug: product.slug,
           name: product.name,
           stitch: product.stitch,
+          thumbnail: product.thumbnail,
           price: product.price,
           color: variant.color,
           size: variant.size,
