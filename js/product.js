@@ -46,9 +46,11 @@ function renderPDP(p) {
   document.getElementById('pdpRoot').innerHTML = `
     <div class="pdp">
       <div class="pdp-gallery">
-        <div class="pdp-gallery-main" id="galleryMain">${patternCard(p.stitch)}${tag}</div>
+        <div class="pdp-gallery-main" id="galleryMain">${p.images.length ? `<img class="product-photo" id="galleryMainImg" src="${p.images[0]}" alt="${p.name}">` : patternCard(p.stitch)}${tag}</div>
         <div class="pdp-thumbs" id="galleryThumbs">
-          ${GALLERY_VIEWS.map((v, i) => `
+          ${p.images.length ? p.images.map((src, i) => `
+            <div class="pdp-thumb ${i === 0 ? 'active' : ''}" data-src="${src}"><img class="product-photo" src="${src}" alt="${p.name} ${i + 1}"></div>
+          `).join('') : GALLERY_VIEWS.map((v, i) => `
             <div class="pdp-thumb ${i === 0 ? 'active' : ''}" data-view="${v}">${patternCard(p.stitch)}</div>
           `).join('')}
         </div>
@@ -146,6 +148,9 @@ function wirePDPInteractions(p) {
     thumb.addEventListener('click', () => {
       document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach(t => t.classList.remove('active'));
       thumb.classList.add('active');
+      const src = thumb.getAttribute('data-src');
+      const mainImg = document.getElementById('galleryMainImg');
+      if (src && mainImg) mainImg.src = src;
     });
   });
 

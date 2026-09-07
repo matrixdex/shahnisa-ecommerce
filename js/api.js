@@ -99,7 +99,7 @@
      `variants` is the one added field — {id, color, size, price} —
      so Cart.add can resolve a real Medusa variant id. */
   const PRODUCT_FIELDS = [
-    'id', 'title', 'handle', 'description', 'type.value',
+    'id', 'title', 'handle', 'description', 'type.value', 'thumbnail', '*images',
     'collection.title', 'collection.handle', 'collection.metadata', 'metadata',
     '*options', '*options.values', '*variants', '*variants.options', '*variants.calculated_price',
   ].join(',');
@@ -120,10 +120,13 @@
     const colorOption = (p.options || []).find(o => o.title === 'Colour');
     const sizeOption = (p.options || []).find(o => o.title === 'Size');
     const m = p.metadata || {};
+    const images = (p.images || []).map(i => i.url).filter(Boolean);
+    if (!images.length && p.thumbnail) images.push(p.thumbnail);
     return {
       id: p.id,
       slug: p.handle,
       name: p.title,
+      images,
       category: p.type ? p.type.value : '',
       collection: p.collection ? p.collection.handle : '',
       stitch: m.stitch || '',

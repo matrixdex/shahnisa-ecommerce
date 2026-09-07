@@ -30,6 +30,15 @@ function patternCard(stitch) {
   return `<div class="pattern-card">${stitchIcon(stitch)}<span class="stitch-name">${stitch}</span></div>`;
 }
 
+/** Real product photo when one's been uploaded in the admin, falling back
+    to the pattern-card placeholder for products that don't have one yet. */
+function productMedia(p, index = 0) {
+  const src = p.images && p.images[index];
+  return src
+    ? `<img class="product-photo" src="${src}" alt="${p.name || ''}" loading="lazy">`
+    : patternCard(p.stitch);
+}
+
 /* ── Toasts ────────────────────────────────────────────────── */
 function ensureToastStack() {
   let stack = document.querySelector('.toast-stack');
@@ -161,7 +170,7 @@ async function wireSearch() {
     }
     results.innerHTML = matches.map(p => `
       <a class="search-result-row" href="product.html?slug=${p.slug}">
-        <div class="search-result-thumb">${patternCard(p.stitch)}</div>
+        <div class="search-result-thumb">${productMedia(p)}</div>
         <div>
           <div class="search-result-name">${p.name}</div>
           <div class="search-result-meta">${Api.money(p.price)}</div>
@@ -212,7 +221,7 @@ function productCardHTML(p) {
     <a href="product.html?slug=${p.slug}" class="product-card">
       <div class="product-media">
         ${tag}
-        ${patternCard(p.stitch)}
+        ${productMedia(p)}
       </div>
       <div class="product-info">
         <div class="stitch-label">${p.stitch} &middot; ${p.fabric}</div>
