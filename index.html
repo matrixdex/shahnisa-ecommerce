@@ -242,12 +242,18 @@
   /* ── Newsletter ── */
   .newsletter { background: var(--ivory-deep); text-align: center; }
   .newsletter .container { max-width: 560px; }
-  .newsletter form { display: flex; gap: 0.7rem; margin-top: 1.6rem; }
+  /* Every item in this section (eyebrow, title, copy, form, note) evenly
+     spaced 18.75px apart (15px + 25%), overriding each element's own
+     usual margin. */
+  .newsletter .eyebrow { margin-bottom: 18.75px; }
+  .newsletter h2 { margin-top: 0; }
+  .newsletter p { margin-top: 18.75px; }
+  .newsletter form { display: flex; gap: 0.7rem; margin-top: 18.75px; }
   .newsletter input[type="email"] {
     flex: 1; padding: 0.9rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
     background: var(--white); font-family: var(--sans);
   }
-  .newsletter-note { font-size: 0.76rem; color: var(--ink-muted); margin-top: 0.9rem; }
+  .newsletter-note { font-size: 0.76rem; color: var(--ink-muted); margin-top: 18.75px; }
   @media (max-width: 560px) { .newsletter form { flex-direction: column; } }
 </style>
 </head>
@@ -478,9 +484,9 @@
   <div class="container">
     <span class="eyebrow">Stay Woven In</span>
     <h2>Join The Shahnisa List</h2>
-    <p style="color:var(--ink-muted); margin-top:0.6rem;">New arrivals, artisan stories, and first access to limited pieces — no spam.</p>
+    <p style="color:var(--ink-muted);">New arrivals, artisan stories, and first access to limited pieces.</p>
     <form id="newsletterForm">
-      <input type="email" required placeholder="you@email.com" aria-label="Email address">
+      <input type="email" required placeholder="Email address" aria-label="Email address">
       <button type="submit" class="btn btn-primary">Subscribe</button>
     </form>
     <div class="newsletter-note">By subscribing you agree to receive marketing emails. Unsubscribe anytime.</div>

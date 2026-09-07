@@ -345,7 +345,19 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
   padding: 1.6rem 0 2rem;
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
   font-size: 0.76rem; color: rgba(239,234,224,0.55);
+  position: relative; /* lets "All Rights Reserved" centre on the row independently of the other two, below */
 }
+/* Desktop: three independent alignments in one row — "© 2026 Shahnisa."
+   left, "All Rights Reserved." centred on the row, payment-icons right.
+   .footer-copyright itself doesn't participate in the row's own layout
+   (display:contents) so its two spans act as if they were direct
+   children of .footer-bottom — .footer-copy stays in normal flow (flex
+   start = left), .footer-rights is pulled out via absolute positioning
+   to centre on the row regardless of the other two elements' widths,
+   which leaves .footer-copy and .payment-icons as the only two elements
+   space-between is still working with, landing them at the two edges. */
+.footer-copyright { display: contents; }
+.footer-rights { position: absolute; left: 50%; transform: translateX(-50%); }
 .payment-icons { display: flex; gap: 0.6rem; }
 .payment-icons span {
   font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em;
@@ -355,7 +367,21 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
   .footer-top { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1/-1; }
 }
-@media (max-width: 560px) { .footer-top { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .footer-top { grid-template-columns: 1fr; }
+  /* Every footer item centred on mobile... */
+  .footer-brand, .footer-col { text-align: center; }
+  .footer-brand p { margin-left: auto; margin-right: auto; }
+  .footer-social { justify-content: center; }
+  .footer-col ul { align-items: center; }
+  .footer-bottom { flex-direction: column; align-items: center; position: static; }
+  /* ...except the copyright row, which keeps "© 2026 Shahnisa." and
+     "All Rights Reserved." on one line, spread to opposite edges — back
+     in normal flow (not the desktop absolute-centre trick), as its own
+     full-width row within the stacked column, with payment-icons below. */
+  .footer-copyright { display: flex; justify-content: space-between; width: 100%; }
+  .footer-rights { position: static; transform: none; }
+}
 
 /* ── Product card + placeholder "pattern card" ────────────── */
 .product-card { display: block; position: relative; }
