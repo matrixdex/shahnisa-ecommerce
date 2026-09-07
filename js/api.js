@@ -115,6 +115,16 @@
     };
   }
 
+  /** Option values actually offered by at least one real variant, kept in
+      the order the option itself defines them in admin — not the full
+      option-value list, which can include sizes/colors no variant was ever
+      created for (e.g. an XS defined on the option but never stocked). */
+  function availableOptionValues(option, variantValues) {
+    if (!option) return [];
+    const inStock = new Set(variantValues.filter(Boolean));
+    return option.values.map(v => v.value).filter(v => inStock.has(v));
+  }
+
   function mapProduct(p) {
     const variants = (p.variants || []).map(mapVariant);
     const colorOption = (p.options || []).find(o => o.title === 'Colour');
@@ -129,13 +139,14 @@
       images,
       category: p.type ? p.type.value : '',
       collection: p.collection ? p.collection.handle : '',
+      collectionTitle: p.collection ? p.collection.title : '',
       stitch: m.stitch || '',
       fabric: m.fabric || '',
       price: variants.length ? variants[0].price : 0,
       compareAt: m.compareAt != null ? m.compareAt : null,
       isNew: !!m.isNew,
-      colors: colorOption ? colorOption.values.map(v => v.value) : [],
-      sizes: sizeOption ? sizeOption.values.map(v => v.value) : [],
+      colors: availableOptionValues(colorOption, variants.map(v => v.color)),
+      sizes: availableOptionValues(sizeOption, variants.map(v => v.size)),
       rating: m.rating || 0,
       reviews: m.reviews || 0,
       description: p.description || '',

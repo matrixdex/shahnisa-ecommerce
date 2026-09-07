@@ -14,6 +14,19 @@ let selectedColor = null;
 let selectedSize = null;
 let currentQty = 1;
 
+/** Medusa only stores color names, not swatch colors — the curated map
+    covers this catalog's known shades; anything else falls back to trying
+    the name itself as a CSS color keyword (works for plain names like
+    "Black"/"Navy") rather than a flat, uninformative gray. */
+function swatchColor(name) {
+  if (COLOR_HEX_PDP[name]) return COLOR_HEX_PDP[name];
+  const asKeyword = name.toLowerCase().replace(/\s+/g, '');
+  const probe = new Option().style;
+  probe.color = '';
+  probe.color = asKeyword;
+  return probe.color ? asKeyword : '#ccc';
+}
+
 function starString(rating) {
   const full = Math.round(rating);
   return '★'.repeat(full) + '☆'.repeat(5 - full);
@@ -58,6 +71,7 @@ function renderPDP(p) {
 
       <div class="pdp-info">
         <div class="stitch-label">${p.stitch} &middot; ${p.fabric}</div>
+        ${p.collectionTitle ? `<span class="eyebrow">${p.collectionTitle}</span>` : ''}
         <h1>${p.name}</h1>
         <div class="rating-row">
           <span class="stars">${starString(p.rating)}</span>
@@ -68,7 +82,7 @@ function renderPDP(p) {
         <div class="variant-group">
           <div class="variant-label"><span>Colour</span><span class="selected-value" id="selColor">${p.colors[0]}</span></div>
           <div class="facet-colors" id="colorOptions">
-            ${p.colors.map(c => `<button class="color-swatch ${c === p.colors[0] ? 'active' : ''}" data-color="${c}" style="background:${COLOR_HEX_PDP[c] || '#ccc'}" title="${c}" aria-label="${c}"></button>`).join('')}
+            ${p.colors.map(c => `<button class="color-swatch ${c === p.colors[0] ? 'active' : ''}" data-color="${c}" style="background:${swatchColor(c)}" title="${c}" aria-label="${c}"></button>`).join('')}
           </div>
         </div>
 
