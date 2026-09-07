@@ -10,6 +10,14 @@ module.exports = defineConfig({
   },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
+    // Wires the REDIS_URL already in .env.template into Medusa's session
+    // store, event bus, cache and locking modules. Without this, Medusa
+    // falls back to in-memory versions of all four — including sessions,
+    // which is what triggers the "MemoryStore is not designed for a
+    // production environment" warning (that store never evicts old
+    // sessions, so it's also a slow memory leak on a long-running process).
+    // A no-op until REDIS_URL is actually set to a real Redis instance.
+    redisUrl: process.env.REDIS_URL,
     http: {
       storeCors: process.env.STORE_CORS!,
       adminCors: process.env.ADMIN_CORS!,
