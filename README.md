@@ -151,7 +151,7 @@ that file). Once both services are up, set the backend's `STORE_CORS` /
 `ADMIN_CORS` / `AUTH_CORS` to the frontend's real `onrender.com` URL and
 redeploy.
 
-## Backend bucket cleanup**
+## Backend bucket cleanup
 
 Orphaned images in bucket are images that were added and exist in cloud bucket but are not referenced in MedusaJS because deleting images from the MedusaJS admin dashboard app does not delete them from the bucket automatically. These images must be deleted manually by running the following command in the browser console window of logged in MedusaJS admin dashboard.
 
