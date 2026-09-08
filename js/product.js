@@ -27,11 +27,6 @@ function swatchColor(name) {
   return probe.color ? asKeyword : '#ccc';
 }
 
-function starString(rating) {
-  const full = Math.round(rating);
-  return '★'.repeat(full) + '☆'.repeat(5 - full);
-}
-
 function renderNotFound() {
   document.getElementById('pdpRoot').innerHTML = `
     <div class="empty-state">
@@ -73,26 +68,24 @@ function renderPDP(p) {
         <div class="stitch-label">${p.stitch} &middot; ${p.fabric}</div>
         ${p.collectionTitle ? `<span class="eyebrow">${p.collectionTitle}</span>` : ''}
         <h1>${p.name}</h1>
-        <div class="rating-row">
-          <span class="stars">${starString(p.rating)}</span>
-          <span>${p.rating} (${p.reviews} reviews)</span>
-        </div>
         <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>
 
+        ${p.colors.length ? `
         <div class="variant-group">
           <div class="variant-label"><span>Colour</span><span class="selected-value" id="selColor">${p.colors[0]}</span></div>
           <div class="facet-colors" id="colorOptions">
             ${p.colors.map(c => `<button class="color-swatch ${c === p.colors[0] ? 'active' : ''}" data-color="${c}" style="background:${swatchColor(c)}" title="${c}" aria-label="${c}"></button>`).join('')}
           </div>
-        </div>
+        </div>` : ''}
 
+        ${p.sizes.length ? `
         <div class="variant-group">
           <div class="variant-label"><span>Size</span><a href="#sizeGuide" class="size-guide-link">Size guide</a></div>
           <div class="facet-sizes" id="sizeOptions">
             ${p.sizes.map(s => `<button class="size-chip" data-size="${s}">${s}</button>`).join('')}
           </div>
           <div class="field-error" id="sizeError" style="display:none; margin-top:0.5rem;">Please select a size to continue.</div>
-        </div>
+        </div>` : ''}
 
         <div class="qty-row">
           <div class="qty-stepper lg" id="pdpQty">
@@ -105,13 +98,6 @@ function renderPDP(p) {
         <div class="pdp-actions">
           <button class="btn btn-primary btn-block" id="addToBagBtn">Add to Bag — <span id="addToBagPrice">${Api.money(p.price)}</span></button>
           <button class="btn btn-outline btn-block" id="buyNowBtn">Buy It Now</button>
-        </div>
-
-        <div class="trust-row">
-          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Secure checkout, encrypted end to end</div>
-          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h13v9H3zM16 11h3l2 3v3h-5z"/><circle cx="7.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>Free shipping across India on orders over ₹3,500</div>
-          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>7-day easy returns on unworn pieces</div>
-          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>Cash on delivery available</div>
         </div>
 
         <div class="accordion" id="pdpAccordion">
@@ -127,14 +113,22 @@ function renderPDP(p) {
             <button class="accordion-trigger" data-acc-trigger>The Artisan's Note<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
             <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">${p.artisanNote}</div></div>
           </div>
+          ${p.sizes.length ? `
           <div class="accordion-item" id="sizeGuide" data-acc>
             <button class="accordion-trigger" data-acc-trigger>Size &amp; Fit<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
             <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">Runs true to size — if between sizes, we recommend sizing up for a relaxed fit. Available in ${p.sizes.join(', ')}.</div></div>
-          </div>
+          </div>` : ''}
           <div class="accordion-item" data-acc>
             <button class="accordion-trigger" data-acc-trigger>Shipping &amp; Returns<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
             <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">Dispatched within 2–4 business days. Free shipping across India on orders over ₹3,500. Unworn pieces with tags attached can be returned within 7 days of delivery for a full refund.</div></div>
           </div>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Secure checkout, encrypted end to end</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h13v9H3zM16 11h3l2 3v3h-5z"/><circle cx="7.5" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>Free shipping across India on orders over ₹3,500</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12a8 8 0 0114-5M20 12a8 8 0 01-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>7-day easy returns on unworn pieces</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>Cash on delivery available</div>
         </div>
       </div>
     </div>
