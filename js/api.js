@@ -42,7 +42,11 @@
   // include items, shipping_methods, promotions and all the total/tax/
   // discount fields) — a bare field list would replace those defaults
   // instead of extending them and silently drop the totals.
-  const CART_FIELDS = '+items.product.metadata';
+  // items.thumbnail (the line item's own snapshot) only gets populated by
+  // Medusa if the product's dedicated `thumbnail` field was explicitly set
+  // in admin — having gallery images alone isn't enough. items.product.*
+  // here is the fallback for products that only ever got gallery images.
+  const CART_FIELDS = '+items.product.metadata,items.product.thumbnail,items.product.images.url';
 
   let _regionId = null;
   let _shippingOptionsCache = null; // raw Medusa shipping options for the current cart
@@ -563,7 +567,7 @@
         slug: item.product_handle,
         name: item.product_title,
         stitch: (item.product && item.product.metadata && item.product.metadata.stitch) || '',
-        thumbnail: item.thumbnail || null,
+        thumbnail: item.thumbnail || item.product?.thumbnail || item.product?.images?.[0]?.url || null,
         price: item.unit_price,
         color,
         size,

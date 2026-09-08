@@ -632,13 +632,16 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .order-summary h2 { font-size: 1.05rem; margin-bottom: 1.4rem; }
 .summary-line { display: grid; grid-template-columns: 56px 1fr auto; gap: 0.9rem; padding-bottom: 1.2rem; margin-bottom: 1.2rem; border-bottom: 1px solid var(--line-soft); }
 .summary-line-thumb { width: 56px; aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; position: relative; }
-.summary-line-thumb .qty-badge {
-  position: absolute; top: -6px; right: -6px; background: var(--ink); color: var(--bone);
-  width: 18px; height: 18px; border-radius: 50%; font-size: 0.62rem; display: flex; align-items: center; justify-content: center;
-}
 .summary-line-name { font-size: 0.86rem; font-weight: 600; }
 .summary-line-meta { font-size: 0.74rem; color: var(--ink-muted); margin-top: 0.2rem; }
 .summary-line-price { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.summary-line-qty-row { display: flex; align-items: center; gap: 0.7rem; margin-top: 0.6rem; }
+.summary-line-remove {
+  display: flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: var(--radius-sm); color: var(--ink-muted); transition: var(--ease);
+}
+.summary-line-remove svg { width: 16px; height: 16px; }
+.summary-line-remove:hover { color: var(--rose-deep); background: var(--ivory-deep); }
 .promo-row { display: flex; gap: 0.6rem; margin: 1.4rem 0; }
 .promo-row input { flex: 1; padding-left: 0.375rem; }
 .summary-totals { display: flex; flex-direction: column; gap: 0.65rem; padding-top: 0.5rem; }

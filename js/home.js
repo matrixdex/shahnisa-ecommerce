@@ -24,7 +24,7 @@ async function renderNewArrivals() {
   }
 
   track.innerHTML = products.map(productCardHTML).join('');
-  wireProductCardActions(track, products);
+  wireQuickAdd(track, products);
 
   const prevBtn = document.getElementById('arrivalsPrev');
   const nextBtn = document.getElementById('arrivalsNext');
@@ -54,52 +54,7 @@ function wireNewsletter() {
   });
 }
 
-// The Bakhiya/Jaali cards' stitch animations run once via CSS, same as the
-// hero motif — but that section sits below the fold, so on a normal visit
-// the animation has already finished drawing by the time someone scrolls
-// down to it. Loop each one for as long as its card stays in view: replay
-// by cloning the <svg> (a fresh node re-triggers every child's CSS
-// animation from its own animation-delay, which a plain reflow trick would
-// clobber), then schedule the next replay after its longest delay+duration
-// plus a short pause — and stop scheduling the moment the card scrolls out.
-const STITCH_LOOP_MS = { 'bakhiya-wrap': 3000, 'jaali-wrap': 3600, 'hool-wrap': 1800, 'chanapatti-wrap': 1700 }; // longest animation-delay + duration in each piece, rounded up
-const STITCH_LOOP_PAUSE_MS = 800; // breathing room between loops
-
-function wireStitchCardReplay() {
-  if (!('IntersectionObserver' in window)) return;
-  document.querySelectorAll('.bakhiya-wrap, .jaali-wrap, .hool-wrap, .chanapatti-wrap').forEach((wrap) => {
-    const cycleMs = (STITCH_LOOP_MS[[...wrap.classList].find(c => c in STITCH_LOOP_MS)] || 3000) + STITCH_LOOP_PAUSE_MS;
-    let inView = false;
-    let timer = null;
-
-    function playOnce() {
-      const oldSvg = wrap.querySelector('svg');
-      if (oldSvg) wrap.replaceChild(oldSvg.cloneNode(true), oldSvg);
-    }
-
-    function loop() {
-      if (!inView) return;
-      playOnce();
-      timer = setTimeout(loop, cycleMs);
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !inView) {
-          inView = true;
-          loop();
-        } else if (!entry.isIntersecting && inView) {
-          inView = false;
-          clearTimeout(timer);
-        }
-      });
-    }, { threshold: 0.4 });
-    observer.observe(wrap);
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   renderNewArrivals();
   wireNewsletter();
-  wireStitchCardReplay();
 });

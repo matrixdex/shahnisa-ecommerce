@@ -202,7 +202,7 @@ async function refresh() {
   const pageItems = products.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   grid.innerHTML = pageItems.map(productCardHTML).join('');
-  wireProductCardActions(grid, pageItems);
+  wireQuickAdd(grid, pageItems);
 
   if (totalPages > 1) {
     let html = `<button ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">&larr;</button>`;

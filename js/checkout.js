@@ -24,15 +24,33 @@ function renderSummary(totals) {
   const lines = Cart.get();
   const linesEl = document.getElementById('summaryLines');
   linesEl.innerHTML = lines.map(l => `
-    <div class="summary-line">
-      <div class="summary-line-thumb">${lineThumb(l)}<span class="qty-badge">${l.qty}</span></div>
+    <div class="summary-line" data-line="${l.lineId}">
+      <div class="summary-line-thumb">${lineThumb(l)}</div>
       <div>
         <div class="summary-line-name">${l.name}</div>
         <div class="summary-line-meta">${l.color} &middot; ${l.size}</div>
+        <div class="summary-line-qty-row">
+          <div class="qty-stepper">
+            <button data-qty-down aria-label="Decrease quantity">&minus;</button>
+            <span>${l.qty}</span>
+            <button data-qty-up aria-label="Increase quantity">+</button>
+          </div>
+          <button class="summary-line-remove" data-remove aria-label="Remove from bag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+        </div>
       </div>
       <div class="summary-line-price">${Api.money(l.price * l.qty)}</div>
     </div>
   `).join('');
+
+  linesEl.querySelectorAll('[data-line]').forEach(row => {
+    const lineId = row.getAttribute('data-line');
+    const line = lines.find(l => l.lineId === lineId);
+    row.querySelector('[data-qty-up]').addEventListener('click', () => Cart.updateQty(lineId, line.qty + 1));
+    row.querySelector('[data-qty-down]').addEventListener('click', () => Cart.updateQty(lineId, line.qty - 1));
+    row.querySelector('[data-remove]').addEventListener('click', () => Cart.remove(lineId));
+  });
 
   const t = totals;
   const totalsEl = document.getElementById('summaryTotals');
@@ -200,6 +218,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   wirePaymentTabs();
   wirePromo();
   document.getElementById('checkoutForm').addEventListener('submit', handleSubmit);
+
+  // Changing/removing a line from the order summary itself (qty stepper,
+  // trash icon) goes through Cart.updateQty()/Cart.remove() same as the
+  // cart drawer — both fire this event once the change (and the totals
+  // that depend on it) are settled, so just re-render from it.
+  window.addEventListener('cart:updated', async () => {
+    if (!Cart.get().length) { renderEmptyCheckout(); return; }
+    renderSummary(await Api.getCartTotals());
+  });
 
   // Shipping options (and the totals update from picking a default one)
   // load in the background and just re-render the summary once ready.
