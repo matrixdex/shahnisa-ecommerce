@@ -13,6 +13,7 @@ let currentProduct = null;
 let selectedColor = null;
 let selectedSize = null;
 let currentQty = 1;
+let currentImageIndex = 0;
 
 /** Medusa only stores color names, not swatch colors — the curated map
     covers this catalog's known shades; anything else falls back to trying
@@ -48,25 +49,35 @@ function renderPDP(p) {
   selectedColor = p.colors[0];
   selectedSize = null;
   currentQty = 1;
+  currentImageIndex = 0;
 
   const tag = p.isNew ? '<span class="product-tag new">New</span>' : (p.compareAt ? '<span class="product-tag sale">Sale</span>' : '');
+  const eyebrowParts = [p.material, p.category].filter(Boolean);
 
   document.getElementById('pdpRoot').innerHTML = `
     <div class="pdp">
       <div class="pdp-gallery">
-        <div class="pdp-gallery-main" id="galleryMain">${p.images.length ? `<img class="product-photo" id="galleryMainImg" src="${p.images[0]}" alt="${p.name}">` : patternCard(p.stitch)}${tag}</div>
+        <div class="pdp-gallery-main ${p.images.length ? 'zoomable' : ''}" id="galleryMain">${p.images.length ? `<img class="product-photo" id="galleryMainImg" src="${p.images[0]}" alt="${p.name}">` : patternCard(p.stitch)}${tag}</div>
         <div class="pdp-thumbs" id="galleryThumbs">
           ${p.images.length ? p.images.map((src, i) => `
-            <div class="pdp-thumb ${i === 0 ? 'active' : ''}" data-src="${src}"><img class="product-photo" src="${src}" alt="${p.name} ${i + 1}"></div>
+            <div class="pdp-thumb ${i === 0 ? 'active' : ''}"><img class="product-photo" src="${src}" alt="${p.name} ${i + 1}"></div>
           `).join('') : GALLERY_VIEWS.map((v, i) => `
             <div class="pdp-thumb ${i === 0 ? 'active' : ''}" data-view="${v}">${patternCard(p.stitch)}</div>
           `).join('')}
         </div>
       </div>
 
+      ${p.images.length ? `
+      <div class="pdp-lightbox" id="pdpLightbox" aria-hidden="true">
+        <button class="pdp-lightbox-close" id="lightboxClose" aria-label="Close image viewer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <img class="pdp-lightbox-img" id="lightboxImg" src="${p.images[0]}" alt="${p.name}">
+      </div>` : ''}
+
       <div class="pdp-info">
         <div class="stitch-label">${p.stitch} &middot; ${p.fabric}</div>
-        ${p.collectionTitle ? `<span class="eyebrow">${p.collectionTitle}</span>` : ''}
+        ${eyebrowParts.length ? `<span class="eyebrow">${eyebrowParts.join(' &middot; ')}</span>` : ''}
         <h1>${p.name}</h1>
         <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>
 
@@ -151,16 +162,86 @@ function updatePriceDisplay(p) {
   document.getElementById('addToBagPrice').textContent = Api.money(price);
 }
 
+/** Shows image `index` of the product (wrapping around at either end) in
+    the main gallery, the active thumbnail, and the lightbox if open. Shared
+    by thumbnail clicks, swipe, and the lightbox so all three stay in sync. */
+function showGalleryImage(p, index) {
+  if (!p.images.length) return;
+  currentImageIndex = ((index % p.images.length) + p.images.length) % p.images.length;
+  const src = p.images[currentImageIndex];
+  const mainImg = document.getElementById('galleryMainImg');
+  if (mainImg) mainImg.src = src;
+  const lightboxImg = document.getElementById('lightboxImg');
+  if (lightboxImg) lightboxImg.src = src;
+  document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach((t, i) => t.classList.toggle('active', i === currentImageIndex));
+}
+
+function openLightbox() {
+  const lb = document.getElementById('pdpLightbox');
+  if (!lb) return;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('pdpLightbox');
+  if (!lb) return;
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+/** Horizontal swipe -> previous/next image, restricted to mobile/tablet
+    viewports (desktop pointers don't fire touch events anyway, but a
+    touchscreen laptop at a wide viewport shouldn't get this). */
+function wireSwipe(el, p) {
+  if (!el || !p.images.length) return;
+  let startX = 0, startY = 0, tracking = false;
+  el.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1 || !window.matchMedia('(max-width: 1024px)').matches) { tracking = false; return; }
+    tracking = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  el.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      showGalleryImage(p, currentImageIndex + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+}
+
 function wirePDPInteractions(p) {
-  document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach(thumb => {
+  document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach((thumb, i) => {
     thumb.addEventListener('click', () => {
-      document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach(t => t.classList.remove('active'));
-      thumb.classList.add('active');
-      const src = thumb.getAttribute('data-src');
-      const mainImg = document.getElementById('galleryMainImg');
-      if (src && mainImg) mainImg.src = src;
+      if (p.images.length) {
+        showGalleryImage(p, i);
+      } else {
+        document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      }
     });
   });
+
+  const galleryMain = document.getElementById('galleryMain');
+  if (p.images.length && galleryMain) {
+    galleryMain.addEventListener('click', openLightbox);
+    wireSwipe(galleryMain, p);
+  }
+
+  const lightbox = document.getElementById('pdpLightbox');
+  if (lightbox) {
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    // Closes on a click anywhere in the overlay that isn't the image or
+    // close button itself (i.e. the click target is the overlay element).
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+    wireSwipe(lightbox, p);
+  }
 
   document.querySelectorAll('#colorOptions .color-swatch').forEach(sw => {
     sw.addEventListener('click', () => {

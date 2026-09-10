@@ -451,7 +451,11 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.75rem; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
 @media (max-width: 1000px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } .grid-3 { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 560px) { .grid-4, .grid-3 { grid-template-columns: 1fr 1fr; gap: 1rem; } }
+/* Every product grid (Shop All, a category like Kurtas — same #productGrid,
+   just filtered — and the related-products grid on the product page) goes
+   single column on mobile, so shoppers scroll through one piece at a time
+   instead of side-by-side. */
+@media (max-width: 560px) { .grid-4, .grid-3 { grid-template-columns: 1fr; gap: 1rem; } }
 
 /* ============================================================
    SHARED COMMERCE COMPONENTS
@@ -592,6 +596,27 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .pdp-thumbs { display: flex; gap: 0.75rem; }
 .pdp-thumb { width: 72px; aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: var(--ease); }
 .pdp-thumb.active { border-color: var(--ink); }
+.pdp-gallery-main.zoomable { cursor: zoom-in; }
+
+/* ── PDP fullscreen image viewer ──────────────────────────── */
+.pdp-lightbox {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(15,14,12,0.94);
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  opacity: 0; visibility: hidden;
+  transition: opacity var(--ease), visibility var(--ease);
+}
+.pdp-lightbox.open { opacity: 1; visibility: visible; }
+.pdp-lightbox-img { max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; -webkit-user-select: none; }
+.pdp-lightbox-close {
+  position: absolute; top: 1.25rem; right: 1.25rem; z-index: 1;
+  width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
+  color: var(--bone); background: rgba(239,234,224,0.12); border-radius: 50%;
+  transition: var(--ease);
+}
+.pdp-lightbox-close svg { width: 20px; height: 20px; }
+.pdp-lightbox-close:hover { background: rgba(239,234,224,0.24); }
 .pdp-info .stitch-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gold-deep); }
 .pdp-info h1 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin: 0.4rem 0 0.7rem; }
 .pdp-price { font-size: 1.3rem; margin-bottom: 1.5rem; }

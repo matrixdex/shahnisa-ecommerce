@@ -48,6 +48,32 @@
   // here is the fallback for products that only ever got gallery images.
   const CART_FIELDS = '+items.product.metadata,items.product.thumbnail,items.product.images.url';
 
+  // This is a multi-page static site, not an SPA — every navigation is a
+  // full page load that wipes the in-memory caches below. sessionStorage
+  // survives that, so a shopper going Home -> Shop -> a product -> back to
+  // Shop only pays the region/catalog/collections network cost once per
+  // tab, not once per page. 5 minutes is long enough to make that repeat
+  // navigation feel instant, short enough that a catalog edit in admin
+  // shows up again soon without needing a hard refresh.
+  const CATALOG_CACHE_TTL_MS = 5 * 60 * 1000;
+
+  function readSessionCache(key) {
+    try {
+      const raw = sessionStorage.getItem(key);
+      if (!raw) return null;
+      const { value, expiresAt } = JSON.parse(raw);
+      if (Date.now() > expiresAt) { sessionStorage.removeItem(key); return null; }
+      return value;
+    } catch (err) {
+      return null; // storage unavailable/corrupt — just skip the cache
+    }
+  }
+  function writeSessionCache(key, value, ttlMs) {
+    try {
+      sessionStorage.setItem(key, JSON.stringify({ value, expiresAt: Date.now() + ttlMs }));
+    } catch (err) { /* storage full/unavailable — nothing to do, caller still has the value */ }
+  }
+
   let _regionId = null;
   let _shippingOptionsCache = null; // raw Medusa shipping options for the current cart
   let _catalogCache = null;
@@ -91,8 +117,11 @@
 
   async function getRegionId() {
     if (_regionId) return _regionId;
+    const cached = readSessionCache('shahnisa_region_id');
+    if (cached) { _regionId = cached; return _regionId; }
     const data = await medusaFetch('/store/regions');
     _regionId = data.regions[0].id;
+    writeSessionCache('shahnisa_region_id', _regionId, CATALOG_CACHE_TTL_MS);
     return _regionId;
   }
 
@@ -104,7 +133,7 @@
      `variants` is the one added field — {id, color, size, price} —
      so Cart.add can resolve a real Medusa variant id. */
   const PRODUCT_FIELDS = [
-    'id', 'title', 'handle', 'description', 'type.value', 'thumbnail', '*images',
+    'id', 'title', 'handle', 'description', 'type.value', 'material', 'thumbnail', '*images',
     'collection.title', 'collection.handle', 'collection.metadata', 'metadata',
     '*options', '*options.values', '*variants', '*variants.options', '*variants.calculated_price',
   ].join(',');
@@ -147,8 +176,8 @@
       images,
       thumbnail,
       category: p.type ? p.type.value : '',
+      material: p.material || '',
       collection: p.collection ? p.collection.handle : '',
-      collectionTitle: p.collection ? p.collection.title : '',
       stitch: m.stitch || '',
       fabric: m.fabric || '',
       price: variants.length ? variants[0].price : 0,
@@ -170,9 +199,12 @@
     if (_catalogCache) return _catalogCache;
     if (!_loadCatalogPromise) {
       _loadCatalogPromise = (async () => {
+        const cached = readSessionCache('shahnisa_catalog');
+        if (cached) { _catalogCache = cached; return _catalogCache; }
         const regionId = await getRegionId();
         const data = await medusaFetch(`/store/products?region_id=${regionId}&limit=100&fields=${encodeURIComponent(PRODUCT_FIELDS)}`);
         _catalogCache = data.products.map(mapProduct);
+        writeSessionCache('shahnisa_catalog', _catalogCache, CATALOG_CACHE_TTL_MS);
         return _catalogCache;
       })();
     }
@@ -181,6 +213,8 @@
 
   async function loadCollections() {
     if (_collectionsCache) return _collectionsCache;
+    const cached = readSessionCache('shahnisa_collections');
+    if (cached) { _collectionsCache = cached; return _collectionsCache; }
     const data = await medusaFetch('/store/collections?fields=id,title,handle,metadata');
     _collectionsCache = data.collections.map(c => ({
       id: c.handle,
@@ -188,6 +222,7 @@
       stitch: (c.metadata && c.metadata.stitch) || '',
       description: (c.metadata && c.metadata.description) || '',
     }));
+    writeSessionCache('shahnisa_collections', _collectionsCache, CATALOG_CACHE_TTL_MS);
     return _collectionsCache;
   }
 

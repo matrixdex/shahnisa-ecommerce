@@ -254,8 +254,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   wireMobileFilters();
 
   try {
-    ALL_PRODUCTS = await Api.getProducts();
-    COLLECTIONS = await Api.getCollections();
+    // Products and collections don't depend on each other — fetching them
+    // one after another was an unnecessary full extra network round trip
+    // before anything could render.
+    [ALL_PRODUCTS, COLLECTIONS] = await Promise.all([Api.getProducts(), Api.getCollections()]);
   } catch (err) {
     console.error('Could not load catalog', err);
     document.getElementById('resultCount').textContent = '';
