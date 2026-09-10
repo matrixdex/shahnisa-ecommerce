@@ -69,13 +69,14 @@ function updateHeaderCopy() {
   if (state.collection) {
     const col = COLLECTIONS.find(c => c.id === state.collection);
     if (col) {
-      eyebrow.textContent = 'Shop By Stitch';
+      eyebrow.style.display = 'none';
       title.textContent = col.name;
       desc.textContent = col.description;
       crumb.textContent = col.name;
       return;
     }
   }
+  eyebrow.style.display = '';
   if (state.category) {
     eyebrow.textContent = 'Shop By Category';
     title.textContent = state.category;
