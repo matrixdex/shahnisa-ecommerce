@@ -212,9 +212,13 @@ async function refresh() {
     html += `<button ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">&rarr;</button>`;
     pageEl.innerHTML = html;
     pageEl.querySelectorAll('[data-page]').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         currentPage = Number(btn.getAttribute('data-page'));
-        refresh();
+        // refresh() is async — awaiting it before scrolling means the new
+        // page's content (and .shop-main's settled layout) is actually in
+        // place first, instead of measuring/scrolling against the outgoing
+        // page mid-render.
+        await refresh();
         window.scrollTo({ top: document.querySelector('.shop-main').offsetTop - 120, behavior: 'smooth' });
       });
     });

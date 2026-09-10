@@ -72,7 +72,9 @@ function renderPDP(p) {
         <button class="pdp-lightbox-close" id="lightboxClose" aria-label="Close image viewer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
-        <img class="pdp-lightbox-img" id="lightboxImg" src="${p.images[0]}" alt="${p.name}">
+        <div class="pdp-lightbox-frame">
+          <img class="pdp-lightbox-img" id="lightboxImg" src="${p.images[0]}" alt="${p.name}">
+        </div>
       </div>` : ''}
 
       <div class="pdp-info">
@@ -176,6 +178,62 @@ function showGalleryImage(p, index) {
   document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach((t, i) => t.classList.toggle('active', i === currentImageIndex));
 }
 
+/** Slides `imgEl` out and a clone carrying `newSrc` in from the opposite
+    side (direction: 1 = next/slides in from the right, -1 = previous/from
+    the left), then swaps `imgEl`'s own src and removes the clone. Relies on
+    imgEl's CSS already being position:absolute;inset:0 inside a
+    position:relative;overflow:hidden container (.pdp-gallery-main /
+    .pdp-lightbox-frame) — only transform/transition are touched here. */
+function animateImageSwap(imgEl, newSrc, direction) {
+  if (!imgEl || imgEl.getAttribute('src') === newSrc) return;
+  const container = imgEl.parentElement;
+  if (!container) { imgEl.src = newSrc; return; }
+
+  const clone = imgEl.cloneNode();
+  clone.removeAttribute('id');
+  clone.src = newSrc;
+  clone.style.transition = 'none';
+  clone.style.transform = `translateX(${direction * 100}%)`;
+  container.appendChild(clone);
+
+  imgEl.style.transition = 'none';
+  imgEl.style.transform = 'translateX(0)';
+
+  void clone.offsetWidth; // force a reflow so the transition below actually animates
+
+  const durationMs = 320;
+  requestAnimationFrame(() => {
+    const t = `transform ${durationMs}ms cubic-bezier(0.4,0,0.2,1)`;
+    imgEl.style.transition = t;
+    clone.style.transition = t;
+    imgEl.style.transform = `translateX(${-direction * 100}%)`;
+    clone.style.transform = 'translateX(0)';
+  });
+
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    imgEl.src = newSrc;
+    imgEl.style.transition = '';
+    imgEl.style.transform = '';
+    clone.remove();
+  };
+  clone.addEventListener('transitionend', finish, { once: true });
+  setTimeout(finish, durationMs + 150); // fallback in case transitionend never fires
+}
+
+/** Swipe-driven navigation — animates the main gallery image and the
+    lightbox image (if present) sliding to the next/previous photo. */
+function swipeToImage(p, direction) {
+  if (!p.images.length || p.images.length < 2) return;
+  currentImageIndex = ((currentImageIndex + direction) % p.images.length + p.images.length) % p.images.length;
+  const src = p.images[currentImageIndex];
+  animateImageSwap(document.getElementById('galleryMainImg'), src, direction);
+  animateImageSwap(document.getElementById('lightboxImg'), src, direction);
+  document.querySelectorAll('#galleryThumbs .pdp-thumb').forEach((t, i) => t.classList.toggle('active', i === currentImageIndex));
+}
+
 function openLightbox() {
   const lb = document.getElementById('pdpLightbox');
   if (!lb) return;
@@ -210,7 +268,7 @@ function wireSwipe(el, p) {
     const dx = e.changedTouches[0].clientX - startX;
     const dy = e.changedTouches[0].clientY - startY;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-      showGalleryImage(p, currentImageIndex + (dx < 0 ? 1 : -1));
+      swipeToImage(p, dx < 0 ? 1 : -1);
     }
   }, { passive: true });
 }

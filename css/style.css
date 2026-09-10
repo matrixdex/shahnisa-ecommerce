@@ -598,7 +598,11 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
    horizontally rather than just .pdp-thumbs. This is what actually lets
    its overflow-x:auto below take effect as a contained scroll region. */
 .pdp-gallery { min-width: 0; }
-.pdp-gallery-main { aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 1rem; }
+.pdp-gallery-main { position: relative; aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 1rem; }
+/* Always absolutely positioned (not just mid-animation) so the swipe
+   slide-transition (see animateImageSwap in product.js) only has to
+   toggle transform, not layer this in/out per swipe. */
+.pdp-gallery-main .product-photo { position: absolute; inset: 0; }
 /* Scrolls instead of overflowing/wrapping — thumb count varies per product
    (one per uploaded photo), so a product with more images than fit the
    gallery column's width needs somewhere for the rest to go, especially
@@ -619,7 +623,8 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
   transition: opacity var(--ease), visibility var(--ease);
 }
 .pdp-lightbox.open { opacity: 1; visibility: visible; }
-.pdp-lightbox-img { max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; -webkit-user-select: none; }
+.pdp-lightbox-frame { position: relative; width: 100%; height: 100%; overflow: hidden; }
+.pdp-lightbox-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-select: none; }
 .pdp-lightbox-close {
   position: absolute; top: 1.25rem; right: 1.25rem; z-index: 1;
   width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
