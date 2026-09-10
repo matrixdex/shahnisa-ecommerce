@@ -592,6 +592,12 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 
 /* ── Product detail page ──────────────────────────────────── */
 .pdp { display: grid; grid-template-columns: 0.9fr 1fr; gap: 3.5rem; }
+/* Grid items default to min-width:auto, which lets a wide child (the
+   thumbnail strip's full intrinsic width) force this column itself wider
+   than the viewport instead of respecting it — the whole page scrolled
+   horizontally rather than just .pdp-thumbs. This is what actually lets
+   its overflow-x:auto below take effect as a contained scroll region. */
+.pdp-gallery { min-width: 0; }
 .pdp-gallery-main { aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 1rem; }
 /* Scrolls instead of overflowing/wrapping — thumb count varies per product
    (one per uploaded photo), so a product with more images than fit the
