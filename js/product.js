@@ -80,8 +80,8 @@ function renderPDP(p) {
       <div class="pdp-info">
         ${eyebrowParts.length ? `<span class="eyebrow">${eyebrowParts.join(' &middot; ')}</span>` : ''}
         <h1>${p.name}</h1>
-        <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>
         <p class="pdp-description">${p.description}</p>
+        <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>
 
         ${p.colors.length ? `
         <div class="variant-group">

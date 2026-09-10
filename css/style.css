@@ -647,7 +647,11 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
    flex-wrap plus Buy Now's flex-basis:100% below drops it to its own row
    while quantity + Add to Bag stay together on the first one. */
 .pdp-purchase-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
-.pdp-purchase-row .qty-stepper { flex: 0 0 auto; }
+/* align-self:stretch matches its height to the row's tallest sibling
+   (the buttons) instead of guessing a pixel value — the row's own
+   align-items:center is what centers the fixed-size -/count/+ buttons
+   inside that now-taller box. */
+.pdp-purchase-row .qty-stepper { flex: 0 0 auto; align-self: stretch; }
 .pdp-purchase-row #addToBagBtn, .pdp-purchase-row #buyNowBtn { flex: 1 1 0; }
 @media (max-width: 900px) {
   .pdp-purchase-row #buyNowBtn { flex: 1 1 100%; }
