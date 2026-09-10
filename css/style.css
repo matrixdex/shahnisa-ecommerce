@@ -593,8 +593,13 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 /* ── Product detail page ──────────────────────────────────── */
 .pdp { display: grid; grid-template-columns: 0.9fr 1fr; gap: 3.5rem; }
 .pdp-gallery-main { aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 1rem; }
-.pdp-thumbs { display: flex; gap: 0.75rem; }
-.pdp-thumb { width: 72px; aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: var(--ease); }
+/* Scrolls instead of overflowing/wrapping — thumb count varies per product
+   (one per uploaded photo), so a product with more images than fit the
+   gallery column's width needs somewhere for the rest to go, especially
+   on narrow mobile screens. */
+.pdp-thumbs { display: flex; gap: 0.75rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; }
+.pdp-thumbs::-webkit-scrollbar { display: none; }
+.pdp-thumb { flex-shrink: 0; width: 72px; aspect-ratio: 3/4; border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: var(--ease); }
 .pdp-thumb.active { border-color: var(--ink); }
 .pdp-gallery-main.zoomable { cursor: zoom-in; }
 
