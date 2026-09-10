@@ -236,7 +236,6 @@ function productCardHTML(p) {
         ${productMedia(p)}
       </div>
       <div class="product-info">
-        <div class="stitch-label">${p.stitch} &middot; ${p.fabric}</div>
         <h3>${p.name}</h3>
         <div class="price">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}${Api.money(p.price)}</div>
         <div class="product-card-actions">
