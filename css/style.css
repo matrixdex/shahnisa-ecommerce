@@ -640,10 +640,23 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .variant-label { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.75rem; }
 .variant-label .selected-value { color: var(--ink-muted); font-weight: 400; }
 .size-guide-link { font-size: 0.76rem; color: var(--gold-deep); border-bottom: 1px solid currentColor; }
-.qty-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
+.pdp-description { font-size: 0.92rem; color: var(--ink-soft); line-height: 1.7; margin-bottom: 1.6rem; }
 .qty-stepper.lg button { width: 38px; height: 38px; font-size: 1.1rem; }
 .qty-stepper.lg span { min-width: 34px; font-size: 0.9rem; }
-.pdp-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.75rem; }
+/* Quantity, Add to Bag and Buy Now share one row on desktop. On mobile,
+   flex-wrap plus Buy Now's flex-basis:100% below drops it to its own row
+   while quantity + Add to Bag stay together on the first one. */
+.pdp-purchase-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
+.pdp-purchase-row .qty-stepper { flex: 0 0 auto; }
+.pdp-purchase-row #addToBagBtn, .pdp-purchase-row #buyNowBtn { flex: 1 1 0; }
+@media (max-width: 900px) {
+  .pdp-purchase-row #buyNowBtn { flex: 1 1 100%; }
+  /* Add to Bag shares its row with the quantity stepper here, and its
+     label is the longest ("Add to Bag — <price>") — tighter padding and
+     a smaller size so it doesn't get squeezed into overflowing/clipped
+     text, since .btn's default white-space:nowrap won't wrap it. */
+  .pdp-purchase-row #addToBagBtn { padding: 0.95rem 1rem; font-size: 0.7rem; }
+}
 .trust-row { display: flex; flex-direction: column; gap: 0.85rem; padding: 1.4rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 1.75rem; }
 .trust-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.84rem; color: var(--ink-soft); }
 .trust-item svg { width: 20px; height: 20px; color: var(--gold-deep); flex-shrink: 0; }

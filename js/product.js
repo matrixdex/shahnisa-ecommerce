@@ -81,6 +81,7 @@ function renderPDP(p) {
         ${eyebrowParts.length ? `<span class="eyebrow">${eyebrowParts.join(' &middot; ')}</span>` : ''}
         <h1>${p.name}</h1>
         <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>
+        <p class="pdp-description">${p.description}</p>
 
         ${p.colors.length ? `
         <div class="variant-group">
@@ -99,25 +100,18 @@ function renderPDP(p) {
           <div class="field-error" id="sizeError" style="display:none; margin-top:0.5rem;">Please select a size to continue.</div>
         </div>` : ''}
 
-        <div class="qty-row">
+        <div class="pdp-purchase-row" id="pdpPurchaseRow">
           <div class="qty-stepper lg" id="pdpQty">
             <button id="qtyDown" aria-label="Decrease quantity">&minus;</button>
             <span id="qtyValue">1</span>
             <button id="qtyUp" aria-label="Increase quantity">+</button>
           </div>
-        </div>
-
-        <div class="pdp-actions">
-          <button class="btn btn-primary btn-block" id="addToBagBtn">Add to Bag — <span id="addToBagPrice">${Api.money(p.price)}</span></button>
-          <button class="btn btn-outline btn-block" id="buyNowBtn">Buy It Now</button>
+          <button class="btn btn-primary" id="addToBagBtn">Add to Bag</button>
+          <button class="btn btn-outline" id="buyNowBtn">Buy Now</button>
         </div>
 
         <div class="accordion" id="pdpAccordion">
           <div class="accordion-item open" data-acc>
-            <button class="accordion-trigger" data-acc-trigger>Description<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
-            <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">${p.description}</div></div>
-          </div>
-          <div class="accordion-item" data-acc>
             <button class="accordion-trigger" data-acc-trigger>Fabric &amp; Care<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
             <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">${p.care}</div></div>
           </div>
@@ -152,7 +146,7 @@ function renderPDP(p) {
 
 /** Finds the variant matching the currently selected color/size (falling
     back to the product's base price if no size has been picked yet, or no
-    exact match exists) and updates the price display + Add to Bag label. */
+    exact match exists) and updates the price display. */
 function updatePriceDisplay(p) {
   const match = (p.variants || []).find(v =>
     (!p.colors.length || v.color === selectedColor) &&
@@ -160,7 +154,6 @@ function updatePriceDisplay(p) {
   );
   const price = (match && match.price != null) ? match.price : p.price;
   document.getElementById('pdpPriceValue').textContent = Api.money(price);
-  document.getElementById('addToBagPrice').textContent = Api.money(price);
 }
 
 /** Shows image `index` of the product (wrapping around at either end) in
@@ -357,7 +350,7 @@ function wirePDPInteractions(p) {
       location.href = 'checkout.html';
     } catch (err) {
       btn.disabled = false;
-      btn.textContent = 'Buy It Now';
+      btn.textContent = 'Buy Now';
     }
   });
 }
