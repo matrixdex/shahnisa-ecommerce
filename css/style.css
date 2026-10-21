@@ -736,3 +736,83 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 .order-row-date { font-size: 0.78rem; color: var(--ink-muted); margin-top: 0.2rem; }
 .order-status { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--ivory-deep); padding: 0.35rem 0.7rem; border-radius: 100px; color: var(--gold-deep); }
 @media (max-width: 800px) { .account-layout { grid-template-columns: 1fr; } .account-nav { flex-direction: row; flex-wrap: wrap; } }
+
+/* ============================================================
+   Fluid-interface polish
+   A refinement layer on top of the system above: instant press
+   feedback, spring-feeling motion, a translucent header material,
+   size-specific type, and accessibility fallbacks for each.
+   ============================================================ */
+:root {
+  /* ease-out for things arriving, springy settle for things the user moved */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.077 22.4%, 1.121 25.8%, 1.149 29.7%, 1.159 34.1%, 1.154 39.4%, 1.108 49.4%, 1.04 61.5%, 1.011 69.9%, 0.997 80.9%, 1);
+  --press: 100ms var(--ease-out);
+}
+
+/* Response: no tap delay, no grey flash, feedback on pointer-down */
+a, button, summary, select, input, label, [role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn, .btn-icon-cart, .color-swatch, .size-chip, .pagination button, .account-nav button, .qty-stepper button {
+  transition: background-color var(--ease), color var(--ease), border-color var(--ease), box-shadow var(--ease), transform var(--press);
+}
+.btn:active, .btn-icon-cart:active, .size-chip:active, .color-swatch:active,
+.pagination button:active, .account-nav button:active, .qty-stepper button:active {
+  transform: scale(0.97);
+}
+.product-card:active .product-media { transform: scale(0.985); }
+
+/* Cards: gentle lift, image settles with a long ease-out */
+.product-media { transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out); }
+.product-media img { transition: transform 0.8s var(--ease-out); }
+@media (hover: hover) {
+  .product-card:hover .product-media { box-shadow: var(--shadow-md); }
+  .product-card:hover .product-media img { transform: scale(1.03); }
+}
+
+/* Panels: drawers settle with a soft spring, and leave along the way they came */
+.cart-drawer, .mobile-nav { transition: transform 0.5s var(--spring); }
+.cart-drawer:not(.open), .mobile-nav:not(.open) { transition-timing-function: var(--ease-out); transition-duration: 0.35s; }
+.toast { transition: opacity 0.3s var(--ease-out), transform 0.5s var(--spring); }
+
+/* Material: header floats over content as translucent glass */
+header.site-header {
+  background: rgba(239, 234, 224, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom-color: var(--line-soft);
+}
+
+/* Type: tighter tracking and leading as size grows */
+h1 { letter-spacing: -0.015em; line-height: 1.04; }
+h2 { letter-spacing: -0.01em; line-height: 1.08; }
+h1, h2, h3 { text-wrap: balance; font-optical-sizing: auto; }
+p { text-wrap: pretty; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* Focus: visible for keyboard, quiet for pointer */
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: var(--radius-sm); }
+:focus:not(:focus-visible) { outline: none; }
+
+/* Thumbnails: swipe settles on each image */
+.pdp-thumbs { scroll-snap-type: x proximity; overscroll-behavior-x: contain; }
+.pdp-thumbs > * { scroll-snap-align: start; }
+
+/* Accessibility fallbacks */
+@media (prefers-reduced-transparency: reduce) {
+  header.site-header { background: var(--bone); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  header.site-header { background: var(--bone); -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom-color: var(--ink); }
+  .product-card:hover .product-media img { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn:active, .btn-icon-cart:active, .size-chip:active, .color-swatch:active,
+  .pagination button:active, .account-nav button:active, .qty-stepper button:active { transform: none; }
+  .product-card:hover .product-media img, .product-card:active .product-media { transform: none; }
+}
+@supports not (transition-timing-function: linear(0, 1)) {
+  :root { --spring: cubic-bezier(0.34, 1.2, 0.64, 1); }
+}
