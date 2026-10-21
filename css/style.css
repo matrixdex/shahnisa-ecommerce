@@ -740,7 +740,7 @@ footer.site-footer { background: var(--ink); color: var(--bone); padding: 4.5rem
 /* ============================================================
    Fluid-interface polish
    A refinement layer on top of the system above: instant press
-   feedback, spring-feeling motion, a translucent header material,
+   feedback, spring-feeling motion,
    size-specific type, and accessibility fallbacks for each.
    ============================================================ */
 :root {
@@ -764,26 +764,16 @@ a, button, summary, select, input, label, [role="button"] {
 }
 .product-card:active .product-media { transform: scale(0.985); }
 
-/* Cards: gentle lift, image settles with a long ease-out */
+/* Cards: gentle shadow lift on hover */
 .product-media { transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out); }
-.product-media img { transition: transform 0.8s var(--ease-out); }
 @media (hover: hover) {
   .product-card:hover .product-media { box-shadow: var(--shadow-md); }
-  .product-card:hover .product-media img { transform: scale(1.03); }
 }
 
 /* Panels: drawers settle with a soft spring, and leave along the way they came */
 .cart-drawer, .mobile-nav { transition: transform 0.5s var(--spring); }
 .cart-drawer:not(.open), .mobile-nav:not(.open) { transition-timing-function: var(--ease-out); transition-duration: 0.35s; }
 .toast { transition: opacity 0.3s var(--ease-out), transform 0.5s var(--spring); }
-
-/* Material: header floats over content as translucent glass */
-header.site-header {
-  background: rgba(239, 234, 224, 0.72);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom-color: var(--line-soft);
-}
 
 /* Type: tighter tracking and leading as size grows */
 h1 { letter-spacing: -0.015em; line-height: 1.04; }
@@ -801,17 +791,10 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 .pdp-thumbs > * { scroll-snap-align: start; }
 
 /* Accessibility fallbacks */
-@media (prefers-reduced-transparency: reduce) {
-  header.site-header { background: var(--bone); -webkit-backdrop-filter: none; backdrop-filter: none; }
-}
-@media (prefers-contrast: more) {
-  header.site-header { background: var(--bone); -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom-color: var(--ink); }
-  .product-card:hover .product-media img { transform: none; }
-}
 @media (prefers-reduced-motion: reduce) {
   .btn:active, .btn-icon-cart:active, .size-chip:active, .color-swatch:active,
   .pagination button:active, .account-nav button:active, .qty-stepper button:active { transform: none; }
-  .product-card:hover .product-media img, .product-card:active .product-media { transform: none; }
+  .product-card:active .product-media { transform: none; }
 }
 @supports not (transition-timing-function: linear(0, 1)) {
   :root { --spring: cubic-bezier(0.34, 1.2, 0.64, 1); }
