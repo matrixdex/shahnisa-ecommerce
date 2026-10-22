@@ -261,7 +261,7 @@ header.site-header .icon-btn .badge { top: 4px; right: 3px; background: var(--go
   background: var(--night); color: var(--bone);
   padding: calc(var(--header-h) + env(safe-area-inset-top) + 1.5rem) clamp(1.25rem, 6vw, 3rem) calc(1.75rem + env(safe-area-inset-bottom));
   display: flex; flex-direction: column; justify-content: space-between;
-  overflow-y: auto; overscroll-behavior: contain;
+  overflow: hidden; overscroll-behavior: none; touch-action: none; /* never scrolls: everything is sized to fit the screen */
   visibility: hidden;
   clip-path: circle(0px at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
   transition: clip-path 0.5s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.5s;
@@ -281,18 +281,18 @@ header.site-header .icon-btn .badge { top: 4px; right: 3px; background: var(--go
 .mobile-nav-links { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; }
 .mobile-nav-links a {
   display: block; width: 100%;
-  font-family: var(--display); font-size: clamp(2.1rem, 9.5vw, 3rem); line-height: 1.1; letter-spacing: 0.03em;
-  padding: 0.6rem 0; color: var(--bone);
+  font-family: var(--display); font-size: clamp(1.7rem, min(9.5vw, 5.4vh), 3rem); line-height: 1.1; letter-spacing: 0.03em;
+  padding: clamp(0.25rem, 1.2vh, 0.6rem) 0; color: var(--bone);
 }
 .mobile-nav-links a.active { color: var(--gold-soft); }
 .mobile-nav-links a:active { color: var(--gold-soft); }
-.mobile-nav-foot { display: flex; flex-direction: column; align-items: center; padding-top: 2rem; }
-.mobile-nav-row { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; width: 100%; }
+.mobile-nav-foot { display: flex; flex-direction: column; align-items: center; padding-top: clamp(1rem, 3vh, 2rem); }
+.mobile-nav-row { display: flex; flex-direction: row; align-items: stretch; gap: 0.75rem; width: 100%; }
 /* Sign In / Cart follow the hero CTA: hairline brass border, spaced caps, brass fill that rises on press */
 .mobile-nav-btn {
   position: relative; overflow: hidden; isolation: isolate;
   display: inline-flex; align-items: center; justify-content: center;
-  width: min(100%, 20rem); padding: 1rem 2.6rem;
+  flex: 1 1 0; min-width: 0; padding: 1rem 0.5rem;
   border: 1px solid var(--gold-soft); color: var(--bone);
   font: 500 0.76rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase;
   transition: color 0.5s var(--ease-out);
@@ -318,6 +318,14 @@ html.nav-open { overflow: hidden; }
   .nav-inner .wordmark { justify-self: start; font-size: 1.55rem; }
   .nav-toggle { display: block; }
   .nav-right { margin-right: -11px; }
+}
+/* short landscape phones: links go two-up so the list still fits without scrolling */
+@media (max-width: 860px) and (max-height: 520px) {
+  .mobile-nav-links { display: grid; grid-template-columns: 1fr 1fr; align-content: center; }
+  .mobile-nav-links a { font-size: 1.5rem; padding: 0.3rem 0; }
+  .mobile-nav { padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 0.5rem); padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)); }
+  .mobile-nav-foot { padding-top: 0.75rem; }
+  .mobile-nav-btn { padding: 0.75rem 0.5rem; }
 }
 @media (min-width: 861px) { .mobile-nav { display: none; } }
 @media (prefers-reduced-motion: reduce) {
