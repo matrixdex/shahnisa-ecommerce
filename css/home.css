@@ -12,14 +12,14 @@ body.home { background: var(--night); color: var(--bone-2); }
 /* Sections that share a background run on from one another: the next one drops its top padding so the
    gap between their content is one section's padding, not two stacked on top of each other. */
 .home section.flow + section.flow { padding-top: 0; }
-.home h1, .home h2, .home h3 { color: var(--bone); }
-.home p { color: var(--bone-2); }
+.home main h1, .home main h2, .home main h3 { color: var(--bone); }
+.home main p { color: var(--bone-2); }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.25rem, 6vw, 4rem); }
 .h-eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); }
 
 /* Stitch animations (lifted from the original home page) — colours come from
    --gold / --gold-deep / --dot so each ground can set its own. */
-.home { --gold: var(--gold-soft); --gold-deep: #a9803f; --dot: var(--bone); }
+.home main { --gold: var(--gold-soft); --gold-deep: #a9803f; --dot: var(--bone); }
 .stitch-path { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 2.6s cubic-bezier(0.65,0,0.35,1) 0.3s forwards; }
 .stitch-dot { fill: var(--dot); opacity: 0; animation: dot-in 0.5s ease forwards; }
 @keyframes draw-stitch { to { stroke-dashoffset: 0; } }
@@ -100,7 +100,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .h-cta:active::before { transform: none; }
 .h-cta:active { color: var(--night); }
 
-.home h2 { font-size: clamp(2.5rem, 6.4vw, 5.2rem); letter-spacing: 0.02em; line-height: 1.05; }
+.home main h2 { font-size: clamp(2.5rem, 6.4vw, 5.2rem); letter-spacing: 0.02em; line-height: 1.05; }
 .h-link { display: inline-block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); border-bottom: 1px solid currentColor; padding-bottom: 3px; transition: color 0.3s; }
 .h-link:hover { color: var(--bone); }
 
@@ -151,7 +151,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 
 /* ── New arrivals (the light section — products are real, from the catalog) ── */
 .arrivals-bg { background: var(--bone); color: var(--ink); }
-.arrivals-bg h2, .arrivals-bg h3 { color: var(--ink); }
+.home main .arrivals-bg h2, .home main .arrivals-bg h3 { color: var(--ink); }
 .arrivals-bg .price .compare { color: #5a6158; }
 .arrivals-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3rem; }
 .carousel-nav { display: flex; gap: 0.6rem; }
@@ -165,7 +165,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .arrivals-more { margin-top: 2.5rem; text-align: center; }
 .arrivals-bg .h-link { color: #7a5a22; }
 .arrivals-bg .h-link:hover { color: var(--ink); }
-.arrivals-bg p { color: var(--ink-soft); }
+.home main .arrivals-bg p { color: var(--ink-soft); }
 
 /* ── Customers say ── */
 .voice-head { text-align: center; margin-bottom: 1rem; }

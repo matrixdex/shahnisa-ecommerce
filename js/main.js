@@ -136,8 +136,13 @@ function updateCartBadge() {
   badge.style.display = count > 0 ? 'flex' : 'none';
 }
 
-function openCartDrawer() {
-  document.getElementById('cartDrawer')?.classList.add('open');
+/** The drawer unfolds from whatever opened it (header icon, the menu's Cart button) — or from the
+    header's cart icon when something else does, like adding a product. */
+function openCartDrawer(trigger) {
+  const drawer = document.getElementById('cartDrawer');
+  if (!drawer) return;
+  setUnfoldOrigin(drawer, (trigger && trigger.getBoundingClientRect) ? trigger : document.querySelector('.site-header [data-open-cart]'));
+  drawer.classList.add('open');
   document.getElementById('cartBackdrop')?.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -199,6 +204,20 @@ async function wireSearch() {
   });
 }
 
+/** Sets where an overlay unfolds from (--ox/--oy, relative to the overlay's own box) and the radius
+    needed to reach its farthest corner (--r), so the whole transition is spent revealing the panel. */
+function setUnfoldOrigin(panel, trigger) {
+  if (!trigger || !trigger.getBoundingClientRect) return;
+  const t = trigger.getBoundingClientRect();
+  const box = panel.getBoundingClientRect(); // both panels are position:fixed, so the box is known while closed
+  const x = t.left + t.width / 2 - box.left;
+  const y = t.top + t.height / 2 - box.top;
+  const r = Math.hypot(Math.max(x, box.width - x), Math.max(y, box.height - y));
+  panel.style.setProperty('--ox', `${x}px`);
+  panel.style.setProperty('--oy', `${y}px`);
+  panel.style.setProperty('--r', `${Math.ceil(r) + 2}px`);
+}
+
 /* ── Mobile nav ────────────────────────────────────────────── */
 /* Full-screen menu that unfolds from the hamburger (see .mobile-nav in
    style.css). The motion is CSS transitions, so a second tap mid-animation
@@ -214,9 +233,7 @@ function wireMobileNav() {
   function setOpen(open, { restoreFocus = true } = {}) {
     if (open === panel.classList.contains('open')) return;
     if (open) {
-      const r = toggle.getBoundingClientRect();
-      panel.style.setProperty('--ox', `${r.left + r.width / 2}px`);
-      panel.style.setProperty('--oy', `${r.top + r.height / 2}px`);
+      setUnfoldOrigin(panel, toggle);
     }
     panel.classList.toggle('open', open);
     panel.toggleAttribute('inert', !open);
@@ -325,7 +342,7 @@ document.addEventListener('partials:loaded', () => {
   wireSearch();
 
   document.getElementById('cartBackdrop')?.addEventListener('click', closeCartDrawer);
-  document.querySelectorAll('[data-open-cart]').forEach(btn => btn.addEventListener('click', openCartDrawer));
+  document.querySelectorAll('[data-open-cart]').forEach(btn => btn.addEventListener('click', () => openCartDrawer(btn)));
   document.querySelectorAll('[data-close-cart]').forEach(btn => btn.addEventListener('click', closeCartDrawer));
 
   // Highlight the current page's nav link (path AND category query param must match)

@@ -268,7 +268,7 @@ header.site-header .icon-btn .badge { top: 4px; right: 3px; background: var(--go
 }
 .mobile-nav.open {
   visibility: visible;
-  clip-path: circle(160vmax at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
+  clip-path: circle(var(--r, 160vmax) at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
   transition: clip-path 0.85s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
 }
 .mobile-nav::before { /* faint lattice, as on the home hero */
@@ -278,25 +278,28 @@ header.site-header .icon-btn .badge { top: 4px; right: 3px; background: var(--go
     repeating-linear-gradient(-45deg, transparent 0 31px, rgba(196,151,90,0.07) 31px 32px);
 }
 .mobile-nav > * { position: relative; }
-.mobile-nav-links { display: flex; flex-direction: column; }
+.mobile-nav-links { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; }
 .mobile-nav-links a {
-  display: flex; align-items: baseline; gap: 1rem;
+  display: block; width: 100%;
   font-family: var(--display); font-size: clamp(2.1rem, 9.5vw, 3rem); line-height: 1.1; letter-spacing: 0.03em;
-  padding: 0.55rem 0; color: var(--bone);
-  border-bottom: 1px solid rgba(196,151,90,0.18);
+  padding: 0.6rem 0; color: var(--bone);
 }
-.mobile-nav-links a .n { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.2em; color: var(--gold-soft); transform: translateY(-0.5em); }
 .mobile-nav-links a.active { color: var(--gold-soft); }
-.mobile-nav-links a:active { background: rgba(239,234,224,0.06); }
-.mobile-nav-foot { display: flex; flex-direction: column; gap: 1.25rem; padding-top: 2rem; }
-.mobile-nav-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-.mobile-nav-row a, .mobile-nav-row button {
-  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-  padding: 0.85rem 1.2rem; border: 1px solid rgba(196,151,90,0.5); border-radius: 100px; color: var(--bone);
-  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+.mobile-nav-links a:active { color: var(--gold-soft); }
+.mobile-nav-foot { display: flex; flex-direction: column; align-items: center; padding-top: 2rem; }
+.mobile-nav-row { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; width: 100%; }
+/* Sign In / Cart follow the hero CTA: hairline brass border, spaced caps, brass fill that rises on press */
+.mobile-nav-btn {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: min(100%, 20rem); padding: 1rem 2.6rem;
+  border: 1px solid var(--gold-soft); color: var(--bone);
+  font: 500 0.76rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase;
+  transition: color 0.5s var(--ease-out);
 }
-.mobile-nav-row a:active, .mobile-nav-row button:active { background: var(--gold-soft); color: var(--night); }
-.mobile-nav-tag { font-size: 0.9rem; color: rgba(239,234,224,0.7); max-width: 26ch; }
+.mobile-nav-btn::before { content: ''; position: absolute; inset: 0; background: var(--gold-soft); transform: translateY(101%); transition: transform 0.6s var(--ease-out); z-index: -1; }
+.mobile-nav-btn:hover, .mobile-nav-btn:active { color: var(--night); }
+.mobile-nav-btn:hover::before, .mobile-nav-btn:active::before { transform: none; }
 /* staged entrance: base state = leaving (fast, together); .open = arriving (staggered) */
 .mobile-nav-links a, .mobile-nav-foot > * {
   opacity: 0; transform: translateY(1.6rem);
@@ -318,6 +321,9 @@ html.nav-open { overflow: hidden; }
 }
 @media (min-width: 861px) { .mobile-nav { display: none; } }
 @media (prefers-reduced-motion: reduce) {
+  .cart-drawer, .cart-drawer.open { clip-path: none; transition: opacity 0.2s linear, visibility 0s linear 0.2s; opacity: 0; }
+  .cart-drawer.open { opacity: 1; transition: opacity 0.2s linear, visibility 0s; }
+  .cart-drawer > *, .cart-drawer.open > * { transform: none; transition: none; opacity: 1; }
   .mobile-nav, .mobile-nav.open { clip-path: none; transition: opacity 0.2s linear, visibility 0s linear 0.2s; opacity: 0; }
   .mobile-nav.open { opacity: 1; transition: opacity 0.2s linear, visibility 0s; }
   .mobile-nav-links a, .mobile-nav-foot > *, .mobile-nav.open .mobile-nav-links a, .mobile-nav.open .mobile-nav-foot > * { transform: none; transition: none; opacity: 1; }
@@ -329,20 +335,32 @@ html.nav-open { overflow: hidden; }
   position: fixed; inset: 0; z-index: 1300;
   background: rgba(30,36,31,0.45);
   opacity: 0; visibility: hidden;
-  transition: opacity var(--ease), visibility var(--ease);
+  transition: opacity 0.6s var(--ease-out), visibility 0.6s;
 }
 .overlay-backdrop.open { opacity: 1; visibility: visible; }
+/* Opens like the mobile menu: the panel unfolds as a circle from the cart icon, folds back into it,
+   and its sections arrive in a short stagger. */
 .cart-drawer {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 1400;
   width: min(420px, 100vw);
   background: var(--white);
+  color: var(--ink-soft); /* own text colour: the home page's body colour is light */
   display: flex; flex-direction: column;
-  transform: translateX(100%);
-  transition: transform var(--ease), visibility 0s linear 0.5s;
-  box-shadow: var(--shadow-lg);
-  visibility: hidden; /* off-canvas: no shadow bleeding onto the page edge, nothing focusable */
+  visibility: hidden;
+  clip-path: circle(0px at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
+  transition: clip-path 0.5s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.5s;
 }
-.cart-drawer.open { transform: translateX(0); visibility: visible; transition-delay: 0s; }
+.cart-drawer.open {
+  visibility: visible;
+  clip-path: circle(var(--r, 160vmax) at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
+  transition: clip-path 0.85s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
+}
+.cart-drawer > * { opacity: 0; transform: translateY(1.2rem); transition: opacity 0.2s linear, transform 0.3s var(--ease-out); }
+.cart-drawer.open > * {
+  opacity: 1; transform: none;
+  transition: opacity 0.55s var(--ease-out) calc(0.16s + var(--i, 0) * 0.06s), transform 0.8s var(--ease-out) calc(0.16s + var(--i, 0) * 0.06s);
+}
+.cart-drawer > :nth-child(2) { --i: 1; } .cart-drawer > :nth-child(3) { --i: 2; } .cart-drawer > :nth-child(4) { --i: 3; }
 .cart-drawer-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.4rem 1.5rem; border-bottom: 1px solid var(--line);
@@ -388,6 +406,7 @@ html.nav-open { overflow: hidden; }
 .search-overlay {
   position: fixed; inset: 0; z-index: 1500;
   background: var(--bone);
+  color: var(--ink-soft);
   opacity: 0; visibility: hidden;
   transition: opacity var(--ease), visibility var(--ease);
   padding: clamp(1.5rem, 6vw, 4rem);
@@ -852,9 +871,6 @@ a, button, summary, select, input, label, [role="button"] {
 }
 
 /* Panels: drawers settle with a soft spring, and leave along the way they came */
-.cart-drawer { transition: transform 0.5s var(--spring), visibility 0s linear 0.5s; }
-.cart-drawer.open { transition: transform 0.5s var(--spring), visibility 0s; }
-.cart-drawer:not(.open) { transition-timing-function: var(--ease-out), linear; transition-duration: 0.35s, 0s; transition-delay: 0s, 0.35s; }
 .toast { transition: opacity 0.3s var(--ease-out), transform 0.5s var(--spring); }
 
 /* Type: tighter tracking and leading as size grows */
