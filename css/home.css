@@ -9,6 +9,9 @@
 body.home { background: var(--night); color: var(--bone-2); }
 .home { --sec: clamp(4.5rem, 10vw, 9rem); }
 .home section { padding: var(--sec) 0; }
+/* Sections that share a background run on from one another: the next one drops its top padding so the
+   gap between their content is one section's padding, not two stacked on top of each other. */
+.home section.flow + section.flow { padding-top: 0; }
 .home h1, .home h2, .home h3 { color: var(--bone); }
 .home p { color: var(--bone-2); }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.25rem, 6vw, 4rem); }
