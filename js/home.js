@@ -27,6 +27,29 @@ async function renderNewArrivals() {
 
   track.innerHTML = products.map(productCardHTML).join('');
   wireProductCardActions(track, products);
+  wireCarouselWheel(track);
+}
+
+/* With the arrows gone, a mouse with only a vertical wheel couldn't reach the later cards. While the
+   pointer is over the row, the wheel scrolls it sideways. It steps aside so the page is never trapped:
+   at either end the wheel scrolls the page again, and a page scroll that is already under way
+   (a trackpad swipe passing across the row) carries on down the page instead of being captured. */
+function wireCarouselWheel(track) {
+  let lastPage = 0;
+  let lastHijack = 0;
+  track.addEventListener('wheel', (e) => {
+    if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // pinch-zoom or a native sideways swipe
+    const max = track.scrollWidth - track.clientWidth;
+    if (max <= 0) return;
+    const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * track.clientWidth : e.deltaY;
+    const now = performance.now();
+    const atStart = track.scrollLeft <= 0 && dy < 0;
+    const atEnd = track.scrollLeft >= max - 1 && dy > 0;
+    if (atStart || atEnd || (now - lastHijack > 200 && now - lastPage < 200)) { lastPage = now; return; }
+    e.preventDefault();
+    track.scrollLeft += dy;
+    lastHijack = now;
+  }, { passive: false });
 }
 
 function wireNewsletter() {

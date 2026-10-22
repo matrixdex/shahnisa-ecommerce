@@ -157,6 +157,9 @@ body.home { background: var(--night); color: var(--bone-2); }
 .arrivals-head { margin-bottom: 3rem; }
 .carousel-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; scrollbar-width: none; overscroll-behavior-x: contain; margin: 0 calc(clamp(1.25rem, 6vw, 4rem) * -1); padding-left: clamp(1.25rem, 6vw, 4rem); padding-right: clamp(1.25rem, 6vw, 4rem); scroll-padding-left: clamp(1.25rem, 6vw, 4rem); }
 .carousel-track::-webkit-scrollbar { display: none; }
+/* a mouse wheel moves the row in steps, so skip the touch-style snapping there */
+@media (hover: hover) and (pointer: fine) { .carousel-track { scroll-snap-type: none; } }
+.carousel-track:focus-visible { outline-offset: 4px; }
 .carousel-track .product-card { flex: 0 0 min(270px, 72vw); scroll-snap-align: start; }
 .arrivals-more { margin-top: 2.5rem; text-align: center; }
 .arrivals-bg .h-link { color: #7a5a22; }
