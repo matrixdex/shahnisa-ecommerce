@@ -219,6 +219,8 @@ header.site-header {
   text-indent: 0.12em;
   white-space: nowrap;
   justify-self: center;
+  /* same hairline stroke as the review quotes: Italiana is a single thin weight */
+  -webkit-text-stroke: 0.5px currentColor;
 }
 .nav-inner .wordmark { color: var(--bone); }
 .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 0.15rem; min-width: 0; }
