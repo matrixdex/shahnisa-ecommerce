@@ -154,7 +154,14 @@ body.home { background: var(--night); color: var(--bone-2); }
 .home main .arrivals-bg h2, .home main .arrivals-bg h3 { color: var(--ink); }
 .arrivals-bg .price .compare { color: #5a6158; }
 .sec-title, .arrivals-head { text-align: center; }
-.arrivals-head { margin-bottom: 3rem; }
+/* The title sits exactly midway between the top of the section (where the section above ends) and the
+   top of the product cards: the gap to the first card is fixed (--span), so the title's ink is placed so
+   the space above and below it is equal. --k is Italiana's ink offset (bottom minus top, in em) inside
+   the heading's line box, so the split is measured from the letters, not the box. */
+.arrivals-bg { --fs: clamp(2.5rem, 6.4vw, 5.2rem); --k: 0.1; --span: calc(var(--sec) + 3rem); }
+.home main .arrivals-bg h2 { font-size: var(--fs); }
+.home .arrivals-bg { padding-top: calc((var(--span) + var(--k) * var(--fs)) / 2); }
+.arrivals-head { margin-bottom: calc((var(--span) - var(--k) * var(--fs)) / 2); }
 .carousel-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; scrollbar-width: none; overscroll-behavior-x: contain; margin: 0 calc(clamp(1.25rem, 6vw, 4rem) * -1); padding-left: clamp(1.25rem, 6vw, 4rem); padding-right: clamp(1.25rem, 6vw, 4rem); scroll-padding-left: clamp(1.25rem, 6vw, 4rem); }
 .carousel-track::-webkit-scrollbar { display: none; }
 /* a mouse wheel moves the row in steps, so skip the touch-style snapping there */
