@@ -51,23 +51,36 @@ body.home { background: var(--night); color: var(--bone-2); }
   min-height: calc(100svh - var(--header-h)); padding: 3rem 0 !important;
   display: flex; align-items: center; justify-content: center;
 }
-.h-hero .cloth {
-  position: absolute; inset: 0; z-index: -1;
+/* The light is a cut-out that moves, not a mask that is redrawn: .lattice is a static
+   layer of gold lines; .spot sits on top as night-green with a soft hole in it, and is
+   moved with transform only — so following the mouse costs the GPU nothing to repaint
+   and tracks the pointer with no lag. The cloth weave is a separate layer above it. */
+.h-hero .cloth { position: absolute; inset: 0; z-index: -1; background: var(--night); }
+.h-hero .weave {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
     repeating-linear-gradient(0deg, rgba(239,234,224,0.025) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(239,234,224,0.025) 0 1px, transparent 1px 4px),
-    var(--night);
+    repeating-linear-gradient(90deg, rgba(239,234,224,0.025) 0 1px, transparent 1px 4px);
 }
-.h-hero .lattice, .h-hero .glow { position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 0.6s ease; }
+.h-hero .lattice, .h-hero .glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 0.6s ease; }
 .h-hero.lit .lattice, .h-hero.lit .glow { opacity: 1; }
 .h-hero .lattice {
   background:
     repeating-linear-gradient(45deg, transparent 0 31px, rgba(196,151,90,0.55) 31px 32px),
     repeating-linear-gradient(-45deg, transparent 0 31px, rgba(196,151,90,0.55) 31px 32px);
-  -webkit-mask-image: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 40%), #000 0, rgba(0,0,0,0.6) 45%, transparent 100%);
-  mask-image: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 40%), #000 0, rgba(0,0,0,0.6) 45%, transparent 100%);
 }
-.h-hero .glow { background: radial-gradient(circle 360px at var(--mx, 50%) var(--my, 40%), rgba(239,234,224,0.09), transparent 70%); }
+.h-hero .spot {
+  position: absolute; left: 0; top: 0; z-index: -1; pointer-events: none;
+  width: 560px; height: 560px; will-change: transform;
+  transform: translate3d(calc(50vw - 280px), 12vh, 0);
+  background: radial-gradient(circle closest-side, rgba(18,24,19,0) 0, rgba(18,24,19,0.4) 45%, #121813 100%);
+  box-shadow: 0 0 0 150vmax #121813; /* everything outside the hole is night too */
+}
+.h-hero .glow {
+  inset: auto; left: 0; top: 0; width: 720px; height: 720px; will-change: transform;
+  transform: translate3d(calc(50vw - 360px), 0, 0);
+  background: radial-gradient(circle closest-side, rgba(239,234,224,0.09), transparent 70%);
+}
 .h-hero .motif { width: clamp(96px, 9vw, 120px); height: clamp(125px, 11.7vw, 156px); margin: 0 auto; }
 /* "Chikankari Atelier" sits with equal visible gaps to the motif above and the title below */
 .h-hero .h-eyebrow { display: block; line-height: 1; margin: calc(2.4rem - 0.122 * clamp(125px, 11.7vw, 156px)) 0 calc(2.4rem - 0.04 * clamp(4rem, 13vw, 11rem)); }

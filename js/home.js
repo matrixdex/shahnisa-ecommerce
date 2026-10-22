@@ -125,7 +125,13 @@ function wireHeroLight() {
   if (!hero) return;
   let mouse = false;
   let heroOn = true;
-  const setL = (x, y) => { hero.style.setProperty('--mx', x + 'px'); hero.style.setProperty('--my', y + 'px'); };
+  const spot = document.getElementById('heroSpot');
+  const glow = document.getElementById('heroGlow');
+  // transform only: the compositor moves these, nothing is repainted per mouse move
+  const setL = (x, y) => {
+    spot.style.transform = `translate3d(${x - 280}px, ${y - 280}px, 0)`;
+    glow.style.transform = `translate3d(${x - 360}px, ${y - 360}px, 0)`;
+  };
   hero.classList.add('lit');
   new IntersectionObserver((entries) => {
     heroOn = entries[0].isIntersecting;
