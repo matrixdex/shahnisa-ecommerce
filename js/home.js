@@ -27,15 +27,6 @@ async function renderNewArrivals() {
 
   track.innerHTML = products.map(productCardHTML).join('');
   wireProductCardActions(track, products);
-
-  const prevBtn = document.getElementById('arrivalsPrev');
-  const nextBtn = document.getElementById('arrivalsNext');
-  const scrollByCard = () => {
-    const card = track.querySelector('.product-card');
-    return card ? card.getBoundingClientRect().width + 24 : 280;
-  };
-  prevBtn?.addEventListener('click', () => track.scrollBy({ left: -scrollByCard(), behavior: 'smooth' }));
-  nextBtn?.addEventListener('click', () => track.scrollBy({ left: scrollByCard(), behavior: 'smooth' }));
 }
 
 function wireNewsletter() {

@@ -153,12 +153,8 @@ body.home { background: var(--night); color: var(--bone-2); }
 .arrivals-bg { background: var(--bone); color: var(--ink); }
 .home main .arrivals-bg h2, .home main .arrivals-bg h3 { color: var(--ink); }
 .arrivals-bg .price .compare { color: #5a6158; }
-.arrivals-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3rem; }
-.carousel-nav { display: flex; gap: 0.6rem; }
-.carousel-nav button { width: 44px; height: 44px; border: 1px solid rgba(30,36,31,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--ink); transition: background 0.3s, color 0.3s, transform 0.1s; }
-.carousel-nav button:hover { background: var(--ink); border-color: var(--ink); color: var(--bone); }
-.carousel-nav button:active { transform: scale(0.94); }
-.carousel-nav svg { width: 16px; height: 16px; }
+.sec-title, .arrivals-head { text-align: center; }
+.arrivals-head { margin-bottom: 3rem; }
 .carousel-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; scrollbar-width: none; overscroll-behavior-x: contain; margin: 0 calc(clamp(1.25rem, 6vw, 4rem) * -1); padding-left: clamp(1.25rem, 6vw, 4rem); padding-right: clamp(1.25rem, 6vw, 4rem); scroll-padding-left: clamp(1.25rem, 6vw, 4rem); }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-track .product-card { flex: 0 0 min(270px, 72vw); scroll-snap-align: start; }
@@ -210,7 +206,6 @@ body.home { background: var(--night); color: var(--bone-2); }
   .h-hero { padding: 2rem 0 !important; }
   .h-hero h1 { font-size: clamp(3.4rem, 17vw, 5rem); }
   .nums .n { font-size: 2.8rem; }
-  .arrivals-head { align-items: flex-end; }
   .voice { min-height: 400px; }
   .nl form { flex-direction: column; border: 0; gap: 0.7rem; }
   .nl input { border: 1px solid var(--gold-soft); text-align: center; }
