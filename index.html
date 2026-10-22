@@ -6,310 +6,65 @@
 <title>Shahnisa — Hand-Embroidered Chikankari from Lucknow in Delhi, India</title>
 <meta name="description" content="Hand-embroidered chikankari kurtas, sarees, suit sets and dupattas from Lucknow — bakhiya, jaali, murri and phanda, worked by hand the traditional way. Available in Delhi, Dubai, Abu Dhabi, UAE and London, United Kingdom." />
 <link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/home.css" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>" />
-<style>
-  /* ── Hero ── */
-  .hero { background: var(--ink); color: var(--bone); padding: 3rem 0 4rem; overflow: hidden; }
-  .hero .container { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 3rem; align-items: center; min-height: 60vh; }
-  .hero p.lede { color: rgba(239,234,224,0.7); max-width: 30rem; margin-bottom: 2rem; font-size: 1.02rem; }
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-  /* "Shop Shahnisa" only — every other .btn-primary on the site keeps
-     the gold hover background. This recreates .nav-links a's sliding
-     underline (a positioned line, not text-decoration), just with a
-     bigger gap under the text to suit a button instead of a nav link. */
-  .hero-actions .btn-primary { position: relative; border-color: rgba(239,234,224,0.5); }
-  .hero-actions .btn-primary::after {
-    content: '';
-    position: absolute;
-    left: 1.9rem;
-    right: 1.9rem;
-    bottom: 0.65rem;
-    height: 2px;
-    background: var(--bone);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--ease);
-  }
-  .hero-actions .btn-primary:hover,
-  .hero-actions .btn-primary:active {
-    background: var(--ink);
-  }
-  .hero-actions .btn-primary:hover::after,
-  .hero-actions .btn-primary:active::after {
-    transform: scaleX(1);
-  }
-  .hero-motif { display: flex; align-items: center; justify-content: center; }
-  .hero-motif svg { width: 100%; max-width: 340px; height: auto; }
-  .hero-title-mobile { display: none; }
-  .stitch-section-title { margin-top: 0; margin-bottom: clamp(1.25rem, 2.5vw, 2rem); }
-  .stitch-path {
-    fill: none; stroke: var(--gold); stroke-width: 1.6;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-stitch 2.6s cubic-bezier(0.65,0,0.35,1) 0.3s forwards;
-  }
-  .stitch-dot { fill: var(--bone); opacity: 0; animation: dot-in 0.5s ease forwards; }
-  @keyframes draw-stitch { to { stroke-dashoffset: 0; } }
-  @keyframes dot-in { to { opacity: 0.85; } }
-  @media (max-width: 900px) {
-    .hero .container { grid-template-columns: 1fr; gap: 0; text-align: center; min-height: auto; }
-    .hero-actions { justify-content: center; }
-    .hero-motif { order: -2; max-width: 220px; margin: 0 auto; }
-    .hero p.lede { margin-left: auto; margin-right: auto; margin-top: 23px; }
-    .hero-eyebrow { display: none; }
-    /* Between the animation and the copy text, mobile only — see
-       partials/chrome-top.html for the (separate, smaller) nav-bar
-       wordmark that stays on every page. More space above (from the
-       design) than below (to the copy) is deliberate. */
-    .hero-title-mobile {
-      display: block;
-      order: -1;
-      font-family: var(--display);
-      font-size: clamp(2.6rem, 14vw, 3.4rem);
-      letter-spacing: 0.02em;
-      line-height: 1;
-      margin: 1.75rem 0 0;
-    }
-  }
-
-  /* ── New arrivals carousel ── */
-  .carousel-wrap { position: relative; }
-  .carousel-track {
-    display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding-bottom: 0.5rem; scrollbar-width: none;
-  }
-  .carousel-track::-webkit-scrollbar { display: none; }
-  .carousel-track .product-card { flex: 0 0 260px; scroll-snap-align: start; }
-  .carousel-nav { display: flex; gap: 0.6rem; }
-  .carousel-nav button {
-    width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; transition: var(--ease);
-  }
-  .carousel-nav button:hover { background: var(--ink); border-color: var(--ink); color: var(--bone); }
-  .carousel-nav svg { width: 16px; height: 16px; }
-
-  /* ── Shop by stitch ── */
-  .stitch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-  .stitch-card {
-    /* Same background as the section itself — the card's box is
-       invisible at rest, only the icon/title/copy show. Padding, size
-       and grid position stay exactly as they were, so things still
-       line up "in the logic of cards". */
-    background: transparent; border-radius: var(--radius-md); padding: 2rem 1.5rem;
-    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;
-    transition: var(--ease); border: 1px solid transparent;
-  }
-  .stitch-card:hover { transform: translateY(-4px); }
-  .stitch-card .icon-wrap { width: 64px; height: 64px; border-radius: 50%; background: var(--mist); display: flex; align-items: center; justify-content: center; }
-  .stitch-card .icon-wrap svg { width: 30px; height: 30px; color: var(--gold-deep); }
-  .stitch-card h3 { font-size: 1.32rem; }
-  .stitch-card p { font-size: 1.008rem; color: var(--ink-muted); }
-  @media (max-width: 900px) {
-    /* One card per row, centered — same convention as the site's other
-       mobile layouts, which all key off this 900px breakpoint. */
-    .stitch-grid { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
-    .stitch-card { width: 100%; max-width: 320px; }
-  }
-
-  /* ── Bakhiya card: animated shadow-work stitch in place of the static icon ──
-     Sized well past the other cards' 64px icon circle so the stitch is
-     actually legible, and the svg rule is qualified enough (.stitch-card
-     .icon-wrap.bakhiya-wrap svg) to beat the 30x30px default above it.
-     The viewBox is 320x160 (2:1, wider than tall) — that's already the
-     limiting dimension inside the card's own content width, so a bigger
-     box needs more WIDTH, not just height, or it just adds empty
-     letterboxing. Bled out past the card's own left/right padding
-     (negative margin) to reclaim the full card width, with height set to
-     match that width at the same 2:1 ratio so nothing is wasted. */
-  .stitch-card .icon-wrap.bakhiya-wrap,
-  .stitch-card .icon-wrap.jaali-wrap,
-  .stitch-card .icon-wrap.hool-wrap,
-  .stitch-card .icon-wrap.chanapatti-wrap {
-    width: calc(100% + 3rem); margin: 0 -1.5rem; height: 138px;
-    border-radius: var(--radius-md); background: transparent;
-    overflow: visible; display: flex; align-items: center; justify-content: center;
-  }
-  /* A further 10% scale-up beyond the box itself — small enough to stay
-     inside the grid's 1.5rem gap without overlapping the neighbouring
-     card. overflow:visible above lets it actually render past the box. */
-  .stitch-card .icon-wrap.bakhiya-wrap svg,
-  .stitch-card .icon-wrap.jaali-wrap svg,
-  .stitch-card .icon-wrap.hool-wrap svg,
-  .stitch-card .icon-wrap.chanapatti-wrap svg { width: 110%; height: 110%; flex-shrink: 0; }
-  .bakhiya-spine {
-    fill: none; stroke: var(--gold-deep); stroke-width: 0.8; opacity: 0.4;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-stitch 1.4s cubic-bezier(0.6,0,0.4,1) forwards;
-  }
-  .bakhiya-tick {
-    fill: none; stroke-width: 1.6; stroke-linecap: round;
-    stroke-dasharray: 1; stroke-dashoffset: 1; stroke: var(--gold);
-    animation: draw-stitch 0.28s cubic-bezier(0.6,0,0.4,1) forwards;
-  }
-  .bakhiya-tick.alt { stroke: var(--gold-deep); }
-
-  /* ── Jaali card: Taj Mahal arch-and-trellis stitch (gallery's stitch 24),
-     reflowed from its native portrait framing into the same wide box as
-     Bakhiya above — arch centred, two flanking minaret pillars using the
-     extra width. Lines draw in with the same stroke technique as Bakhiya;
-     the lattice-crossing dots and minaret knobs use a plain opacity fade
-     (.jaali-dot / dot-appear) instead of the bouncy scale-overshoot pop
-     the gallery's default dot animation uses — a scale(0)→1.3→1 bounce
-     reads as the dot "dropping" onto the lattice, which is exactly what
-     was asked to be removed; a fade has no motion, so it just appears. */
-  .jaali-arch {
-    fill: none; stroke: var(--gold); stroke-width: 1.7;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-stitch 1.5s cubic-bezier(0.6,0,0.4,1) 0.1s forwards;
-  }
-  .jaali-line {
-    fill: none; stroke: var(--gold-deep); stroke-width: 1; stroke-linecap: round; opacity: 0.75;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-stitch 0.35s cubic-bezier(0.6,0,0.4,1) forwards;
-  }
-  .jaali-pillar {
-    fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linecap: round;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-stitch 0.6s cubic-bezier(0.6,0,0.4,1) forwards;
-  }
-  .jaali-dot { fill: var(--gold-deep); opacity: 0; animation: dot-appear 0.4s ease forwards; }
-  @keyframes dot-appear { to { opacity: 1; } }
-
-  /* ── Murri & Phanda card, now Hool: a fine detached eyelet (gallery's
-     stitch 14, exact single-motif port — same viewBox, coordinates and
-     timing as initStitch14() in assets/embroidery animations/script.js) —
-     a punched centre with radiating satin ticks rimming it. Sits in the
-     same wide box as Bakhiya/Jaali (letterboxed since the source motif is
-     square, not wide, but otherwise unmodified). Punched centre uses the
-     same plain-fade treatment as the Jaali dots (no bounce), same
-     reasoning: it should appear, not pop into place. */
-  .hool-tick {
-    fill: none; stroke: var(--gold); stroke-width: 3.2; stroke-linecap: round;
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw-stitch 0.25s cubic-bezier(0.6,0,0.4,1) forwards;
-  }
-  .hool-dot { fill: none; stroke: var(--gold); stroke-width: 3.2; opacity: 0; animation: dot-appear 0.4s ease forwards; }
-
-  /* ── Taipchi card, now Chanapatti: "gram leaf" fill stitch (gallery's
-     stitch 27), an exact port — a matrix of small leaf shapes fading in
-     cell by cell, sorted outward from centre. Reuses the same dot-appear
-     fade as Jaali/Hool for the same reason: appear, don't pop. */
-  .stitch-shape { opacity: 0; animation: dot-appear var(--dur, 0.4s) ease forwards; }
-
-  /* "MORE" link under the Chanapatti card, pointing at Our Craft's Flat
-     Stitches section — right-aligned under the card on desktop, and
-     centred under it on mobile (same breakpoint the rest of this
-     section's mobile layout uses). */
-  .chanapatti-cell { display: flex; flex-direction: column; }
-  .stitch-more {
-    display: inline-flex; align-items: center; gap: 0.4rem; align-self: flex-end;
-    margin-top: 0.75rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-deep); transition: var(--ease);
-  }
-  .stitch-more svg { width: 14px; height: 14px; transition: transform var(--ease); }
-  .stitch-more:hover { color: var(--ink); }
-  .stitch-more:hover svg { transform: translateX(3px); }
-  @media (max-width: 900px) {
-    .chanapatti-cell { width: 100%; max-width: 320px; }
-    .stitch-more { align-self: center; }
-  }
-
-  /* ── Craft story ── */
-  .craft { background: var(--ink); color: var(--bone); position: relative; overflow: hidden; }
-  .craft .container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-  .craft p { color: rgba(239,234,224,0.72); margin-bottom: 1.2rem; line-height: 1.8; }
-  .craft-stats { display: flex; gap: 5rem; margin-top: 2rem; flex-wrap: wrap; }
-  .craft-stats .num { font-family: var(--display); font-size: 2.2rem; color: var(--gold); }
-  .craft-stats .lbl { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(239,234,224,0.55); margin-top: 0.3rem; }
-  .craft-motif { display: flex; align-items: center; justify-content: center; margin-top: 3rem; }
-  .craft-motif svg { width: 100%; max-width: 300px; opacity: 0.9; }
-  @media (max-width: 900px) { .craft .container { grid-template-columns: 1fr; } .craft-motif { order: -1; max-width: 200px; margin: 0 auto; } }
-
-  /* ── Testimonials ── */
-  /* Plain, transparent testimonial cards — same "invisible card" convention
-     as the Stitches at Shahnisa / Our Craft cards elsewhere on the site
-     (background matches the section, no border), following the layout
-     pattern from matrixdex/imcweb's Testimonials section: a large quote
-     mark standing in for a border/background as the card's visual anchor,
-     quote text, then name and role, no photos or star ratings. */
-  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
-  .testi-card { background: transparent; border: 1px solid transparent; border-radius: var(--radius-md); padding: 2rem; }
-  .testi-quote-mark { font-family: var(--display); font-size: 4rem; color: var(--gold); line-height: 1; }
-  .testi-card p.quote { font-size: 1rem; color: var(--ink-soft); margin-top: 0.5rem; line-height: 1.7; }
-  .testi-name { font-weight: 700; font-size: 0.86rem; margin-top: 1.5rem; }
-  .testi-loc { font-family: var(--mono); font-size: 0.72rem; color: var(--gold-deep); margin-top: 0.3rem; }
-  @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr; gap: 2rem; } }
-
-  /* ── Newsletter ── */
-  .newsletter { background: var(--ivory-deep); text-align: center; }
-  .newsletter .container { max-width: 560px; }
-  /* Every item in this section (eyebrow, title, copy, form, note) evenly
-     spaced 18.75px apart (15px + 25%), overriding each element's own
-     usual margin. */
-  .newsletter .eyebrow { margin-bottom: 18.75px; }
-  .newsletter h2 { margin-top: 0; }
-  .newsletter p { margin-top: 18.75px; }
-  .newsletter form { display: flex; gap: 0.7rem; margin-top: 18.75px; }
-  .newsletter input[type="email"] {
-    flex: 1; padding: 0.9rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm);
-    background: var(--white); font-family: var(--sans);
-  }
-  .newsletter-note { font-size: 0.76rem; color: var(--ink-muted); margin-top: 18.75px; }
-  @media (max-width: 560px) { .newsletter form { flex-direction: column; } }
-</style>
 </head>
-<body>
+<body class="home">
+
+<div class="thread" id="thread" aria-hidden="true"><i></i><b><svg viewBox="0 0 14 34" fill="none" stroke="#c4975a" stroke-width="1.2"><path d="M7 1v26"/><ellipse cx="7" cy="6" rx="1.8" ry="3.2"/><path d="M7 27l-3 6M7 27l3 6" stroke-linecap="round"/></svg></b></div>
 
 <div data-include="partials/chrome-top.html"></div>
 
-<section class="hero">
-  <div class="container">
-    <div class="hero-copy reveal">
-      <span class="eyebrow hero-eyebrow">Chikankari Atelier</span>
-      <p class="lede">Handmade chikankari from Lucknow to you. Every piece carries the maker's hand in it.</p>
-      <div class="hero-actions">
-        <a href="shop.html" class="btn btn-primary">Shop Shahnisa</a>
-      </div>
-    </div>
-    <div class="hero-title-mobile">Shahnisa</div>
-    <div class="hero-motif" aria-hidden="true">
-      <svg viewBox="0 0 200 260" fill="none">
+<main>
+<section class="h-hero" id="hero">
+  <div class="cloth"></div><div class="lattice"></div><div class="glow"></div>
+  <div class="wrap">
+    <div class="motif loop" aria-hidden="true"><svg viewBox="0 0 200 260" fill="none">
         <path class="stitch-path" pathLength="1" d="M100,14 C146,14 168,60 156,104 C147,138 118,152 104,184 C95,204 103,222 122,226 C104,238 74,231 70,208 C66,185 84,167 98,149 C112,131 108,103 84,94 C65,87 49,99 53,118 C42,104 46,79 70,73 C90,68 99,49 88,36 C93,26 100,14 100,14 Z"/>
         <circle class="stitch-dot" cx="100" cy="14" r="3" style="animation-delay:2.6s"/>
         <circle class="stitch-dot" cx="53" cy="118" r="3" style="animation-delay:2.75s"/>
         <circle class="stitch-dot" cx="122" cy="226" r="3" style="animation-delay:2.9s"/>
-      </svg>
+      </svg></div>
+    <span class="h-eyebrow">Chikankari Atelier</span>
+    <h1>Shahnisa</h1>
+    <p class="lede">Handmade chikankari from Lucknow to you. Every piece carries the maker's hand in it.</p>
+    <a class="h-cta" href="shop.html">Shop Shahnisa</a>
+  </div>
+</section>
+
+<section id="craft">
+  <div class="wrap">
+    <div class="light">
+      <div class="reveal">
+        <h2>What Bakhiya Means</h2>
+        <p>Bakhiya — "shadow work" — is chikankari's signature stitch, and its most difficult. It's worked entirely from the wrong side of the fabric, in a herringbone path the embroiderer can't see from the front. Held up to the light, the thread falls into a soft, translucent shadow on the right side — a technique unique to chikankari, found nowhere else in Indian embroidery.</p>
+        <p>Every Shahnisa piece is hand-embroidered by artisans in Lucknow, most of them women working from home — the same cottage-industry model that has sustained this craft for four centuries.</p>
+        <div class="nums"><div><div class="n">100%</div><div class="l">Hand-Embroidered</div></div><div><div class="n">4</div><div class="l">Centuries of Craft</div></div></div>
+        <a class="h-link" href="our-craft.html">Explore All 32 Stitches &rarr;</a>
+      </div>
+      <div class="stage reveal" id="stage" aria-hidden="true"><div class="flipper" id="flipper">
+        <div class="side rev"><div class="art" id="artRev"><svg viewBox="0 0 200 260" fill="none">
+        <path class="stitch-path" pathLength="1" d="M100,14 C146,14 168,60 156,104 C147,138 118,152 104,184 C95,204 103,222 122,226 C104,238 74,231 70,208 C66,185 84,167 98,149 C112,131 108,103 84,94 C65,87 49,99 53,118 C42,104 46,79 70,73 C90,68 99,49 88,36 C93,26 100,14 100,14 Z"/>
+        <circle class="stitch-dot" cx="100" cy="14" r="3" style="animation-delay:2.6s"/>
+        <circle class="stitch-dot" cx="53" cy="118" r="3" style="animation-delay:2.75s"/>
+        <circle class="stitch-dot" cx="122" cy="226" r="3" style="animation-delay:2.9s"/>
+      </svg></div><div class="face"><span>Reverse</span><span>Bakhiya</span></div></div>
+        <div class="side fr"><div class="art" id="artFr"><svg viewBox="0 0 200 260" fill="none">
+        <path class="stitch-path" pathLength="1" d="M100,14 C146,14 168,60 156,104 C147,138 118,152 104,184 C95,204 103,222 122,226 C104,238 74,231 70,208 C66,185 84,167 98,149 C112,131 108,103 84,94 C65,87 49,99 53,118 C42,104 46,79 70,73 C90,68 99,49 88,36 C93,26 100,14 100,14 Z"/>
+        <circle class="stitch-dot" cx="100" cy="14" r="3" style="animation-delay:2.6s"/>
+        <circle class="stitch-dot" cx="53" cy="118" r="3" style="animation-delay:2.75s"/>
+        <circle class="stitch-dot" cx="122" cy="226" r="3" style="animation-delay:2.9s"/>
+      </svg></div><div class="face"><span>Front</span><span>Bakhiya</span></div></div>
+      </div></div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <div class="section-head reveal">
-      <div>
-        <h2>New Arrivals</h2>
-      </div>
-      <div class="carousel-nav">
-        <button id="arrivalsPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button id="arrivalsNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
-      </div>
-    </div>
-    <div class="carousel-wrap">
-      <div class="carousel-track" id="arrivalsTrack"></div>
-    </div>
-  </div>
-</section>
-
-<section style="background:var(--ivory-deep);">
-  <div class="container">
-    <div class="section-head reveal" style="justify-content:center; text-align:center;">
-      <div>
-        <h2 class="stitch-section-title">Stitches at Shahnisa</h2>
-      </div>
-    </div>
-    <div class="stitch-grid reveal">
-      <a class="stitch-card" href="shop.html?collection=bakhiya">
-        <div class="icon-wrap bakhiya-wrap" aria-hidden="true">
-          <svg viewBox="0 0 320 160" fill="none">
+<section class="hoops-bg">
+  <div class="wrap">
+    <div class="reveal"><h2>Stitches at Shahnisa</h2></div>
+    <div class="hoops reveal">
+      <a class="hoop" href="shop.html?collection=bakhiya"><div class="ring"><div class="cloth"><div class="loop" aria-hidden="true"><svg viewBox="0 0 320 160" fill="none">
             <path class="bakhiya-spine" pathLength="1" d="M10,80 C60,60 100,100 150,80 C200,60 250,100 310,80"/>
             <path class="bakhiya-tick" pathLength="1" style="animation-delay:1.4s" d="M1.00,68.00 L19.00,92.00"/>
             <path class="bakhiya-tick alt" pathLength="1" style="animation-delay:1.5s" d="M19.00,68.00 L1.00,92.00"/>
@@ -339,14 +94,8 @@
             <path class="bakhiya-tick alt" pathLength="1" style="animation-delay:2.58s" d="M296.17,73.01 L278.17,97.01"/>
             <path class="bakhiya-tick" pathLength="1" style="animation-delay:2.57s" d="M301.00,68.00 L319.00,92.00"/>
             <path class="bakhiya-tick alt" pathLength="1" style="animation-delay:2.67s" d="M319.00,68.00 L301.00,92.00"/>
-          </svg>
-        </div>
-        <h3>Bakhiya</h3>
-        <p>Shadow-work, stitched from the reverse for a soft silhouette on the front.</p>
-      </a>
-      <a class="stitch-card" href="shop.html?collection=jaali">
-        <div class="icon-wrap jaali-wrap" aria-hidden="true">
-          <svg viewBox="0 0 320 160" fill="none">
+          </svg></div></div></div><h3>Bakhiya</h3><p>Shadow-work, stitched from the reverse for a soft silhouette on the front.</p></a>
+      <a class="hoop" href="shop.html?collection=jaali"><div class="ring"><div class="cloth"><div class="loop" aria-hidden="true"><svg viewBox="0 0 320 160" fill="none">
             <path class="jaali-arch" pathLength="1" d="M130,145 L130,65 C130,38 143,20 160,20 C177,20 190,38 190,65 L190,145 Z"/>
             <defs>
               <clipPath id="tajClip"><path d="M130,145 L130,65 C130,38 143,20 160,20 C177,20 190,38 190,65 L190,145 Z"/></clipPath>
@@ -381,14 +130,8 @@
             <path class="jaali-pillar" pathLength="1" style="animation-delay:2.55s" d="M260,145 L260,101"/>
             <circle class="jaali-dot" cx="60" cy="97" r="3" style="animation-delay:3.0s"/>
             <circle class="jaali-dot" cx="260" cy="97" r="3" style="animation-delay:3.15s"/>
-          </svg>
-        </div>
-        <h3>Jaali</h3>
-        <p>Hand-pulled lattice work, opened thread by thread.</p>
-      </a>
-      <a class="stitch-card" href="shop.html?collection=murri-phanda">
-        <div class="icon-wrap hool-wrap" aria-hidden="true">
-          <svg viewBox="0 0 200 200" fill="none">
+          </svg></div></div></div><h3>Jaali</h3><p>Hand-pulled lattice work, opened thread by thread.</p></a>
+      <a class="hoop" href="shop.html?collection=murri-phanda"><div class="ring"><div class="cloth"><div class="loop" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none">
             <circle class="hool-dot" cx="100" cy="100" r="19.2" style="animation-delay:0.1s"/>
             <path class="hool-tick" pathLength="1" style="animation-delay:0.65s" d="M124.00,100.00 L176.80,100.00"/>
             <path class="hool-tick" pathLength="1" style="animation-delay:0.695s" d="M122.83,107.42 L173.04,123.73"/>
@@ -410,88 +153,60 @@
             <path class="hool-tick" pathLength="1" style="animation-delay:1.415s" d="M114.11,80.58 L145.14,37.87"/>
             <path class="hool-tick" pathLength="1" style="animation-delay:1.46s" d="M119.42,85.89 L162.13,54.86"/>
             <path class="hool-tick" pathLength="1" style="animation-delay:1.505s" d="M122.83,92.58 L173.04,76.27"/>
-          </svg>
-        </div>
-        <h3>Hool</h3>
-        <p>A fine detached eyelet, rimmed in satin stitch to form a flower's centre.</p>
-      </a>
-      <div class="chanapatti-cell">
-        <a class="stitch-card" href="shop.html?collection=taipchi">
-          <div class="icon-wrap chanapatti-wrap" aria-hidden="true">
-            <svg viewBox="0 0 200 200" fill="none"><g transform="translate(100 105) rotate(0)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0s;"></path></g><g transform="translate(100 90) rotate(47)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.02s;"></path></g><g transform="translate(85 105) rotate(94)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.04s;"></path></g><g transform="translate(115 105) rotate(141)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.06s;"></path></g><g transform="translate(85 90) rotate(188)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.08s;"></path></g><g transform="translate(115 90) rotate(235)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.1s;"></path></g><g transform="translate(100 120) rotate(282)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.12s;"></path></g><g transform="translate(100 75) rotate(329)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.14s;"></path></g><g transform="translate(85 120) rotate(16)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.16s;"></path></g><g transform="translate(115 120) rotate(63)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.18s;"></path></g><g transform="translate(85 75) rotate(110)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.2s;"></path></g><g transform="translate(115 75) rotate(157)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.22s;"></path></g><g transform="translate(70 105) rotate(204)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.24s;"></path></g><g transform="translate(130 105) rotate(251)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.26s;"></path></g><g transform="translate(70 90) rotate(298)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.28s;"></path></g><g transform="translate(130 90) rotate(345)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.3s;"></path></g><g transform="translate(100 135) rotate(32)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.32s;"></path></g><g transform="translate(70 120) rotate(79)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.34s;"></path></g><g transform="translate(130 120) rotate(126)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.36s;"></path></g><g transform="translate(85 135) rotate(173)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.38s;"></path></g><g transform="translate(115 135) rotate(220)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.4s;"></path></g><g transform="translate(70 75) rotate(267)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.42s;"></path></g><g transform="translate(130 75) rotate(314)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.44s;"></path></g><g transform="translate(100 60) rotate(1)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.46s;"></path></g><g transform="translate(85 60) rotate(48)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.48s;"></path></g><g transform="translate(115 60) rotate(95)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.5s;"></path></g><g transform="translate(55 105) rotate(142)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.52s;"></path></g><g transform="translate(145 105) rotate(189)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.54s;"></path></g><g transform="translate(70 135) rotate(236)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.56s;"></path></g><g transform="translate(130 135) rotate(283)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.58s;"></path></g><g transform="translate(55 90) rotate(330)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.6s;"></path></g><g transform="translate(145 90) rotate(17)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.62s;"></path></g><g transform="translate(55 120) rotate(64)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.64s;"></path></g><g transform="translate(145 120) rotate(111)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.66s;"></path></g><g transform="translate(70 60) rotate(158)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.68s;"></path></g><g transform="translate(130 60) rotate(205)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.7s;"></path></g><g transform="translate(100 150) rotate(252)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.72s;"></path></g><g transform="translate(55 75) rotate(299)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.74s;"></path></g><g transform="translate(145 75) rotate(346)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.76s;"></path></g><g transform="translate(85 150) rotate(33)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.78s;"></path></g><g transform="translate(115 150) rotate(80)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.8s;"></path></g><g transform="translate(100 45) rotate(127)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.82s;"></path></g><g transform="translate(85 45) rotate(174)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.84s;"></path></g><g transform="translate(115 45) rotate(221)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.86s;"></path></g><g transform="translate(55 135) rotate(268)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.88s;"></path></g><g transform="translate(145 135) rotate(315)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.9s;"></path></g><g transform="translate(70 150) rotate(2)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.92s;"></path></g><g transform="translate(130 150) rotate(49)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.94s;"></path></g><g transform="translate(40 105) rotate(96)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.96s;"></path></g><g transform="translate(160 105) rotate(143)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.98s;"></path></g><g transform="translate(55 60) rotate(190)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1s;"></path></g><g transform="translate(145 60) rotate(237)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.02s;"></path></g><g transform="translate(40 90) rotate(284)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.04s;"></path></g><g transform="translate(160 90) rotate(331)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.06s;"></path></g><g transform="translate(70 45) rotate(18)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.08s;"></path></g><g transform="translate(130 45) rotate(65)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1.1s;"></path></g><g transform="translate(100 165) rotate(112)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.12s;"></path></g><g transform="translate(85 165) rotate(159)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.14s;"></path></g><g transform="translate(115 165) rotate(206)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.16s;"></path></g><g transform="translate(55 150) rotate(253)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.18s;"></path></g><g transform="translate(145 150) rotate(300)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1.2s;"></path></g><g transform="translate(100 30) rotate(347)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.22s;"></path></g><g transform="translate(85 30) rotate(34)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.24s;"></path></g><g transform="translate(115 30) rotate(81)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.26s;"></path></g><g transform="translate(70 165) rotate(128)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.28s;"></path></g><g transform="translate(130 165) rotate(175)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1.3s;"></path></g></svg>
-          </div>
-          <h3>Chanapatti</h3>
-          <p>&quot;Gram leaf&quot; &mdash; a small, rounded leaf fill stitch worked in a matrix.</p>
-        </a>
-        <a class="stitch-more" href="our-craft.html#flat">MORE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
+          </svg></div></div></div><h3>Hool</h3><p>A fine detached eyelet, rimmed in satin stitch to form a flower's centre.</p></a>
+      <a class="hoop" href="shop.html?collection=taipchi"><div class="ring"><div class="cloth"><div class="loop" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none"><g transform="translate(100 105) rotate(0)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0s;"></path></g><g transform="translate(100 90) rotate(47)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.02s;"></path></g><g transform="translate(85 105) rotate(94)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.04s;"></path></g><g transform="translate(115 105) rotate(141)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.06s;"></path></g><g transform="translate(85 90) rotate(188)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.08s;"></path></g><g transform="translate(115 90) rotate(235)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.1s;"></path></g><g transform="translate(100 120) rotate(282)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.12s;"></path></g><g transform="translate(100 75) rotate(329)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.14s;"></path></g><g transform="translate(85 120) rotate(16)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.16s;"></path></g><g transform="translate(115 120) rotate(63)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.18s;"></path></g><g transform="translate(85 75) rotate(110)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.2s;"></path></g><g transform="translate(115 75) rotate(157)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.22s;"></path></g><g transform="translate(70 105) rotate(204)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.24s;"></path></g><g transform="translate(130 105) rotate(251)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.26s;"></path></g><g transform="translate(70 90) rotate(298)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.28s;"></path></g><g transform="translate(130 90) rotate(345)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.3s;"></path></g><g transform="translate(100 135) rotate(32)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.32s;"></path></g><g transform="translate(70 120) rotate(79)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.34s;"></path></g><g transform="translate(130 120) rotate(126)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.36s;"></path></g><g transform="translate(85 135) rotate(173)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.38s;"></path></g><g transform="translate(115 135) rotate(220)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.4s;"></path></g><g transform="translate(70 75) rotate(267)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.42s;"></path></g><g transform="translate(130 75) rotate(314)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.44s;"></path></g><g transform="translate(100 60) rotate(1)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.46s;"></path></g><g transform="translate(85 60) rotate(48)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.48s;"></path></g><g transform="translate(115 60) rotate(95)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.5s;"></path></g><g transform="translate(55 105) rotate(142)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.52s;"></path></g><g transform="translate(145 105) rotate(189)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.54s;"></path></g><g transform="translate(70 135) rotate(236)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.56s;"></path></g><g transform="translate(130 135) rotate(283)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.58s;"></path></g><g transform="translate(55 90) rotate(330)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.6s;"></path></g><g transform="translate(145 90) rotate(17)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.62s;"></path></g><g transform="translate(55 120) rotate(64)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.64s;"></path></g><g transform="translate(145 120) rotate(111)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.66s;"></path></g><g transform="translate(70 60) rotate(158)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.68s;"></path></g><g transform="translate(130 60) rotate(205)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.7s;"></path></g><g transform="translate(100 150) rotate(252)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.72s;"></path></g><g transform="translate(55 75) rotate(299)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.74s;"></path></g><g transform="translate(145 75) rotate(346)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.76s;"></path></g><g transform="translate(85 150) rotate(33)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.78s;"></path></g><g transform="translate(115 150) rotate(80)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.8s;"></path></g><g transform="translate(100 45) rotate(127)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.82s;"></path></g><g transform="translate(85 45) rotate(174)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.84s;"></path></g><g transform="translate(115 45) rotate(221)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.86s;"></path></g><g transform="translate(55 135) rotate(268)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.88s;"></path></g><g transform="translate(145 135) rotate(315)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 0.9s;"></path></g><g transform="translate(70 150) rotate(2)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.92s;"></path></g><g transform="translate(130 150) rotate(49)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.94s;"></path></g><g transform="translate(40 105) rotate(96)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.96s;"></path></g><g transform="translate(160 105) rotate(143)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 0.98s;"></path></g><g transform="translate(55 60) rotate(190)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1s;"></path></g><g transform="translate(145 60) rotate(237)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.02s;"></path></g><g transform="translate(40 90) rotate(284)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.04s;"></path></g><g transform="translate(160 90) rotate(331)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.06s;"></path></g><g transform="translate(70 45) rotate(18)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.08s;"></path></g><g transform="translate(130 45) rotate(65)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1.1s;"></path></g><g transform="translate(100 165) rotate(112)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.12s;"></path></g><g transform="translate(85 165) rotate(159)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.14s;"></path></g><g transform="translate(115 165) rotate(206)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.16s;"></path></g><g transform="translate(55 150) rotate(253)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.18s;"></path></g><g transform="translate(145 150) rotate(300)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1.2s;"></path></g><g transform="translate(100 30) rotate(347)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.22s;"></path></g><g transform="translate(85 30) rotate(34)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.24s;"></path></g><g transform="translate(115 30) rotate(81)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.26s;"></path></g><g transform="translate(70 165) rotate(128)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold); --dur: 0.3s; animation-delay: 1.28s;"></path></g><g transform="translate(130 165) rotate(175)"><path d="M-5,4 C-5,-2 0,-6 5,-6 C4,0 2,5 -5,4 Z" class="stitch-shape" style="fill: var(--gold-deep); --dur: 0.3s; animation-delay: 1.3s;"></path></g></svg></div></div></div><h3>Chanapatti</h3><p>"Gram leaf" — a small, rounded leaf fill stitch worked in a matrix.</p></a>
     </div>
-  </div>
-</section>
-
-<section class="craft" id="craft">
-  <div class="container">
-    <div class="craft-copy reveal">
-      <span class="eyebrow">The Craft</span>
-      <h2>What Bakhiya Means</h2>
-      <p>Bakhiya — "shadow work" — is chikankari's signature stitch, and its most difficult. It's worked entirely from the wrong side of the fabric, in a herringbone path the embroiderer can't see from the front. Held up to the light, the thread falls into a soft, translucent shadow on the right side — a technique unique to chikankari, found nowhere else in Indian embroidery.</p>
-      <p>Every Shahnisa piece is hand-embroidered by artisans in Lucknow, most of them women working from home — the same cottage-industry model that has sustained this craft for four centuries.</p>
-      <div class="craft-stats">
-        <div><div class="num">100%</div><div class="lbl">Hand-Embroidered</div></div>
-        <div><div class="num">4</div><div class="lbl">Centuries of Craft</div></div>
-      </div>
-      <a href="our-craft.html" class="btn-text" style="display:inline-block; margin-top:2rem;">Explore All 32 Stitches &rarr;</a>
-    </div>
-    <div class="craft-motif reveal" aria-hidden="true">
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="0.8" style="color:var(--gold)">
-        <path d="M8 16h32M8 24h32M8 32h32M16 8v32M24 8v32M32 8v32" stroke-width="0.6"/>
-        <path d="M24 6C14 6 8 16 8 24c0 10 7 18 16 18s16-8 16-18C40 16 34 6 24 6z" stroke-width="1.4"/>
-        <path d="M24 10c-6 3-10 9-10 14M24 10c6 3 10 9 10 14" stroke-width="1.2" stroke-dasharray="1.5 2"/>
-      </svg>
-    </div>
+    <div class="hoops-more reveal"><a class="h-link" href="our-craft.html#flat">More &rarr;</a></div>
   </div>
 </section>
 
 <section>
-  <div class="container">
-    <div class="section-head reveal text-center" style="display:block;">
-      <h2>Customers Say</h2>
-    </div>
-    <div class="testi-grid reveal">
-      <div class="testi-card">
-        <div class="testi-quote-mark">&rdquo;</div>
-        <p class="quote">"The bakhiya work on my kurta is unlike anything I've bought before — you can genuinely see the shadow effect they talk about. Fits true to size too."</p>
-        <div class="testi-name">Ritika M.</div>
-        <div class="testi-loc">Verified Buyer, Delhi</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote-mark">&rdquo;</div>
-        <p class="quote">"Ordered the Jaali Anarkali for a wedding and got so many compliments. The lattice work is incredibly fine — you can tell it's hand-done."</p>
-        <div class="testi-name">Priya S.</div>
-        <div class="testi-loc">Verified Buyer, Bengaluru</div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-quote-mark">&rdquo;</div>
-        <p class="quote">"My go-to for gifting now. The packaging alone feels premium, and the murri work holds up beautifully after multiple washes."</p>
-        <div class="testi-name">Anjali K.</div>
-        <div class="testi-loc">Verified Buyer, Mumbai</div>
-      </div>
+  <div class="wrap">
+    <div class="reveal"><h2>32 Stitches,<br>One Tradition</h2></div>
+    <div class="tl">
+      <div class="ev reveal"><div class="when">Persia</div><div><h3>Shadow-work embroidery</h3><p>Chikankari (Persian for "embroidery" or "delicate needlework") traces its roots to Persia.</p></div></div>
+      <div class="ev reveal"><div class="when">Mughal<br>Court</div><div><h3>Noor Jahan</h3><p>Brought to India by the Mughal empress Noor Jahan, wife of the emperor Jahangir, who was captivated by Persian shadow-work embroidery.</p></div></div>
+      <div class="ev reveal"><div class="when">Late 18th<br>century</div><div><h3>The courts of Awadh</h3><p>Chikankari took root in the courts of Awadh. From Mughal courts to Nawabi patronage, it gained fame at royal courts as art delicately embroidered by hand on cloth.</p></div></div>
+      <div class="ev reveal"><div class="when">Today</div><div><h3>Lucknow</h3><p>Thousands of artisans across Lucknow's villages dance their fingers on fabric to create woven art. Shahnisa brings hand-woven art, chikankari, to you.</p></div></div>
     </div>
   </div>
 </section>
 
-<section class="newsletter">
-  <div class="container">
-    <span class="eyebrow">Stay Woven In</span>
-    <h2>Join The Shahnisa List</h2>
-    <p style="color:var(--ink-muted);">New arrivals, artisan stories, and first access to limited pieces.</p>
-    <form id="newsletterForm">
-      <input type="email" required placeholder="Email address" aria-label="Email address">
-      <button type="submit" class="btn btn-primary">Subscribe</button>
-    </form>
-    <div class="newsletter-note">By subscribing you agree to receive marketing emails. Unsubscribe anytime.</div>
+<section class="arrivals-bg">
+  <div class="wrap">
+    <div class="arrivals-head reveal">
+      <h2>New Arrivals</h2>
+      <div class="carousel-nav">
+        <button id="arrivalsPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button id="arrivalsNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="carousel-track" id="arrivalsTrack"></div>
+    <div class="arrivals-more"><a class="h-link" href="shop.html">Shop All &rarr;</a></div>
   </div>
 </section>
+
+<section>
+  <div class="wrap">
+    <div class="voice-head reveal"><span class="h-eyebrow">Customers Say</span></div>
+    <div class="voice" id="voice">
+      <blockquote class="on"><q>The bakhiya work on my kurta is unlike anything I've bought before — you can genuinely see the shadow effect they talk about. Fits true to size too.</q><cite>Ritika M. — Verified Buyer, Delhi</cite></blockquote>
+      <blockquote><q>Ordered the Jaali Anarkali for a wedding and got so many compliments. The lattice work is incredibly fine — you can tell it's hand-done.</q><cite>Priya S. — Verified Buyer, Bengaluru</cite></blockquote>
+      <blockquote><q>My go-to for gifting now. The packaging alone feels premium, and the murri work holds up beautifully after multiple washes.</q><cite>Anjali K. — Verified Buyer, Mumbai</cite></blockquote>
+    </div>
+    <div class="dots" id="dots"><button class="on" aria-label="Quote 1"></button><button aria-label="Quote 2"></button><button aria-label="Quote 3"></button></div>
+  </div>
+</section>
+
+<section class="nl">
+  <div class="wrap reveal">
+    <h2>Join The Shahnisa List</h2>
+    <p>New arrivals, artisan stories, and first access to limited pieces.</p>
+    <form id="newsletterForm"><input type="email" required placeholder="Email address" aria-label="Email address"><button type="submit">Subscribe</button></form>
+    <small>By subscribing you agree to receive marketing emails. Unsubscribe anytime.</small>
+  </div>
+</section>
+</main>
 
 <div data-include="partials/footer.html"></div>
 

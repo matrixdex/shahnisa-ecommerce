@@ -106,7 +106,7 @@ function renderPDP(p) {
             <span id="qtyValue">1</span>
             <button id="qtyUp" aria-label="Increase quantity">+</button>
           </div>
-          <button class="btn btn-primary" id="addToBagBtn">Add to Bag</button>
+          <button class="btn btn-primary" id="addToBagBtn">Add to Cart</button>
           <button class="btn btn-outline" id="buyNowBtn">Buy Now</button>
         </div>
 
@@ -315,7 +315,7 @@ function wirePDPInteractions(p) {
 
   document.getElementById('qtyUp').addEventListener('click', () => {
     if (currentQty >= Api.MAX_QTY_PER_ITEM) {
-      showToast(`Only ${Api.MAX_QTY_PER_ITEM} of this item can be added to your bag.`);
+      showToast(`Only ${Api.MAX_QTY_PER_ITEM} of this item can be added to your cart.`);
       return;
     }
     currentQty += 1;

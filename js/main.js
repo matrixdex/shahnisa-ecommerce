@@ -79,7 +79,7 @@ function renderCartDrawer() {
   if (!itemsEl) return;
 
   if (!lines.length) {
-    itemsEl.innerHTML = `<div class="cart-empty">Your bag is empty.<br><a href="shop.html" class="btn-text" style="margin-top:1rem;display:inline-block;">Start shopping</a></div>`;
+    itemsEl.innerHTML = `<div class="cart-empty">Your cart is empty.<br><a href="shop.html" class="btn-text" style="margin-top:1rem;display:inline-block;">Start shopping</a></div>`;
     if (footEl) footEl.style.display = 'none';
     return;
   }
@@ -118,11 +118,14 @@ function renderCartDrawer() {
 
 /** The cart drawer is the only place account access lives now (the header
     icon is gone) — this keeps the "Sign In" / "Account" label next to
-    "Your Bag" honest whether or not a session is already hydrated. */
+    "Your Cart" honest whether or not a session is already hydrated. */
 function updateCartAccountLink() {
   const link = document.getElementById('cartAccountLink');
   if (!link) return;
-  link.textContent = Api.getSession() ? 'Account' : 'Sign In';
+  const label = Api.getSession() ? 'Account' : 'Sign In';
+  link.textContent = label;
+  const mobileLink = document.getElementById('mobileAccountLink');
+  if (mobileLink) mobileLink.textContent = label;
 }
 
 function updateCartBadge() {
@@ -150,7 +153,7 @@ function addToCartFlow(product, variant, qty) {
   // surfaced via its own toast) — caught here only to avoid an unhandled
   // rejection, since this flow doesn't navigate and has nothing further to do.
   Cart.add(product, variant, qty).catch(() => {});
-  showToast(`Added to bag — ${product.name}`);
+  showToast(`Added to cart — ${product.name}`);
   renderCartDrawer();
   openCartDrawer();
 }
@@ -197,18 +200,47 @@ async function wireSearch() {
 }
 
 /* ── Mobile nav ────────────────────────────────────────────── */
+/* Full-screen menu that unfolds from the hamburger (see .mobile-nav in
+   style.css). The motion is CSS transitions, so a second tap mid-animation
+   reverses from wherever the circle currently is. This only handles state:
+   origin point, scroll lock, focus, Escape, and closing on resize. */
 function wireMobileNav() {
   const toggle = document.getElementById('navToggle');
   const panel = document.getElementById('mobileNav');
   if (!toggle || !panel) return;
-  toggle.addEventListener('click', () => {
-    const open = panel.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
+  const root = document.documentElement;
+  const desktop = window.matchMedia('(min-width: 861px)');
+
+  function setOpen(open, { restoreFocus = true } = {}) {
+    if (open === panel.classList.contains('open')) return;
+    if (open) {
+      const r = toggle.getBoundingClientRect();
+      panel.style.setProperty('--ox', `${r.left + r.width / 2}px`);
+      panel.style.setProperty('--oy', `${r.top + r.height / 2}px`);
+    }
+    panel.classList.toggle('open', open);
+    panel.toggleAttribute('inert', !open);
+    panel.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    root.classList.toggle('nav-open', open);
+    if (open) panel.querySelector('a')?.focus({ preventScroll: true });
+    else if (restoreFocus) toggle.focus({ preventScroll: true });
+  }
+
+  toggle.addEventListener('click', () => setOpen(!panel.classList.contains('open')));
+  panel.querySelectorAll('[data-close-mobile-nav]').forEach(el => el.addEventListener('click', () => setOpen(false, { restoreFocus: false })));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel.classList.contains('open')) setOpen(false);
+    // keep Tab inside the open menu (toggle + its links)
+    if (e.key === 'Tab' && panel.classList.contains('open')) {
+      const stops = [toggle, ...panel.querySelectorAll('a[href], button')];
+      const first = stops[0], last = stops[stops.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
-  panel.querySelectorAll('[data-close-mobile-nav]').forEach(el => el.addEventListener('click', () => {
-    panel.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-  }));
+  desktop.addEventListener('change', (e) => { if (e.matches) setOpen(false, { restoreFocus: false }); });
 }
 
 /* ── Scroll reveal ─────────────────────────────────────────── */

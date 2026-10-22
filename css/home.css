@@ -1,0 +1,205 @@
+/* ============================================================
+   SHAHNISA — home.css  ("Woven from Shadow")
+   Home page only. Built on the site tokens in style.css. The page
+   opens on the reverse of the cloth — dark, with a lattice that a
+   light reveals — and the thread that stitches it together runs
+   down the left edge as you scroll.
+   ============================================================ */
+
+body.home { background: var(--night); color: var(--bone-2); }
+.home { --sec: clamp(4.5rem, 10vw, 9rem); }
+.home section { padding: var(--sec) 0; }
+.home h1, .home h2, .home h3 { color: var(--bone); }
+.home p { color: var(--bone-2); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.25rem, 6vw, 4rem); }
+.h-eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); }
+
+/* Stitch animations (lifted from the original home page) — colours come from
+   --gold / --gold-deep / --dot so each ground can set its own. */
+.home { --gold: var(--gold-soft); --gold-deep: #a9803f; --dot: var(--bone); }
+.stitch-path { fill: none; stroke: var(--gold); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 2.6s cubic-bezier(0.65,0,0.35,1) 0.3s forwards; }
+.stitch-dot { fill: var(--dot); opacity: 0; animation: dot-in 0.5s ease forwards; }
+@keyframes draw-stitch { to { stroke-dashoffset: 0; } }
+@keyframes dot-in { to { opacity: 0.85; } }
+@keyframes dot-appear { to { opacity: 1; } }
+.bakhiya-spine { fill: none; stroke: var(--gold-deep); stroke-width: 0.8; opacity: 0.4; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 1.4s cubic-bezier(0.6,0,0.4,1) forwards; }
+.bakhiya-tick { fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; stroke: var(--gold); animation: draw-stitch 0.28s cubic-bezier(0.6,0,0.4,1) forwards; }
+.bakhiya-tick.alt { stroke: var(--gold-deep); }
+.jaali-arch { fill: none; stroke: var(--gold); stroke-width: 1.7; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 1.5s cubic-bezier(0.6,0,0.4,1) 0.1s forwards; }
+.jaali-line { fill: none; stroke: var(--gold-deep); stroke-width: 1; stroke-linecap: round; opacity: 0.75; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 0.35s cubic-bezier(0.6,0,0.4,1) forwards; }
+.jaali-pillar { fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 0.6s cubic-bezier(0.6,0,0.4,1) forwards; }
+.jaali-dot { fill: var(--gold-deep); opacity: 0; animation: dot-appear 0.4s ease forwards; }
+.hool-tick { fill: none; stroke: var(--gold); stroke-width: 3.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 0.25s cubic-bezier(0.6,0,0.4,1) forwards; }
+.hool-dot { fill: none; stroke: var(--gold); stroke-width: 3.2; opacity: 0; animation: dot-appear 0.4s ease forwards; }
+.stitch-shape { opacity: 0; animation: dot-appear var(--dur, 0.4s) ease forwards; }
+.loop svg { display: block; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  .stitch-path, .bakhiya-spine, .bakhiya-tick, .jaali-arch, .jaali-line, .jaali-pillar, .hool-tick { animation: none; stroke-dashoffset: 0; }
+  .stitch-dot, .jaali-dot, .hool-dot, .stitch-shape { animation: none; opacity: 1; }
+}
+
+/* ── The thread: sews itself down the page as you scroll (desktop) ── */
+.thread { display: none; position: fixed; left: clamp(0.7rem, 2vw, 1.6rem); top: 0; bottom: 0; width: 14px; z-index: 40; pointer-events: none; }
+.thread i { position: absolute; left: 6px; top: 0; width: 0; height: var(--p, 0%); border-left: 1.5px dashed var(--gold-soft); opacity: 0.85; }
+.thread b { position: absolute; left: 0; top: var(--p, 0%); width: 14px; height: 34px; margin-top: -6px; transform: rotate(12deg); }
+.thread b svg { width: 100%; height: 100%; overflow: visible; }
+@media (min-width: 1100px) { .thread { display: block; } }
+
+/* ── Hero: the reverse of the cloth ── */
+.h-hero {
+  position: relative; isolation: isolate; overflow: hidden; text-align: center;
+  min-height: calc(100svh - var(--header-h)); padding: 3rem 0 !important;
+  display: flex; align-items: center; justify-content: center;
+}
+.h-hero .cloth {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    repeating-linear-gradient(0deg, rgba(239,234,224,0.025) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(239,234,224,0.025) 0 1px, transparent 1px 4px),
+    var(--night);
+}
+.h-hero .lattice, .h-hero .glow { position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 0.6s ease; }
+.h-hero.lit .lattice, .h-hero.lit .glow { opacity: 1; }
+.h-hero .lattice {
+  background:
+    repeating-linear-gradient(45deg, transparent 0 31px, rgba(196,151,90,0.55) 31px 32px),
+    repeating-linear-gradient(-45deg, transparent 0 31px, rgba(196,151,90,0.55) 31px 32px);
+  -webkit-mask-image: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 40%), #000 0, rgba(0,0,0,0.6) 45%, transparent 100%);
+  mask-image: radial-gradient(circle 280px at var(--mx, 50%) var(--my, 40%), #000 0, rgba(0,0,0,0.6) 45%, transparent 100%);
+}
+.h-hero .glow { background: radial-gradient(circle 360px at var(--mx, 50%) var(--my, 40%), rgba(239,234,224,0.09), transparent 70%); }
+.h-hero .motif { width: clamp(96px, 9vw, 120px); height: clamp(125px, 11.7vw, 156px); margin: 0 auto; }
+/* "Chikankari Atelier" sits with equal visible gaps to the motif above and the title below */
+.h-hero .h-eyebrow { display: block; line-height: 1; margin: calc(2.4rem - 0.122 * clamp(125px, 11.7vw, 156px)) 0 calc(2.4rem - 0.04 * clamp(4rem, 13vw, 11rem)); }
+.h-hero h1 { font-size: clamp(4rem, 13vw, 11rem); letter-spacing: 0.06em; text-indent: 0.06em; line-height: 0.9; }
+.h-hero .lede { max-width: 30ch; margin: 1.8rem auto 0; font-size: clamp(1.1rem, 1.8vw, 1.35rem); line-height: 1.75; }
+.h-cta {
+  display: inline-block; margin-top: 2rem; padding: 1rem 2.6rem; border: 1px solid var(--gold-soft); color: var(--bone);
+  font-size: 0.76rem; letter-spacing: 0.26em; text-transform: uppercase; font-weight: 500; position: relative; overflow: hidden; isolation: isolate;
+  transition: color 0.5s var(--ease-out);
+}
+.h-cta::before { content: ''; position: absolute; inset: 0; background: var(--gold-soft); transform: translateY(101%); transition: transform 0.6s var(--ease-out); z-index: -1; }
+.h-cta:hover { color: var(--night); }
+.h-cta:hover::before { transform: none; }
+.h-cta:active::before { transform: none; }
+.h-cta:active { color: var(--night); }
+
+.home h2 { font-size: clamp(2.5rem, 6.4vw, 5.2rem); letter-spacing: 0.02em; line-height: 1.05; }
+.h-link { display: inline-block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); border-bottom: 1px solid currentColor; padding-bottom: 3px; transition: color 0.3s; }
+.h-link:hover { color: var(--bone); }
+
+/* ── What Bakhiya Means: stitched on the reverse, flipped, shown on the front ── */
+.light { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.light p { color: var(--bone-2); }
+.light p + p { margin-top: 1.1rem; }
+.light h2 { margin-bottom: 1.6rem; }
+.nums { display: flex; gap: 3.5rem; margin: 2.4rem 0 2rem; }
+.nums .n { font-family: var(--display); font-size: 3.4rem; line-height: 1; color: var(--gold-soft); }
+.nums .l { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone-2); margin-top: 0.4rem; }
+.stage { perspective: 1400px; aspect-ratio: 4/5; position: relative; max-width: 520px; width: 100%; justify-self: center; }
+.stage::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: -3%; height: 14%; background: radial-gradient(closest-side, rgba(0,0,0,0.55), transparent); pointer-events: none; }
+.flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; transition: transform 1.5s cubic-bezier(0.65,0,0.35,1); }
+.flipper.flip { transform: rotateY(180deg); }
+.side { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 3px; overflow: hidden; border: 1px solid rgba(196,151,90,0.6); }
+.side.rev { background: repeating-linear-gradient(0deg, rgba(239,234,224,0.05) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(239,234,224,0.05) 0 1px, transparent 1px 4px), #232e26; }
+.side.fr { transform: rotateY(180deg); background: radial-gradient(70% 60% at 50% 35%, #fbf7ec, #e4dccb); --gold: #8a6830; --gold-deep: #6e4f26; --dot: #8a6830; }
+.art { position: absolute; inset: 18% 20%; }
+.art svg { width: 100%; height: 100%; display: block; }
+.side.rev .art svg { transform: scaleX(-1); } /* the reverse is the mirror image of the front */
+.side.fr .art.shade svg { filter: drop-shadow(0 9px 7px rgba(30,36,31,0.5)); }
+.art.hold * { animation-play-state: paused !important; }
+.side .face { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); }
+.side .face span { background: rgba(13,18,14,0.82); padding: 0.3rem 0.6rem; border-radius: 2px; }
+
+/* ── Stitches at Shahnisa: each one in its own hoop ── */
+.hoops-bg { background: var(--night-2); }
+.hoops { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3.5rem; }
+.hoop { text-align: center; display: block; }
+.ring { position: relative; aspect-ratio: 1; border-radius: 50%; padding: 12px; transition: transform 1.2s var(--ease-out); background: linear-gradient(145deg, #b58a52, #6e4f26 55%, #a97f49); box-shadow: 0 18px 40px rgba(0,0,0,0.45); --gold: #8a6830; --gold-deep: #6e4f26; --dot: #8a6830; }
+.ring::after { content: ''; position: absolute; top: -9px; left: 50%; width: 22px; height: 14px; margin-left: -11px; background: linear-gradient(#6e4f26, #a97f49); border-radius: 3px 3px 0 0; }
+.ring .cloth { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 40% 30%, #f3eee2, #dcd5c3); display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: inset 0 0 22px rgba(60,40,10,0.35); }
+.ring .loop { width: 92%; height: 92%; }
+@media (hover: hover) { .hoop:hover .ring { transform: rotate(-4deg) scale(1.03); } }
+.hoop:active .ring { transform: scale(0.98); transition-duration: 0.15s; }
+.hoop h3 { font-size: 1.8rem; margin-top: 1.5rem; letter-spacing: 0.06em; }
+.hoop p { font-size: 0.95rem; line-height: 1.55; margin: 0.4rem auto 0; max-width: 24ch; }
+.hoops-more { text-align: center; margin-top: 3rem; }
+
+/* ── Lineage: 32 Stitches, One Tradition ── */
+.tl { position: relative; margin-top: 3.5rem; display: grid; gap: 3.2rem; }
+.tl::before { content: ''; position: absolute; left: 7.5rem; top: 0.5rem; bottom: 0.5rem; border-left: 1px dashed rgba(196,151,90,0.5); }
+.ev { display: grid; grid-template-columns: 7.5rem 1fr; gap: 3rem; align-items: start; position: relative; }
+.ev::after { content: ''; position: absolute; left: 7.5rem; top: 0.55rem; width: 11px; height: 11px; margin-left: -5.5px; background: var(--gold-soft); transform: rotate(45deg); box-shadow: 0 0 0 5px var(--night); }
+.ev .when { font-family: var(--display); font-size: 1.5rem; color: var(--gold-soft); text-align: right; padding-right: 2rem; line-height: 1.2; }
+.ev p { max-width: 52ch; }
+.ev h3 { font-size: 1.7rem; margin-bottom: 0.4rem; letter-spacing: 0.03em; }
+
+/* ── New arrivals (the light section — products are real, from the catalog) ── */
+.arrivals-bg { background: var(--bone); color: var(--ink); }
+.arrivals-bg h2, .arrivals-bg h3 { color: var(--ink); }
+.arrivals-bg .price .compare { color: #5a6158; }
+.arrivals-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3rem; }
+.carousel-nav { display: flex; gap: 0.6rem; }
+.carousel-nav button { width: 44px; height: 44px; border: 1px solid rgba(30,36,31,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--ink); transition: background 0.3s, color 0.3s, transform 0.1s; }
+.carousel-nav button:hover { background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.carousel-nav button:active { transform: scale(0.94); }
+.carousel-nav svg { width: 16px; height: 16px; }
+.carousel-track { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; scrollbar-width: none; overscroll-behavior-x: contain; margin: 0 calc(clamp(1.25rem, 6vw, 4rem) * -1); padding-left: clamp(1.25rem, 6vw, 4rem); padding-right: clamp(1.25rem, 6vw, 4rem); scroll-padding-left: clamp(1.25rem, 6vw, 4rem); }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track .product-card { flex: 0 0 min(270px, 72vw); scroll-snap-align: start; }
+.arrivals-more { margin-top: 2.5rem; text-align: center; }
+.arrivals-bg .h-link { color: #7a5a22; }
+.arrivals-bg .h-link:hover { color: var(--ink); }
+.arrivals-bg p { color: var(--ink-soft); }
+
+/* ── Customers say ── */
+.voice-head { text-align: center; margin-bottom: 1rem; }
+.voice { text-align: center; min-height: 320px; position: relative; }
+.voice blockquote { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: translateY(14px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); pointer-events: none; }
+.voice blockquote.on { opacity: 1; transform: none; pointer-events: auto; }
+.voice q { display: block; font-family: var(--display); font-size: clamp(1.45rem, 3vw, 2.4rem); line-height: 1.3; max-width: 30ch; color: var(--bone); quotes: "\201C" "\201D"; }
+.voice cite { font-style: normal; margin-top: 1.6rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-soft); }
+.dots { display: flex; justify-content: center; gap: 0.4rem; margin-top: 1rem; }
+.dots button { width: 44px; height: 28px; padding: 13px 7px; background: rgba(196,151,90,0.35); background-clip: content-box; transition: background 0.4s; }
+.dots button.on { background: var(--gold-soft); background-clip: content-box; }
+
+/* ── Newsletter ── */
+.nl { text-align: center; border-top: 1px solid rgba(196,151,90,0.25); }
+.nl h2 { margin: 0 0 0.8rem; }
+.nl form { display: flex; max-width: 520px; margin: 2.2rem auto 0; border: 1px solid var(--gold-soft); }
+.nl input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--bone); padding: 1rem 1.2rem; font: inherit; outline: 0; }
+.nl input::placeholder { color: #98a091; }
+.nl form:focus-within { box-shadow: 0 0 0 3px rgba(196,151,90,0.25); }
+.nl button { background: var(--gold-soft); color: var(--night); padding: 0 2rem; font: 500 0.74rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s; }
+.nl button:hover { background: var(--bone); }
+.nl small { display: block; margin-top: 1.2rem; color: var(--bone-2); font-size: 0.82rem; }
+
+.home .reveal { transform: translateY(26px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
+.home .reveal.visible { transform: none; }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .light { grid-template-columns: 1fr; }
+  .stage { max-width: 420px; }
+  .hoops { grid-template-columns: 1fr 1fr; gap: 2.2rem 1.25rem; }
+  .hoop h3 { font-size: 1.45rem; }
+  .ev { grid-template-columns: 1fr; gap: 0.4rem; padding-left: 2rem; }
+  .ev::after { left: 0; }
+  .tl::before { left: 0; }
+  .ev .when { text-align: left; padding: 0; }
+  .nums { gap: 2.5rem; }
+}
+@media (max-width: 560px) {
+  .h-hero { padding: 2rem 0 !important; }
+  .h-hero h1 { font-size: clamp(3.4rem, 17vw, 5rem); }
+  .nums .n { font-size: 2.8rem; }
+  .arrivals-head { align-items: flex-end; }
+  .voice { min-height: 400px; }
+  .nl form { flex-direction: column; border: 0; gap: 0.7rem; }
+  .nl input { border: 1px solid var(--gold-soft); text-align: center; }
+  .nl button { padding: 1rem 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flipper { transition: none; }
+  .voice blockquote { transition: opacity 0.2s linear; transform: none; }
+}

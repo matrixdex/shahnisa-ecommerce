@@ -667,13 +667,13 @@
       // Clamp to MAX_QTY_PER_ITEM here (not just in the UI) so this is the
       // one place every add-to-cart path — quick add, PDP, buy-now — is
       // guaranteed to respect the cap, including the case where some of
-      // this item is already in the bag. Only the resulting DELTA (not the
+      // this item is already in the cart. Only the resulting DELTA (not the
       // raw requested qty) goes to the server, so a request that gets
       // partially clamped doesn't overshoot the cap server-side too.
       const finalQty = Math.min(currentQty + qty, MAX_QTY_PER_ITEM);
       const qtyToAdd = finalQty - currentQty;
       if (finalQty < currentQty + qty) {
-        notify(`Only ${MAX_QTY_PER_ITEM} of ${product.name} can be added to your bag.`);
+        notify(`Only ${MAX_QTY_PER_ITEM} of ${product.name} can be added to your cart.`);
       }
       if (qtyToAdd <= 0) return _cartCache; // already at the cap — nothing to do
 
@@ -717,8 +717,8 @@
           _cart = data.cart;
           syncCacheFromCart();
         } catch (err) {
-          console.error('Could not add to bag', err);
-          notify('Could not add that to your bag — please try again.');
+          console.error('Could not add to cart', err);
+          notify('Could not add that to your cart — please try again.');
           try {
             const data = await medusaFetch(withFields(`/store/carts/${_cart.id}`));
             _cart = data.cart;
@@ -734,7 +734,7 @@
       if (!line) return _cartCache;
       if (qty > MAX_QTY_PER_ITEM) {
         qty = MAX_QTY_PER_ITEM;
-        notify(`Only ${MAX_QTY_PER_ITEM} of ${line.name} can be added to your bag.`);
+        notify(`Only ${MAX_QTY_PER_ITEM} of ${line.name} can be added to your cart.`);
       }
       if (qty <= 0) {
         _cartCache = _cartCache.filter(l => l.lineId !== lineId);
@@ -758,8 +758,8 @@
           }
           syncCacheFromCart();
         } catch (err) {
-          console.error('Could not update your bag', err);
-          notify('Could not update your bag — please try again.');
+          console.error('Could not update your cart', err);
+          notify('Could not update your cart — please try again.');
           try {
             const data = await medusaFetch(withFields(`/store/carts/${_cart.id}`));
             _cart = data.cart;

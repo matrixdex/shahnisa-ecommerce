@@ -14,7 +14,7 @@ function renderEmptyCheckout() {
   document.getElementById('checkoutContainer').innerHTML = `
     <div class="empty-state">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 8h16l-1.4 11a2 2 0 01-2 1.8H7.4a2 2 0 01-2-1.8L4 8z"/><path d="M8 8V6a4 4 0 018 0v2"/></svg>
-      <h3>Your bag is empty</h3>
+      <h3>Your cart is empty</h3>
       <p>Add something beautiful before checking out.</p>
       <a href="shop.html" class="btn btn-primary">Shop All</a>
     </div>`;
@@ -35,7 +35,7 @@ function renderSummary(totals) {
             <span>${l.qty}</span>
             <button data-qty-up aria-label="Increase quantity">+</button>
           </div>
-          <button class="summary-line-remove" data-remove aria-label="Remove from bag">
+          <button class="summary-line-remove" data-remove aria-label="Remove from cart">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>
           </button>
         </div>
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Paint the order summary immediately — the cart's already loaded from
   // Api.ready(), and getCartTotals() just reads it (no network call), so
   // there's no reason to make shoppers wait on shipping-method setup
-  // before they see what's in their bag.
+  // before they see what's in their cart.
   renderSummary(await Api.getCartTotals());
   renderPaymentFields();
   wirePaymentTabs();

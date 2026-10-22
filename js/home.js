@@ -1,7 +1,9 @@
 /* ============================================================
    SHAHNISA — home.js
-   Renders the "New Arrivals" carousel and wires the newsletter
-   form. Independent of the header/footer partials, so it runs on
+   Renders the "New Arrivals" carousel, wires the newsletter form, and
+   drives the page's motion: the hero light, the sewing thread, the
+   stitch loops, the reverse/front flip and the quote rotator.
+   Independent of the header/footer partials, so it runs on
    DOMContentLoaded rather than waiting for 'chrome:ready'.
    ============================================================ */
 
@@ -24,7 +26,7 @@ async function renderNewArrivals() {
   }
 
   track.innerHTML = products.map(productCardHTML).join('');
-  wireQuickAdd(track, products);
+  wireProductCardActions(track, products);
 
   const prevBtn = document.getElementById('arrivalsPrev');
   const nextBtn = document.getElementById('arrivalsNext');
@@ -54,52 +56,158 @@ function wireNewsletter() {
   });
 }
 
-// The Bakhiya/Jaali cards' stitch animations run once via CSS, same as the
-// hero motif — but that section sits below the fold, so on a normal visit
-// the animation has already finished drawing by the time someone scrolls
-// down to it. Loop each one for as long as its card stays in view: replay
-// by cloning the <svg> (a fresh node re-triggers every child's CSS
-// animation from its own animation-delay, which a plain reflow trick would
-// clobber), then schedule the next replay after its longest delay+duration
-// plus a short pause — and stop scheduling the moment the card scrolls out.
-const STITCH_LOOP_MS = { 'bakhiya-wrap': 3000, 'jaali-wrap': 3600, 'hool-wrap': 1800, 'chanapatti-wrap': 1700 }; // longest animation-delay + duration in each piece, rounded up
-const STITCH_LOOP_PAUSE_MS = 800; // breathing room between loops
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function wireStitchCardReplay() {
-  if (!('IntersectionObserver' in window)) return;
-  document.querySelectorAll('.bakhiya-wrap, .jaali-wrap, .hool-wrap, .chanapatti-wrap').forEach((wrap) => {
-    const cycleMs = (STITCH_LOOP_MS[[...wrap.classList].find(c => c in STITCH_LOOP_MS)] || 3000) + STITCH_LOOP_PAUSE_MS;
+/* Loops each stitch animation for as long as its card stays in view: clone the
+   <svg> (a fresh node restarts every child's CSS animation from its own
+   delay), then wait out the longest delay+duration — measured off the
+   elements themselves, not hardcoded — plus a short pause. */
+const STITCH_LOOP_PAUSE_MS = 900;
+
+function stitchAnimDurationMs(svg) {
+  let end = 0;
+  svg.querySelectorAll('*').forEach((el) => {
+    const cs = getComputedStyle(el);
+    const delays = cs.animationDelay.split(',');
+    const durs = cs.animationDuration.split(',');
+    for (let i = 0; i < Math.max(delays.length, durs.length); i++) {
+      const t = (parseFloat(delays[i % delays.length]) || 0) * 1000 + (parseFloat(durs[i % durs.length]) || 0) * 1000;
+      if (t > end) end = t;
+    }
+  });
+  return end;
+}
+
+function wireStitchLoops() {
+  if (!('IntersectionObserver' in window) || REDUCED_MOTION) return;
+  document.querySelectorAll('.loop').forEach((wrap) => {
     let inView = false;
     let timer = null;
-
     function playOnce() {
-      const oldSvg = wrap.querySelector('svg');
-      if (oldSvg) wrap.replaceChild(oldSvg.cloneNode(true), oldSvg);
+      const old = wrap.querySelector('svg');
+      if (!old) return null;
+      const fresh = old.cloneNode(true);
+      wrap.replaceChild(fresh, old);
+      return fresh;
     }
-
     function loop() {
       if (!inView) return;
-      playOnce();
-      timer = setTimeout(loop, cycleMs);
+      const svg = playOnce();
+      timer = setTimeout(loop, (svg ? stitchAnimDurationMs(svg) : 3000) + STITCH_LOOP_PAUSE_MS);
     }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !inView) {
-          inView = true;
-          loop();
-        } else if (!entry.isIntersecting && inView) {
-          inView = false;
-          clearTimeout(timer);
-        }
+    new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !inView) { inView = true; loop(); }
+        else if (!entry.isIntersecting && inView) { inView = false; clearTimeout(timer); }
       });
-    }, { threshold: 0.4 });
-    observer.observe(wrap);
+    }, { threshold: 0.35 }).observe(wrap);
   });
+}
+
+/* The thread: a dashed line that sews itself down the left edge with the scroll. */
+function wireThread() {
+  const thread = document.getElementById('thread');
+  if (!thread) return;
+  let queued = false;
+  function sew() {
+    queued = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    thread.style.setProperty('--p', (max > 0 ? (scrollY / max) * 100 : 0) + '%');
+  }
+  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(sew); } }, { passive: true });
+  sew();
+}
+
+/* Hero light: lit for as long as the hero is on screen, off once the user has
+   scrolled below it. A mouse steers it; touch screens (no cursor) get a slow drift. */
+function wireHeroLight() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  let mouse = false;
+  let heroOn = true;
+  const setL = (x, y) => { hero.style.setProperty('--mx', x + 'px'); hero.style.setProperty('--my', y + 'px'); };
+  hero.classList.add('lit');
+  new IntersectionObserver((entries) => {
+    heroOn = entries[0].isIntersecting;
+    hero.classList.toggle('lit', heroOn);
+  }).observe(hero);
+  addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    mouse = true;
+    const r = hero.getBoundingClientRect();
+    setL(e.clientX - r.left, e.clientY - r.top);
+  }, { passive: true });
+  if (REDUCED_MOTION) return;
+  (function drift(t) {
+    if (heroOn && !mouse) {
+      const r = hero.getBoundingClientRect();
+      setL(r.width * (0.5 + 0.32 * Math.sin(t / 2600)), r.height * (0.42 + 0.26 * Math.sin(t / 1900 + 1)));
+    }
+    requestAnimationFrame(drift);
+  })(0);
+}
+
+/* Bakhiya: stitched on the reverse, flipped over, then drawn on the front where
+   the thread throws its soft shadow — on a loop while the card is in view. */
+function wireBakhiyaFlip() {
+  const stage = document.getElementById('stage');
+  const flipper = document.getElementById('flipper');
+  const rev = document.getElementById('artRev');
+  const front = document.getElementById('artFr');
+  if (!stage || !flipper) return;
+  if (REDUCED_MOTION) { flipper.classList.add('flip'); front.classList.add('shade'); return; }
+  let timers = [];
+  let running = false;
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  function blank(art) {
+    const old = art.querySelector('svg');
+    art.replaceChild(old.cloneNode(true), old);
+    art.classList.add('hold'); // paused before its first frame, so nothing is drawn yet
+  }
+  function cycle() {
+    blank(rev); blank(front);
+    front.classList.remove('shade');
+    flipper.classList.remove('flip');
+    at(500, () => rev.classList.remove('hold'));                   // draw on the reverse
+    at(4600, () => flipper.classList.add('flip'));                 // flip
+    at(6300, () => { front.classList.add('shade'); front.classList.remove('hold'); }); // draw on the front
+    at(11000, () => blank(rev));                                   // reverse is hidden: reset it
+    at(12000, () => flipper.classList.remove('flip'));             // flip back
+    at(14200, cycle);
+  }
+  new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !running) { running = true; cycle(); }
+      else if (!entry.isIntersecting && running) { running = false; timers.forEach(clearTimeout); timers = []; }
+    });
+  }, { threshold: 0.4 }).observe(stage);
+}
+
+function wireQuotes() {
+  const quotes = document.querySelectorAll('#voice blockquote');
+  const dots = document.querySelectorAll('#dots button');
+  if (!quotes.length) return;
+  let i = 0;
+  let timer = null;
+  function show(n) {
+    i = n;
+    quotes.forEach((q, k) => q.classList.toggle('on', k === n));
+    dots.forEach((d, k) => d.classList.toggle('on', k === n));
+  }
+  function auto() {
+    clearInterval(timer);
+    if (!REDUCED_MOTION) timer = setInterval(() => show((i + 1) % quotes.length), 6500);
+  }
+  dots.forEach((d, k) => d.addEventListener('click', () => { show(k); auto(); }));
+  auto();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   renderNewArrivals();
   wireNewsletter();
-  wireStitchCardReplay();
+  wireStitchLoops();
+  wireThread();
+  wireHeroLight();
+  wireBakhiyaFlip();
+  wireQuotes();
 });
