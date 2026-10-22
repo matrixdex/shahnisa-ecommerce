@@ -218,7 +218,11 @@ body.home { background: var(--night); color: var(--bone-2); }
   .h-hero { padding: 2rem 0 !important; }
   .h-hero h1 { font-size: clamp(3.4rem, 17vw, 5rem); }
   .nums .n { font-size: 2.8rem; }
-  .voice { min-height: 400px; }
+  /* Phones: the quote box is as tall as the longest quote (they share one grid cell) plus a modest
+     padding, instead of a fixed 400px, which roughly halves the space between "Customers Say" and the
+     quote and between the reviewer's name and the three bars. The section's own padding is untouched. */
+  .voice { display: grid; min-height: 0; padding: var(--v-top, 41px) 0 var(--v-bottom, 36px); }
+  .voice blockquote { position: static; grid-area: 1 / 1; }
   .nl form { flex-direction: column; border: 0; gap: 0.7rem; }
   .nl input { border: 1px solid var(--gold-soft); text-align: center; }
   .nl button { padding: 1rem 2rem; }
