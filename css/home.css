@@ -125,7 +125,6 @@ body.home { background: var(--night); color: var(--bone-2); }
 .side .face span { background: rgba(13,18,14,0.82); padding: 0.3rem 0.6rem; border-radius: 2px; }
 
 /* ── Stitches at Shahnisa: each one in its own hoop ── */
-.hoops-bg { background: var(--night-2); }
 .hoops { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3.5rem; }
 .hoop { text-align: center; display: block; }
 .ring { position: relative; aspect-ratio: 1; border-radius: 50%; padding: 12px; transition: transform 1.2s var(--ease-out); background: linear-gradient(145deg, #b58a52, #6e4f26 55%, #a97f49); box-shadow: 0 18px 40px rgba(0,0,0,0.45); --gold: #8a6830; --gold-deep: #6e4f26; --dot: #8a6830; }
