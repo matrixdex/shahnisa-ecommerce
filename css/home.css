@@ -101,6 +101,8 @@ body.home { background: var(--night); color: var(--bone-2); }
 .h-cta:active { color: var(--night); }
 
 .home main h2 { font-size: clamp(2.5rem, 6.4vw, 5.2rem); letter-spacing: 0.02em; line-height: 1.05; }
+/* "32 Stitches, One Tradition" breaks onto two lines only on narrow screens */
+@media (min-width: 1000px) { .narrow-br { display: none; } }
 .h-link { display: inline-block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); border-bottom: 1px solid currentColor; padding-bottom: 3px; transition: color 0.3s; }
 .h-link:hover { color: var(--bone); }
 
