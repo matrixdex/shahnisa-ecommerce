@@ -38,15 +38,18 @@
 
   const TOKEN_KEY = 'shahnisa_medusa_token';
   const CART_ID_KEY = 'shahnisa_cart_id';
-  // "+" makes this additive to Medusa's default cart fields (which already
+  // "+" makes a field additive to Medusa's default cart fields (which already
   // include items, shipping_methods, promotions and all the total/tax/
   // discount fields) — a bare field list would replace those defaults
-  // instead of extending them and silently drop the totals.
+  // instead of extending them and silently drop the totals. Every field
+  // needs its own "+": one un-prefixed entry in the list is enough to switch
+  // Medusa back to "replace the defaults", which left cart lines with no
+  // title or unit price ("undefined" / NaN) alongside the real ones.
   // items.thumbnail (the line item's own snapshot) only gets populated by
   // Medusa if the product's dedicated `thumbnail` field was explicitly set
   // in admin — having gallery images alone isn't enough. items.product.*
   // here is the fallback for products that only ever got gallery images.
-  const CART_FIELDS = '+items.product.metadata,items.product.thumbnail,items.product.images.url';
+  const CART_FIELDS = '+items.product.metadata,+items.product.thumbnail,+items.product.images.url';
 
   // This is a multi-page static site, not an SPA — every navigation is a
   // full page load that wipes the in-memory caches below. sessionStorage
@@ -600,10 +603,10 @@
         lineId: item.id,
         productId: item.product_id,
         slug: item.product_handle,
-        name: item.product_title,
+        name: item.product_title || item.title,
         stitch: (item.product && item.product.metadata && item.product.metadata.stitch) || '',
         thumbnail: item.thumbnail || item.product?.thumbnail || item.product?.images?.[0]?.url || null,
-        price: item.unit_price,
+        price: item.unit_price || 0,
         color,
         size,
         qty: item.quantity,
