@@ -385,6 +385,7 @@ html.nav-open { overflow: hidden; }
 }
 .cart-drawer-head h3 { font-size: 1.44rem; -webkit-text-stroke: 0.6px currentColor; paint-order: stroke fill; }
 .cart-account-row { text-align: center; padding: 0.9rem 1.5rem; }
+.cart-account-row .btn, .cart-empty .btn { width: 15rem; max-width: 100%; } /* Sign In and Start shopping match */
 .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
 .cart-line {
   display: grid; grid-template-columns: 72px 1fr auto;
