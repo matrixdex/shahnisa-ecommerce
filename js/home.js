@@ -153,14 +153,13 @@ function wireHeroLight() {
   }).observe(hero);
   addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse') return;
-    if (document.documentElement.classList.contains('overlay-open')) return; // frozen while the cart is open
     mouse = true;
     const r = hero.getBoundingClientRect();
     setL(e.clientX - r.left, e.clientY - r.top);
   }, { passive: true });
   if (REDUCED_MOTION) return;
   (function drift(t) {
-    if (heroOn && !mouse && !document.documentElement.classList.contains('overlay-open')) {
+    if (heroOn && !mouse) {
       const r = hero.getBoundingClientRect();
       setL(r.width * (0.5 + 0.32 * Math.sin(t / 2600)), r.height * (0.42 + 0.26 * Math.sin(t / 1900 + 1)));
     }
