@@ -109,8 +109,8 @@ async function renderDashboard() {
         </div>
         <div id="panel-details" style="display:none;">
           <h2 style="margin-bottom:1.5rem;">Account Details</h2>
-          <p style="font-size:0.92rem; color:var(--ink-soft);"><strong>Email:</strong> ${session.email}</p>
-          ${session.name ? `<p style="font-size:0.92rem; color:var(--ink-soft); margin-top:0.5rem;"><strong>Name:</strong> ${session.name}</p>` : ''}
+          <p style="font-size:1rem; color:var(--ink-soft);"><strong>Email:</strong> ${session.email}</p>
+          ${session.name ? `<p style="font-size:1rem; color:var(--ink-soft); margin-top:0.5rem;"><strong>Name:</strong> ${session.name}</p>` : ''}
         </div>
       </div>
     </div>

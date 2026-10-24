@@ -15,7 +15,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .home main h1, .home main h2, .home main h3 { color: var(--bone); }
 .home main p { color: var(--bone-2); }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.25rem, 6vw, 4rem); }
-.h-eyebrow { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); }
+.h-eyebrow { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); }
 
 /* Stitch animations (lifted from the original home page) — colours come from
    --gold / --gold-deep / --dot so each ground can set its own. */
@@ -102,7 +102,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .light h2 { margin-bottom: 1.6rem; }
 .nums { display: flex; gap: 3.5rem; margin: 2.4rem 0 2rem; }
 .nums .n { font-family: var(--display); font-size: 3.4rem; line-height: 1; color: var(--gold-soft); }
-.nums .l { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone-2); margin-top: 0.4rem; }
+.nums .l { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone-2); margin-top: 0.4rem; }
 .stage { perspective: 1400px; aspect-ratio: 4/5; position: relative; max-width: 520px; width: 100%; justify-self: center; }
 .stage::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: -3%; height: 14%; background: radial-gradient(closest-side, rgba(0,0,0,0.55), transparent); pointer-events: none; }
 .flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; transition: transform 1.5s cubic-bezier(0.65,0,0.35,1); }
@@ -115,7 +115,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .side.rev .art svg { transform: scaleX(-1); } /* the reverse is the mirror image of the front */
 .side.fr .art.shade svg { filter: drop-shadow(0 9px 7px rgba(30,36,31,0.5)); }
 .art.hold * { animation-play-state: paused !important; }
-.side .face { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); }
+.side .face { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); }
 .side .face span { background: rgba(13,18,14,0.82); padding: 0.3rem 0.6rem; border-radius: 2px; }
 
 /* ── Stitches at Shahnisa: each one in its own hoop ── */
@@ -128,7 +128,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 @media (hover: hover) { .hoop:hover .ring { transform: rotate(-4deg) scale(1.03); } }
 .hoop:active .ring { transform: scale(0.98); transition-duration: 0.15s; }
 .hoop h3 { font-size: 1.8rem; margin-top: 1.5rem; letter-spacing: 0.06em; }
-.hoop p { font-size: 0.95rem; line-height: 1.55; margin: 0.4rem auto 0; max-width: 24ch; }
+.hoop p { font-size: 1rem; line-height: 1.55; margin: 0.4rem auto 0; max-width: 24ch; }
 .hoops-more { text-align: center; margin-top: 3rem; }
 
 /* ── Lineage: 32 Stitches, One Tradition ── */
@@ -170,7 +170,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .voice q { display: block; font-family: var(--display); font-size: clamp(1.45rem, 3vw, 2.4rem); line-height: 1.3; max-width: 30ch; color: var(--bone); quotes: "\201C" "\201D";
   /* Italiana ships a single thin weight, so a hairline stroke gives the quote a touch more presence */
   -webkit-text-stroke: 0.5px currentColor; }
-.voice cite { font-style: normal; margin-top: 1.6rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-soft); }
+.voice cite { font-style: normal; margin-top: 1.6rem; font-family: var(--mono); font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-soft); }
 .dots { display: flex; justify-content: center; gap: 0.4rem; margin-top: 1rem; }
 .dots button { width: 44px; height: 28px; padding: 13px 7px; background: rgba(196,151,90,0.35); background-clip: content-box; transition: background 0.4s; }
 .dots button.on { background: var(--gold-soft); background-clip: content-box; }
@@ -182,9 +182,9 @@ body.home { background: var(--night); color: var(--bone-2); }
 .nl input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--bone); padding: 1rem 1.2rem; font: inherit; outline: 0; }
 .nl input::placeholder { color: #98a091; }
 .nl form:focus-within { box-shadow: 0 0 0 3px rgba(196,151,90,0.25); }
-.nl button { background: var(--night); color: var(--gold-soft); --btn-fill: var(--gold-soft); border: 1px solid var(--gold-soft); margin: -1px; padding: 0 2rem; font: 500 0.74rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s, color 0.3s; }
+.nl button { background: var(--night); color: var(--gold-soft); --btn-fill: var(--gold-soft); border: 1px solid var(--gold-soft); margin: -1px; padding: 0 2rem; font: 500 1rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s, color 0.3s; }
 .nl button:hover, .nl button:active { color: var(--night); }
-.nl small { display: block; margin-top: 1.2rem; color: var(--bone-2); font-size: 0.82rem; }
+.nl small { display: block; margin-top: 1.2rem; color: var(--bone-2); font-size: 1rem; }
 
 .home .reveal { transform: translateY(26px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
 .home .reveal.visible { transform: none; }

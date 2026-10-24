@@ -96,9 +96,9 @@ async function applyShippingAndRefresh() {
 function renderPaymentFields() {
   const el = document.getElementById('paymentFields');
   if (selectedPayment === 'online') {
-    el.innerHTML = `<p style="font-size:0.88rem; color:var(--ink-muted);">Clicking "Place Order" opens a secure Razorpay window — pay by card, UPI, netbanking or wallet there.</p>`;
+    el.innerHTML = `<p style="font-size:1rem; color:var(--ink-muted);">Clicking "Place Order" opens a secure Razorpay window — pay by card, UPI, netbanking or wallet there.</p>`;
   } else {
-    el.innerHTML = `<p style="font-size:0.88rem; color:var(--ink-muted);">Pay in cash when your order is delivered. A small COD handling fee may apply in a live store.</p>`;
+    el.innerHTML = `<p style="font-size:1rem; color:var(--ink-muted);">Pay in cash when your order is delivered. A small COD handling fee may apply in a live store.</p>`;
   }
 }
 

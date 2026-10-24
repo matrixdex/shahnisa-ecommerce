@@ -54,7 +54,7 @@ function renderConfirmation(order) {
 
       <div>
         <h2 style="font-size:1.05rem; margin-bottom:1rem;">Shipping To</h2>
-        <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.8;">
+        <p style="font-size:1rem; color:var(--ink-soft); line-height:1.8;">
           ${addr.fullName}<br>
           ${addr.address1}${addr.address2 ? ', ' + addr.address2 : ''}<br>
           ${addr.city}, ${addr.state} ${addr.pincode}<br>
