@@ -10,7 +10,6 @@ function renderAuthGate() {
   const root = document.getElementById('accountRoot');
   root.innerHTML = `
     <div class="text-center" style="margin-bottom:2.5rem;">
-      <span class="eyebrow">Welcome</span>
       <h1 style="font-size:clamp(1.8rem,3.5vw,2.4rem);">${authMode === 'login' ? 'Sign In' : 'Create an Account'}</h1>
     </div>
     <div class="auth-card">

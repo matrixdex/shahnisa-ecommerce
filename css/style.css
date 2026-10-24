@@ -17,6 +17,7 @@
 :root {
   /* Color — grounded in mulmul cotton, shadow-work ink, and brass jewellery */
   --bone: #efeae0;        /* base ground, handloom cotton */
+  --bone-light: #f7f3ea;  /* the product page's single, lighter ground */
   --ivory-deep: #e4dfd2;  /* alternate section surface */
   --mist: #e2e6dc;        /* card / divider surface, pale sage-grey */
   --white: #fffdf9;
@@ -916,3 +917,25 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 @supports not (transition-timing-function: linear(0, 1)) {
   :root { --spring: cubic-bezier(0.34, 1.2, 0.64, 1); }
 }
+
+/* ── Product page: one lighter ground throughout (sections keep their own spacing) ── */
+body.light-page { background: var(--bone-light); }
+
+/* ── Sign-in / account page: dark ground, the home page's button language ── */
+body.dark-page { background: var(--night); }
+.dark-ground {
+  --ink: var(--bone); --ink-soft: #d9d4c7; --ink-muted: #a9b0a2; --ink-faint: #8f978a;
+  --white: var(--night-2); --line: rgba(196,151,90,0.32); --line-soft: rgba(196,151,90,0.2);
+  --rose-deep: #f08aa0;
+  background: var(--night); color: var(--bone-2);
+}
+.dark-ground .breadcrumb a:hover, .dark-ground .breadcrumb .current { color: var(--bone); }
+.dark-ground .auth-card { border-color: var(--line); }
+.dark-ground .field input { background: transparent; color: var(--bone); border-color: rgba(196,151,90,0.5); }
+.dark-ground .field input::placeholder { color: #8f978a; }
+.dark-ground .field input:focus { border-color: var(--gold-soft); }
+.dark-ground .tab-btn { background: var(--night); border-color: var(--gold-soft); color: var(--gold-soft); }
+.dark-ground .tab-btn:hover, .dark-ground .tab-btn.active { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--night); }
+.dark-ground .account-nav button { color: var(--ink-muted); }
+.dark-ground .account-nav button.active { background: var(--night-2); color: var(--gold-soft); }
+.dark-ground .order-status { background: var(--night-2); color: var(--gold-soft); }

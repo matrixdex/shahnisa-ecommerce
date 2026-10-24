@@ -17,7 +17,6 @@ function renderConfirmation(order) {
       <div class="confirm-check">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <span class="eyebrow">Thank You</span>
       <h1 style="font-size:clamp(1.9rem,4vw,2.6rem);">Your order is confirmed</h1>
       <p style="color:var(--ink-muted); margin-top:0.75rem;">A confirmation would normally be emailed to <strong>${order.contact.email}</strong>. Expect delivery by <strong>${eta.toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}</strong>.</p>
       <div class="confirm-order-id">Order ${order.orderId} &middot; placed ${placed.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>

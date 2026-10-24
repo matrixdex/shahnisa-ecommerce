@@ -52,7 +52,6 @@ function renderPDP(p) {
   currentImageIndex = 0;
 
   const tag = p.isNew ? '<span class="product-tag new">New</span>' : (p.compareAt ? '<span class="product-tag sale">Sale</span>' : '');
-  const eyebrowParts = [p.material, p.category].filter(Boolean);
 
   document.getElementById('pdpRoot').innerHTML = `
     <div class="pdp">
@@ -78,7 +77,6 @@ function renderPDP(p) {
       </div>` : ''}
 
       <div class="pdp-info">
-        ${eyebrowParts.length ? `<span class="eyebrow">${eyebrowParts.join(' &middot; ')}</span>` : ''}
         <h1>${p.name}</h1>
         <p class="pdp-description">${p.description}</p>
         <div class="pdp-price price" id="pdpPrice">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}<span id="pdpPriceValue">${Api.money(p.price)}</span></div>

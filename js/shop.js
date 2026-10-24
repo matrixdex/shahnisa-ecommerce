@@ -61,7 +61,6 @@ function activeFilters() {
 }
 
 function updateHeaderCopy() {
-  const eyebrow = document.getElementById('shopEyebrow');
   const title = document.getElementById('shopTitle');
   const desc = document.getElementById('shopDesc');
   const crumb = document.getElementById('crumbLabel');
@@ -69,22 +68,18 @@ function updateHeaderCopy() {
   if (state.collection) {
     const col = COLLECTIONS.find(c => c.id === state.collection);
     if (col) {
-      eyebrow.style.display = 'none';
       title.textContent = col.name;
       desc.textContent = col.description;
       crumb.textContent = col.name;
       return;
     }
   }
-  eyebrow.style.display = '';
   if (state.category) {
-    eyebrow.textContent = 'Shop By Category';
     title.textContent = state.category;
     desc.textContent = `Every ${state.category.toLowerCase()} piece in the Shahnisa edit.`;
     crumb.textContent = state.category;
     return;
   }
-  eyebrow.textContent = 'The Full Edit';
   title.textContent = 'All Products';
   desc.textContent = 'Every hand-embroidered piece, in one place.';
   crumb.textContent = 'Shop All';
