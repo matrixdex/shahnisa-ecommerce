@@ -930,7 +930,7 @@ body.dark-page { background: var(--night); }
   background: var(--night); color: var(--bone-2);
 }
 .dark-ground .breadcrumb a:hover, .dark-ground .breadcrumb .current { color: var(--bone); }
-.dark-ground .auth-card { border-color: var(--line); }
+.dark-ground .auth-card { background: transparent; border: 0; padding: 0; }
 .dark-ground .field input { background: transparent; color: var(--bone); border-color: rgba(196,151,90,0.5); }
 .dark-ground .field input::placeholder { color: #8f978a; }
 .dark-ground .field input:focus { border-color: var(--gold-soft); }
