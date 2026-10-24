@@ -327,7 +327,7 @@ html.nav-open { overflow: hidden; }
 }
 @media (min-width: 861px) { .mobile-nav { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .cart-drawer, .cart-drawer.open { clip-path: none; transition: opacity 0.2s linear, visibility 0s linear 0.2s; opacity: 0; }
+  .cart-drawer, .cart-drawer.open { transform: none; transition: opacity 0.2s linear, visibility 0s linear 0.2s; opacity: 0; }
   .cart-drawer.open { opacity: 1; transition: opacity 0.2s linear, visibility 0s; }
   .cart-drawer > *, .cart-drawer.open > * { transform: none; transition: none; opacity: 1; }
   .mobile-nav, .mobile-nav.open { clip-path: none; transition: opacity 0.2s linear, visibility 0s linear 0.2s; opacity: 0; }
@@ -345,8 +345,8 @@ html.nav-open { overflow: hidden; }
   will-change: opacity;
 }
 .overlay-backdrop.open { opacity: 1; visibility: visible; }
-/* Opens like the mobile menu: the panel unfolds as a circle from the cart icon, folds back into it,
-   and its sections arrive in a short stagger. */
+/* Slides in from the right on the compositor (transform only, no per-frame repaint), so it stays
+   smooth on slow devices; its sections arrive in a short stagger. */
 .cart-drawer {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 1400;
   width: min(420px, 100vw);
@@ -354,19 +354,20 @@ html.nav-open { overflow: hidden; }
   color: var(--ink-soft); /* own text colour: the home page's body colour is light */
   display: flex; flex-direction: column;
   visibility: hidden;
-  clip-path: circle(0px at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
-  transition: clip-path 0.5s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.5s;
-  will-change: clip-path; contain: layout paint; transform: translateZ(0);
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.45s;
+  will-change: transform; contain: layout paint;
+  box-shadow: -18px 0 40px rgba(18, 24, 19, 0.18);
 }
 .cart-drawer.open {
   visibility: visible;
-  clip-path: circle(var(--r, 160vmax) at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
-  transition: clip-path 0.85s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
+  transform: none;
+  transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
 }
 .cart-drawer > * { will-change: transform, opacity; opacity: 0; transform: translateY(1.2rem); transition: opacity 0.2s linear, transform 0.3s var(--ease-out); }
 .cart-drawer.open > * {
   opacity: 1; transform: none;
-  transition: opacity 0.55s var(--ease-out) calc(0.16s + var(--i, 0) * 0.06s), transform 0.8s var(--ease-out) calc(0.16s + var(--i, 0) * 0.06s);
+  transition: opacity 0.4s var(--ease-out) calc(0.08s + var(--i, 0) * 0.05s), transform 0.6s var(--ease-out) calc(0.08s + var(--i, 0) * 0.05s);
 }
 .cart-drawer > :nth-child(2) { --i: 1; } .cart-drawer > :nth-child(3) { --i: 2; } .cart-drawer > :nth-child(4) { --i: 3; }
 .cart-drawer-head {
