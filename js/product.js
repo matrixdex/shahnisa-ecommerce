@@ -106,8 +106,8 @@ function renderPDP(p) {
             <span id="qtyValue">1</span>
             <button id="qtyUp" aria-label="Increase quantity">+</button>
           </div>
-          <button class="btn btn-primary" id="addToBagBtn">Add to Cart</button>
-          <button class="btn btn-outline" id="buyNowBtn">Buy Now</button>
+          <button class="btn btn-gold" id="addToBagBtn">Add to Cart</button>
+          <button class="btn btn-gold" id="buyNowBtn">Buy Now</button>
         </div>
 
         <div class="accordion" id="pdpAccordion">

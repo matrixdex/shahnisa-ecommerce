@@ -89,22 +89,11 @@ body.home { background: var(--night); color: var(--bone-2); }
 .h-hero .h-eyebrow { display: block; line-height: 1; margin: calc(2.4rem - 0.122 * clamp(125px, 11.7vw, 156px)) 0 calc(2.4rem - 0.04 * clamp(4rem, 13vw, 11rem)); }
 .h-hero h1 { font-size: clamp(4rem, 13vw, 11rem); letter-spacing: 0.06em; text-indent: 0.06em; line-height: 0.9; }
 .h-hero .lede { max-width: 30ch; margin: 1.8rem auto 0; font-size: clamp(1.1rem, 1.8vw, 1.35rem); line-height: 1.75; }
-.h-cta {
-  display: inline-block; margin-top: 2rem; padding: 1rem 2.6rem; border: 1px solid var(--gold-soft); color: var(--bone);
-  font-size: 0.76rem; letter-spacing: 0.26em; text-transform: uppercase; font-weight: 500; position: relative; overflow: hidden; isolation: isolate;
-  transition: color 0.5s var(--ease-out);
-}
-.h-cta::before { content: ''; position: absolute; inset: 0; background: var(--gold-soft); transform: translateY(101%); transition: transform 0.6s var(--ease-out); z-index: -1; }
-.h-cta:hover { color: var(--night); }
-.h-cta:hover::before { transform: none; }
-.h-cta:active::before { transform: none; }
-.h-cta:active { color: var(--night); }
+.h-cta { display: inline-block; margin-top: 2rem; padding: 1rem 2.6rem; letter-spacing: 0.26em; font-weight: 500; }
 
 .home main h2 { font-size: clamp(2.5rem, 6.4vw, 5.2rem); letter-spacing: 0.02em; line-height: 1.05; }
 /* "32 Stitches, One Tradition" breaks onto two lines only on narrow screens */
 @media (min-width: 1000px) { .narrow-br { display: none; } }
-.h-link { display: inline-block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft); border-bottom: 1px solid currentColor; padding-bottom: 3px; transition: color 0.3s; }
-.h-link:hover { color: var(--bone); }
 
 /* ── What Bakhiya Means: stitched on the reverse, flipped, shown on the front ── */
 .light { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
@@ -171,8 +160,6 @@ body.home { background: var(--night); color: var(--bone-2); }
 .carousel-track:focus-visible { outline-offset: 4px; }
 .carousel-track .product-card { flex: 0 0 min(270px, 72vw); scroll-snap-align: start; }
 .arrivals-more { margin-top: 2.5rem; text-align: center; }
-.arrivals-bg .h-link { color: #7a5a22; }
-.arrivals-bg .h-link:hover { color: var(--ink); }
 .home main .arrivals-bg p { color: var(--ink-soft); }
 
 /* ── Customers say ── */
@@ -195,8 +182,8 @@ body.home { background: var(--night); color: var(--bone-2); }
 .nl input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--bone); padding: 1rem 1.2rem; font: inherit; outline: 0; }
 .nl input::placeholder { color: #98a091; }
 .nl form:focus-within { box-shadow: 0 0 0 3px rgba(196,151,90,0.25); }
-.nl button { background: var(--gold-soft); color: var(--night); padding: 0 2rem; font: 500 0.74rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s; }
-.nl button:hover { background: var(--bone); }
+.nl button { background: var(--gold-soft); color: var(--night); padding: 0 2rem; font: 500 0.74rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s, color 0.3s; }
+.nl button:hover, .nl button:active { background: var(--night); color: var(--gold-soft); }
 .nl small { display: block; margin-top: 1.2rem; color: var(--bone-2); font-size: 0.82rem; }
 
 .home .reveal { transform: translateY(26px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
