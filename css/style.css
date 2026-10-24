@@ -46,6 +46,7 @@
   --night: #121813;       /* deep bottle-green ink — header, footer, dark sections */
   --night-2: #1a221c;
   --bone-2: #e4dfd2;
+  --gold-fill: #876224;   /* deeper brass for fills on the light ground (4.7:1 with the bone text) */
   --gold-soft: #c4975a;   /* brass, tuned for dark grounds */
 }
 
@@ -135,8 +136,8 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 .btn-primary, .btn-gold, .btn-outline { background: var(--night); border-color: var(--gold-soft); color: var(--gold-soft); }
 .btn-primary:hover, .btn-gold:hover, .btn-outline:hover,
 .btn-primary:active, .btn-gold:active, .btn-outline:active { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--night); }
-.btn.btn-fill { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--bone); }
-.btn.btn-fill:hover, .btn.btn-fill:active { background: var(--bone); border-color: var(--gold-soft); color: var(--night); }
+.btn.btn-fill { background: var(--gold-fill); border-color: var(--gold-fill); color: var(--bone); }
+.btn.btn-fill:hover, .btn.btn-fill:active { background: var(--bone); border-color: var(--gold-fill); color: var(--night); }
 .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-outline-light { border-color: rgba(239,234,224,0.5); color: var(--bone); }
 .btn-outline-light:hover { background: var(--bone); color: var(--ink); }
@@ -523,7 +524,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .product-card-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: stretch; }
 .btn-icon-cart {
   flex: 0 0 auto; width: 40px; padding: 0; display: flex; align-items: center; justify-content: center;
-  background: var(--gold-soft); border: 1px solid var(--gold-soft); border-radius: var(--radius-sm);
+  background: var(--gold-fill); border: 1px solid var(--gold-fill); border-radius: var(--radius-sm);
   color: var(--bone); transition: var(--ease);
 }
 .btn-icon-cart svg { width: 23px; height: 23px; }
