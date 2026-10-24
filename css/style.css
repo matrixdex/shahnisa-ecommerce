@@ -132,11 +132,20 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 }
 /* One button style site-wide: dark-green fill, brass outline and text; on hover it fills brass
    with dark-green text. */
-.btn-primary, .btn-gold, .btn-outline { background: var(--night); border-color: var(--gold-soft); color: var(--gold-soft); }
+.btn-primary, .btn-gold, .btn-outline { background: var(--night); border-color: var(--gold-soft); color: var(--gold-soft); --btn-fill: var(--gold-soft); }
 .btn-primary:hover, .btn-gold:hover, .btn-outline:hover,
-.btn-primary:active, .btn-gold:active, .btn-outline:active { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--night); }
-.btn.btn-fill { background: var(--bone); border-color: var(--gold-soft); color: var(--night); }
-.btn.btn-fill:hover, .btn.btn-fill:active { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--bone); }
+.btn-primary:active, .btn-gold:active, .btn-outline:active { color: var(--night); }
+.btn.btn-fill { background: var(--bone); border-color: var(--gold-soft); color: var(--night); --btn-fill: var(--gold-soft); }
+.btn.btn-fill:hover, .btn.btn-fill:active { color: var(--bone); }
+/* The hover fill rises from below (as the hero button always did) instead of fading in. */
+.btn, .btn-icon-cart, .mobile-nav-btn, .nl button { position: relative; overflow: hidden; isolation: isolate; }
+.btn::before, .btn-icon-cart::before, .mobile-nav-btn::before, .nl button::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: var(--btn-fill, transparent); transform: translateY(101%);
+  transition: transform 0.6s var(--ease-out);
+}
+.btn:hover::before, .btn:active::before, .btn-icon-cart:hover::before, .btn-icon-cart:active::before,
+.mobile-nav-btn:hover::before, .mobile-nav-btn:active::before, .nl button:hover::before, .nl button:active::before { transform: none; }
 .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-outline-light { border-color: rgba(239,234,224,0.5); color: var(--bone); }
 .btn-outline-light:hover { background: var(--bone); color: var(--ink); }
@@ -293,11 +302,11 @@ header.site-header .icon-btn .badge { top: 4px; right: 3px; background: var(--go
 .mobile-nav-btn {
   display: inline-flex; align-items: center; justify-content: center;
   flex: 1 1 0; min-width: 0; padding: 1rem 0.5rem;
-  background: var(--night); border: 1px solid var(--gold-soft); color: var(--gold-soft);
+  background: var(--night); border: 1px solid var(--gold-soft); color: var(--gold-soft); --btn-fill: var(--gold-soft);
   font: 500 0.76rem var(--sans); letter-spacing: 0.26em; text-transform: uppercase;
   transition: background-color 0.3s, color 0.3s;
 }
-.mobile-nav-btn:hover, .mobile-nav-btn:active { background: var(--gold-soft); color: var(--night); }
+.mobile-nav-btn:hover, .mobile-nav-btn:active { color: var(--night); }
 /* staged entrance: base state = leaving (fast, together); .open = arriving (staggered) */
 .mobile-nav-links a, .mobile-nav-foot > * {
   opacity: 0; transform: translateY(1.6rem);
@@ -522,11 +531,11 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .product-card-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: stretch; }
 .btn-icon-cart {
   flex: 0 0 auto; width: 40px; padding: 0; display: flex; align-items: center; justify-content: center;
-  background: var(--bone); border: 1px solid var(--gold-soft); border-radius: var(--radius-sm);
+  background: var(--bone); border: 1px solid var(--gold-soft); border-radius: var(--radius-sm); --btn-fill: var(--gold-soft);
   color: var(--night); transition: var(--ease);
 }
 .btn-icon-cart svg { width: 23px; height: 23px; }
-.btn-icon-cart:hover, .btn-icon-cart:active { background: var(--gold-soft); color: var(--bone); }
+.btn-icon-cart:hover, .btn-icon-cart:active { color: var(--bone); }
 
 /* A real uploaded product photo, filling the same box the pattern-card
    placeholder occupies. */
