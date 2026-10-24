@@ -360,7 +360,7 @@ html.nav-open { overflow: hidden; }
 .cart-drawer {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 1400;
   width: min(420px, 100vw);
-  background: var(--white);
+  background: var(--bone);
   color: var(--ink-soft); /* own text colour: the home page's body colour is light */
   display: flex; flex-direction: column;
   visibility: hidden;
