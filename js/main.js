@@ -311,7 +311,7 @@ function productCardHTML(p) {
           <button class="btn btn-icon-cart" data-add-to-cart="${p.id}" type="button" aria-label="Add to cart">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h2l1 3"/><path d="M5 6L19 6 17 16 9 16Z"/><circle cx="10.5" cy="19.5" r="1.3"/><circle cx="15.5" cy="19.5" r="1.3"/><path d="M12 8.5v5M9.5 11h5"/></svg>
           </button>
-          <button class="btn btn-primary btn-sm" data-buy-now="${p.id}" type="button">Buy Now</button>
+          <button class="btn btn-fill btn-sm" data-buy-now="${p.id}" type="button">Buy Now</button>
         </div>
       </div>
     </a>

@@ -16,7 +16,7 @@ function renderEmptyCheckout() {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 8h16l-1.4 11a2 2 0 01-2 1.8H7.4a2 2 0 01-2-1.8L4 8z"/><path d="M8 8V6a4 4 0 018 0v2"/></svg>
       <h3>Your cart is empty</h3>
       <p>Add something beautiful before checking out.</p>
-      <a href="shop.html" class="btn btn-primary">Shop All</a>
+      <a href="shop.html" class="btn btn-fill">Shop All</a>
     </div>`;
 }
 
