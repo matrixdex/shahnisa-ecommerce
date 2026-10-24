@@ -21,17 +21,17 @@ function renderAuthGate() {
         ${authMode === 'signup' ? `
           <div class="field" id="f-name">
             <label for="authName">Full name</label>
-            <input type="text" id="authName" placeholder="Full name">
+            <input type="text" id="authName">
             <div class="field-error">Enter your name.</div>
           </div>` : ''}
         <div class="field" id="f-email">
           <label for="authEmail">Email</label>
-          <input type="email" id="authEmail" placeholder="you@email.com">
+          <input type="email" id="authEmail">
           <div class="field-error">Enter a valid email address.</div>
         </div>
         <div class="field" id="f-password">
           <label for="authPassword">Password</label>
-          <input type="password" id="authPassword" placeholder="At least 6 characters">
+          <input type="password" id="authPassword">
           <div class="field-error">Password must be at least 6 characters.</div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">${authMode === 'login' ? 'Sign In' : 'Create Account'}</button>
