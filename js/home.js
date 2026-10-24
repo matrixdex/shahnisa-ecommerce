@@ -153,6 +153,7 @@ function wireHeroLight() {
   }).observe(hero);
   addEventListener('pointermove', (e) => {
     if (e.pointerType !== 'mouse') return;
+    if (document.documentElement.classList.contains('overlay-open')) return; // frozen while the cart is open
     mouse = true;
     const r = hero.getBoundingClientRect();
     setL(e.clientX - r.left, e.clientY - r.top);
