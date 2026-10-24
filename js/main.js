@@ -157,12 +157,17 @@ function openCartDrawer(trigger) {
   if (!drawer) return;
   setUnfoldOrigin(drawer, (trigger && trigger.getBoundingClientRect) ? trigger : document.querySelector('.site-header [data-open-cart]'));
   _cartOpenedAt = performance.now();
+  clearTimeout(_overlayTimer);
+  document.documentElement.classList.add('overlay-open'); // pauses the page's own animation loops behind the drawer
   renderCartDrawer(); // settle the contents first so nothing is rebuilt mid-animation
   drawer.classList.add('open');
   document.getElementById('cartBackdrop')?.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+let _overlayTimer = 0;
 function closeCartDrawer() {
+  clearTimeout(_overlayTimer);
+  _overlayTimer = setTimeout(() => document.documentElement.classList.remove('overlay-open'), 600);
   document.getElementById('cartDrawer')?.classList.remove('open');
   document.getElementById('cartBackdrop')?.classList.remove('open');
   document.body.style.overflow = '';

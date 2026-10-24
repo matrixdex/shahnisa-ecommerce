@@ -335,6 +335,8 @@ html.nav-open { overflow: hidden; }
 }
 
 /* ── Cart drawer ───────────────────────────────────────────── */
+/* While the drawer is open or animating, freeze the page's own CSS animations behind it. */
+html.overlay-open body > *:not(.cart-drawer):not(.overlay-backdrop) * { animation-play-state: paused !important; }
 .overlay-backdrop {
   position: fixed; inset: 0; z-index: 1300;
   background: rgba(30,36,31,0.45);
@@ -354,7 +356,7 @@ html.nav-open { overflow: hidden; }
   visibility: hidden;
   clip-path: circle(0px at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
   transition: clip-path 0.5s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.5s;
-  will-change: clip-path; contain: layout paint;
+  will-change: clip-path; contain: layout paint; transform: translateZ(0);
 }
 .cart-drawer.open {
   visibility: visible;
