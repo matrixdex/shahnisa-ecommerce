@@ -340,6 +340,7 @@ html.nav-open { overflow: hidden; }
   background: rgba(30,36,31,0.45);
   opacity: 0; visibility: hidden;
   transition: opacity 0.6s var(--ease-out), visibility 0.6s;
+  will-change: opacity;
 }
 .overlay-backdrop.open { opacity: 1; visibility: visible; }
 /* Opens like the mobile menu: the panel unfolds as a circle from the cart icon, folds back into it,
@@ -353,13 +354,14 @@ html.nav-open { overflow: hidden; }
   visibility: hidden;
   clip-path: circle(0px at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
   transition: clip-path 0.5s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.5s;
+  will-change: clip-path; contain: layout paint;
 }
 .cart-drawer.open {
   visibility: visible;
   clip-path: circle(var(--r, 160vmax) at var(--ox, calc(100% - 2rem)) var(--oy, 2rem));
   transition: clip-path 0.85s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
 }
-.cart-drawer > * { opacity: 0; transform: translateY(1.2rem); transition: opacity 0.2s linear, transform 0.3s var(--ease-out); }
+.cart-drawer > * { will-change: transform, opacity; opacity: 0; transform: translateY(1.2rem); transition: opacity 0.2s linear, transform 0.3s var(--ease-out); }
 .cart-drawer.open > * {
   opacity: 1; transform: none;
   transition: opacity 0.55s var(--ease-out) calc(0.16s + var(--i, 0) * 0.06s), transform 0.8s var(--ease-out) calc(0.16s + var(--i, 0) * 0.06s);

@@ -72,11 +72,25 @@ function showToast(message) {
 }
 
 /* ── Cart drawer ───────────────────────────────────────────── */
+let _cartSig = '', _cartOpenedAt = 0, _cartRenderTimer = 0;
+const CART_ANIM_MS = 900;
 function renderCartDrawer() {
   const lines = Cart.get();
   const itemsEl = document.getElementById('cartItems');
   const footEl = document.getElementById('cartDrawerFoot');
   if (!itemsEl) return;
+  // Rebuilding the lines (and re-decoding their thumbnails) while the drawer is
+  // unfolding is what makes it drop frames — skip no-op renders, and hold a
+  // changed one until the open animation has finished.
+  const sig = JSON.stringify(lines);
+  if (sig === _cartSig) return;
+  const sinceOpen = performance.now() - _cartOpenedAt;
+  if (sinceOpen < CART_ANIM_MS) {
+    clearTimeout(_cartRenderTimer);
+    _cartRenderTimer = setTimeout(renderCartDrawer, CART_ANIM_MS - sinceOpen + 20);
+    return;
+  }
+  _cartSig = sig;
 
   if (!lines.length) {
     itemsEl.innerHTML = `<div class="cart-empty">Your cart is empty.<br><a href="shop.html" class="btn-text" style="margin-top:1rem;display:inline-block;">Start shopping</a></div>`;
@@ -142,6 +156,8 @@ function openCartDrawer(trigger) {
   const drawer = document.getElementById('cartDrawer');
   if (!drawer) return;
   setUnfoldOrigin(drawer, (trigger && trigger.getBoundingClientRect) ? trigger : document.querySelector('.site-header [data-open-cart]'));
+  _cartOpenedAt = performance.now();
+  renderCartDrawer(); // settle the contents first so nothing is rebuilt mid-animation
   drawer.classList.add('open');
   document.getElementById('cartBackdrop')?.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -159,7 +175,6 @@ function addToCartFlow(product, variant, qty) {
   // rejection, since this flow doesn't navigate and has nothing further to do.
   Cart.add(product, variant, qty).catch(() => {});
   showToast(`Added to cart — ${product.name}`);
-  renderCartDrawer();
   openCartDrawer();
 }
 
