@@ -93,7 +93,7 @@ function renderCartDrawer() {
   _cartSig = sig;
 
   if (!lines.length) {
-    itemsEl.innerHTML = `<div class="cart-empty">Your cart is empty.<br><a href="shop.html" class="btn-text" style="margin-top:1rem;display:inline-block;">Start shopping</a></div>`;
+    itemsEl.innerHTML = `<div class="cart-empty">Your cart is empty.<br><a href="shop.html" class="btn btn-fill" style="margin-top:1.4rem;">Start shopping</a></div>`;
     if (footEl) footEl.style.display = 'none';
     return;
   }
