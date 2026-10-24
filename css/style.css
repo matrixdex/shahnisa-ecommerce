@@ -136,7 +136,7 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 .btn-primary:hover, .btn-gold:hover, .btn-outline:hover,
 .btn-primary:active, .btn-gold:active, .btn-outline:active { color: var(--night); }
 .btn.btn-fill { background: var(--bone); border-color: var(--gold-soft); color: var(--night); --btn-fill: var(--gold-soft); }
-.btn.btn-fill:hover, .btn.btn-fill:active { color: var(--bone); }
+.btn.btn-fill:hover, .btn.btn-fill:active { color: var(--night); }
 /* The hover fill rises from below (as the hero button always did) instead of fading in. */
 .btn, .btn-icon-cart, .mobile-nav-btn, .nl button { position: relative; overflow: hidden; isolation: isolate; }
 .btn::before, .btn-icon-cart::before, .mobile-nav-btn::before, .nl button::before {
@@ -146,7 +146,6 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 }
 .btn:hover::before, .btn:active::before, .btn-icon-cart:hover::before, .btn-icon-cart:active::before,
 .mobile-nav-btn:hover::before, .mobile-nav-btn:active::before, .nl button:hover::before, .nl button:active::before { transform: none; }
-.cart-drawer .btn.btn-fill:hover, .cart-drawer .btn.btn-fill:active { color: var(--night); } /* dark text on the brass fill (7:1) instead of bone (2.2:1) */
 .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-outline-light { border-color: rgba(239,234,224,0.5); color: var(--bone); }
 .btn-outline-light:hover { background: var(--bone); color: var(--ink); }
@@ -536,7 +535,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
   color: var(--night); transition: var(--ease);
 }
 .btn-icon-cart svg { width: 23px; height: 23px; }
-.btn-icon-cart:hover, .btn-icon-cart:active { color: var(--bone); }
+.btn-icon-cart:hover, .btn-icon-cart:active { color: var(--night); }
 
 /* A real uploaded product photo, filling the same box the pattern-card
    placeholder occupies. */
