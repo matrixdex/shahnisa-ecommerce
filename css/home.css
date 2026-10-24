@@ -182,7 +182,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .nl input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--bone); padding: 1rem 1.2rem; font: inherit; outline: 0; }
 .nl input::placeholder { color: #98a091; }
 .nl form:focus-within { box-shadow: 0 0 0 3px rgba(196,151,90,0.25); }
-.nl button { background: var(--night); color: var(--gold-soft); padding: 0 2rem; font: 500 0.74rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s, color 0.3s; }
+.nl button { background: var(--night); color: var(--gold-soft); border: 1px solid var(--gold-soft); margin: -1px; padding: 0 2rem; font: 500 0.74rem var(--sans); letter-spacing: 0.24em; text-transform: uppercase; transition: background 0.3s, color 0.3s; }
 .nl button:hover, .nl button:active { background: var(--gold-soft); color: var(--night); }
 .nl small { display: block; margin-top: 1.2rem; color: var(--bone-2); font-size: 0.82rem; }
 
@@ -212,7 +212,7 @@ body.home { background: var(--night); color: var(--bone-2); }
   .voice blockquote { position: static; grid-area: 1 / 1; }
   .nl form { flex-direction: column; border: 0; gap: 0.7rem; }
   .nl input { border: 1px solid var(--gold-soft); text-align: center; }
-  .nl button { padding: 1rem 2rem; }
+  .nl button { padding: 1rem 2rem; margin: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .flipper { transition: none; }
