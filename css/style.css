@@ -136,7 +136,7 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 .btn-primary, .btn-gold, .btn-outline { background: var(--night); border-color: var(--gold-soft); color: var(--gold-soft); --btn-fill: var(--gold-soft); }
 .btn-primary:hover, .btn-gold:hover, .btn-outline:hover,
 .btn-primary:active, .btn-gold:active, .btn-outline:active { color: var(--night); }
-.btn.btn-fill { background: var(--bone); border-color: var(--gold-soft); color: var(--night); --btn-fill: var(--gold-soft); }
+.btn.btn-fill { background: var(--gold-soft); border-color: var(--night); color: var(--night); --btn-fill: var(--page-bg, var(--bone)); }
 .btn.btn-fill:hover, .btn.btn-fill:active { color: var(--night); }
 /* The hover fill rises from below (as the hero button always did) instead of fading in. */
 .btn, .btn-icon-cart, .mobile-nav-btn, .nl button { position: relative; overflow: hidden; isolation: isolate; }
@@ -533,7 +533,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .product-card-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: stretch; }
 .btn-icon-cart {
   flex: 0 0 auto; width: 40px; padding: 0; display: flex; align-items: center; justify-content: center;
-  background: var(--bone); border: 1px solid var(--gold-soft); border-radius: var(--radius-sm); --btn-fill: var(--gold-soft);
+  background: var(--gold-soft); border: 1px solid var(--night); border-radius: var(--radius-sm); --btn-fill: var(--page-bg, var(--bone));
   color: var(--night); transition: var(--ease);
 }
 .btn-icon-cart svg { width: 23px; height: 23px; }
@@ -919,7 +919,7 @@ body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; 
 }
 
 /* ── Product page: one lighter ground throughout (sections keep their own spacing) ── */
-body.light-page { background: var(--bone-light); }
+body.light-page { background: var(--bone-light); --page-bg: var(--bone-light); }
 
 /* ── Sign-in / account page: dark ground, the home page's button language ── */
 body.dark-page { background: var(--night); }

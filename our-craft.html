@@ -30,7 +30,6 @@
   .process-steps .step p { font-size: 1rem; color: var(--ink-muted); line-height: 1.65; }
 
   .stitch-category { padding: 4.5rem 0; scroll-margin-top: calc(var(--header-h) + 64px); }
-  .stitch-category:nth-child(even) { background: var(--ivory-deep); }
   .stitch-category-head { max-width: 640px; margin-bottom: 2.5rem; }
   /* Raised & Embossed's row 1 boxes (Murri/Phanda/Dhum) are taller than
      other sections' default 138px, which pushes their actual drawn
@@ -51,7 +50,7 @@
      inherit this value too without that override). */
   .stitch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem 3.5rem; }
   /* Card is background-less — it shares its section's own background
-     (which already alternates var(--ivory-deep) per category), same
+     (one light ground, the page's own, for every category), same
      "invisible card" convention as the homepage's Stitches at Shahnisa
      cards, per that section's earlier design. */
   .stitch-card {
