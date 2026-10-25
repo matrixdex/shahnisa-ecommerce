@@ -532,7 +532,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
    is the site's standard dark .btn-primary treatment, just compact. */
 .product-card-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: stretch; }
 .btn-icon-cart {
-  flex: 0 0 auto; width: 40px; padding: 0; display: flex; align-items: center; justify-content: center;
+  flex: 0 0 auto; width: 52px; padding: 0; display: flex; align-items: center; justify-content: center;
   background: var(--gold-soft); border: 1px solid var(--gold-soft); border-radius: var(--radius-sm); --btn-fill: var(--night);
   color: var(--night); transition: var(--ease);
 }
