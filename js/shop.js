@@ -186,7 +186,7 @@ async function refresh() {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
         <h3>No pieces match those filters</h3>
         <p>Try clearing a filter or two.</p>
-        <button class="btn btn-outline" id="emptyClear">Clear all filters</button>
+        <button class="btn btn-fill" id="emptyClear">Clear all filters</button>
       </div>`;
     document.getElementById('emptyClear').addEventListener('click', clearAll);
     return;

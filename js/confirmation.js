@@ -64,7 +64,7 @@ function renderConfirmation(order) {
     </div>
 
     <div class="text-center" style="margin-top:3rem;">
-      <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+      <a href="shop.html" class="btn btn-fill">Continue Shopping</a>
     </div>
   `;
 }

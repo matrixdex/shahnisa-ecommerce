@@ -151,7 +151,7 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 .btn-outline-light { border-color: rgba(239,234,224,0.5); color: var(--bone); }
 .btn-outline-light:hover { background: var(--bone); color: var(--ink); }
 .btn-block { width: 100%; }
-.btn-sm { padding: 0.6rem 1.2rem; font-size: 1rem; }
+.btn-sm { padding: 0.6rem 1.2rem; font-size: 0.68rem; }
 .btn-text {
   font-size: 1rem;
   font-weight: 600;
@@ -176,7 +176,7 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
   background: var(--gold);
   color: var(--white);
   font-family: var(--mono);
-  font-size: 1rem;
+  font-size: 0.6rem;
   font-weight: 700;
   display: flex; align-items: center; justify-content: center;
 }
@@ -480,7 +480,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .footer-rights { position: absolute; left: 50%; transform: translateX(-50%); }
 .payment-icons { display: flex; gap: 0.6rem; }
 .payment-icons span {
-  font-family: var(--mono); font-size: 1rem; letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em;
   border: 1px solid rgba(239,234,224,0.25); border-radius: 3px; padding: 0.25rem 0.5rem;
 }
 @media (max-width: 900px) {
@@ -772,14 +772,14 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
    align-items:center is what centers the fixed-size -/count/+ buttons
    inside that now-taller box. */
 .pdp-purchase-row .qty-stepper { flex: 0 0 auto; align-self: stretch; }
-.pdp-purchase-row #addToBagBtn, .pdp-purchase-row #buyNowBtn { flex: 1 1 0; }
+.pdp-purchase-row #addToBagBtn, .pdp-purchase-row #buyNowBtn { flex: 1 1 0; font-size: 0.76rem; }
 @media (max-width: 900px) {
   .pdp-purchase-row #buyNowBtn { flex: 1 1 100%; }
   /* Add to Bag shares its row with the quantity stepper here, and its
      label is the longest ("Add to Bag — <price>") — tighter padding and
      a smaller size so it doesn't get squeezed into overflowing/clipped
      text, since .btn's default white-space:nowrap won't wrap it. */
-  .pdp-purchase-row #addToBagBtn { padding: 0.95rem 1rem; font-size: 1rem; }
+  .pdp-purchase-row #addToBagBtn { padding: 0.95rem 1rem; font-size: 0.7rem; }
 }
 .trust-row { display: flex; flex-direction: column; gap: 0.85rem; padding: 1.4rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 1.75rem; }
 .trust-item { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; color: var(--ink-soft); }

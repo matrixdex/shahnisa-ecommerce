@@ -115,7 +115,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .side.rev .art svg { transform: scaleX(-1); } /* the reverse is the mirror image of the front */
 .side.fr .art.shade svg { filter: drop-shadow(0 9px 7px rgba(30,36,31,0.5)); }
 .art.hold * { animation-play-state: paused !important; }
-.side .face { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); }
+.side .face { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); }
 .side .face span { background: rgba(13,18,14,0.82); padding: 0.3rem 0.6rem; border-radius: 2px; }
 
 /* ── Stitches at Shahnisa: each one in its own hoop ── */
