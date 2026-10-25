@@ -464,7 +464,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
   border-top: 1px solid rgba(239,234,224,0.14);
   padding: 1.6rem 0 2rem;
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-  font-size: 1rem; color: rgba(239,234,224,0.55);
+  font-size: 1rem; color: var(--gold-soft);
   position: relative; /* lets "All Rights Reserved" centre on the row independently of the other two, below */
 }
 /* Desktop: three independent alignments in one row — "© 2026 Shahnisa."
@@ -481,7 +481,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .payment-icons { display: flex; gap: 0.6rem; }
 .payment-icons span {
   font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em;
-  border: 1px solid rgba(239,234,224,0.25); border-radius: 3px; padding: 0.25rem 0.5rem;
+  border: 1px solid var(--gold-soft); border-radius: 3px; padding: 0.25rem 0.5rem;
 }
 @media (max-width: 900px) {
   .footer-top { grid-template-columns: 1fr 1fr; }
