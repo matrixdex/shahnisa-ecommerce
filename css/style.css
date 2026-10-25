@@ -147,7 +147,7 @@ section { padding: clamp(3rem, 7vw, 6rem) 0; }
 }
 .btn:hover::before, .btn:active::before, .btn-icon-cart:hover::before, .btn-icon-cart:active::before,
 .mobile-nav-btn:hover::before, .mobile-nav-btn:active::before, .nl button:hover::before, .nl button:active::before { transform: none; }
-.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn:disabled { cursor: not-allowed; pointer-events: none; } /* unclickable, never translucent */
 .btn-outline-light { border-color: rgba(239,234,224,0.5); color: var(--bone); }
 .btn-outline-light:hover { background: var(--bone); color: var(--ink); }
 .btn-block { width: 100%; }
@@ -521,8 +521,8 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .product-tag.sale { background: var(--rose); color: var(--white); }
 .product-info { padding-top: 0.9rem; flex: 1; display: flex; flex-direction: column; }
 .product-info .stitch-label { font-family: var(--sans); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-deep); }
-.product-info h3 { font-family: var(--sans); font-weight: 600; font-size: 1.2rem; color: var(--ink); margin: 0.25rem 0 0.35rem; }
-.product-info .price { font-family: var(--sans); font-weight: 600; font-size: 1.2rem; }
+.product-info h3 { font-family: var(--sans); font-weight: 500; font-size: 1.2rem; color: var(--ink); margin: 0.25rem 0 0.35rem; }
+.product-info .price { font-family: var(--sans); font-weight: 500; font-size: 1.2rem; color: var(--ink); }
 /* Always-visible Add to Cart / Buy Now pair below the price — replaces
    the old hover-only Quick Add overlay, so the actions are reachable on
    touch devices without a hover state too. Both size to their own
@@ -706,7 +706,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .pagination button {
   position: relative; overflow: hidden; isolation: isolate;
   width: 38px; height: 38px; border: 1px solid var(--gold-soft); border-radius: var(--radius-sm);
-  background: var(--gold-soft); color: var(--night); --btn-fill: var(--night);
+  background: var(--bone); color: var(--night); --btn-fill: var(--night);
   font-family: var(--sans); font-weight: 600; font-size: 1rem; transition: var(--ease);
 }
 .pagination button::before {
@@ -715,9 +715,9 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 }
 .pagination button:hover:not(:disabled), .pagination button:active:not(:disabled) { border-color: var(--night); color: var(--gold-soft); }
 .pagination button:hover:not(:disabled)::before, .pagination button:active:not(:disabled)::before { transform: none; }
-/* the current page stays filled dark green */
-.pagination button.active { background: var(--night); border-color: var(--night); color: var(--gold-soft); }
-.pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
+/* the current page is the gold one */
+.pagination button.active { background: var(--gold-soft); border-color: var(--gold-soft); color: var(--night); }
+.pagination button:disabled { cursor: not-allowed; pointer-events: none; }
 
 /* ── Product detail page ──────────────────────────────────── */
 .pdp { display: grid; grid-template-columns: 0.9fr 1fr; gap: 3.5rem; }
