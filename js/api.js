@@ -184,7 +184,6 @@
       stitch: m.stitch || '',
       fabric: m.fabric || '',
       price: variants.length ? variants[0].price : 0,
-      compareAt: m.compareAt != null ? m.compareAt : null,
       isNew: !!m.isNew,
       colors: availableOptionValues(colorOption, variants.map(v => v.color)),
       sizes: availableOptionValues(sizeOption, variants.map(v => v.size)),

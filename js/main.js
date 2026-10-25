@@ -292,7 +292,7 @@ function wireReveal() {
 
 /* ── Shared product card (home carousel, shop grid, related products) ── */
 function productCardHTML(p) {
-  const tag = p.isNew ? '<span class="product-tag new">New</span>' : (p.compareAt ? '<span class="product-tag sale">Sale</span>' : '');
+  const tag = p.isNew ? '<span class="product-tag new">New</span>' : '';
   return `
     <a href="product.html?slug=${p.slug}" class="product-card">
       <div class="product-media">
@@ -301,7 +301,7 @@ function productCardHTML(p) {
       </div>
       <div class="product-info">
         <h3>${p.name}</h3>
-        <div class="price">${p.compareAt ? `<span class="compare">${Api.money(p.compareAt)}</span>` : ''}${Api.money(p.price)}</div>
+        <div class="price">${Api.money(p.price)}</div>
         <div class="product-card-actions">
           <button class="btn btn-icon-cart" data-add-to-cart="${p.id}" type="button" aria-label="Add to cart">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h2l1 3"/><path d="M5 6L19 6 17 16 9 16Z"/><circle cx="10.5" cy="19.5" r="1.3"/><circle cx="15.5" cy="19.5" r="1.3"/><path d="M12 8.5v5M9.5 11h5"/></svg>
