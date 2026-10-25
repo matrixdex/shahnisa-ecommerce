@@ -676,7 +676,8 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .shop-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
 .result-count { font-size: 1rem; color: var(--ink-muted); }
 .sort-select { display: flex; align-items: center; gap: 0.6rem; font-size: 1rem; }
-.sort-select select { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.55rem 0.8rem; background: var(--white); font-family: var(--sans); }
+.sort-select select { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0.55rem 2rem; background: var(--white); font-family: var(--sans); text-align: center; text-align-last: center; }
+.sort-select option { text-align: center; }
 .mobile-filter-toggle { display: none; }
 .active-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
 .active-chip {
