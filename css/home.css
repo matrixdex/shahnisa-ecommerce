@@ -218,3 +218,6 @@ body.home { background: var(--night); color: var(--bone-2); }
   .flipper { transition: none; }
   .voice blockquote { transition: opacity 0.2s linear; transform: none; }
 }
+
+/* Widescreen: the two stat labels stay on one line each */
+@media (min-width: 1100px) { .nums .l { white-space: nowrap; } }
