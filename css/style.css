@@ -521,8 +521,8 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 .product-tag.sale { background: var(--rose); color: var(--white); }
 .product-info { padding-top: 0.9rem; flex: 1; display: flex; flex-direction: column; }
 .product-info .stitch-label { font-family: var(--sans); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-deep); }
-.product-info h3 { font-family: var(--sans); font-weight: 600; font-size: 1rem; color: var(--ink); margin: 0.25rem 0 0.35rem; }
-.product-info .price { font-family: var(--sans); font-weight: 700; font-size: 1rem; }
+.product-info h3 { font-family: var(--sans); font-weight: 600; font-size: 1.2rem; color: var(--ink); margin: 0.25rem 0 0.35rem; }
+.product-info .price { font-family: var(--sans); font-weight: 700; font-size: 1.2rem; }
 /* Always-visible Add to Cart / Buy Now pair below the price — replaces
    the old hover-only Quick Add overlay, so the actions are reachable on
    touch devices without a hover state too. Both size to their own
