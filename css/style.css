@@ -940,3 +940,6 @@ body.dark-page { background: var(--night); }
 .dark-ground .account-nav button.active { background: var(--night-2); color: var(--gold-soft); }
 .dark-ground .order-status { background: var(--night-2); color: var(--gold-soft); }
 small, sub, sup { font-size: 1rem; }
+
+/* Product-card Buy Now: 50% larger than the compact .btn-sm it was */
+.product-card-actions [data-buy-now] { font-size: 1.02rem; padding: 0.9rem 1.5rem; }
