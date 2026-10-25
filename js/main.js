@@ -174,7 +174,7 @@ function addToCartFlow(product, variant, qty) {
   // surfaced via its own toast) — caught here only to avoid an unhandled
   // rejection, since this flow doesn't navigate and has nothing further to do.
   Cart.add(product, variant, qty).catch(() => {});
-  showToast(`Added to cart — ${product.name}`);
+  showToast(`Added to cart: ${product.name}`);
   openCartDrawer();
 }
 
@@ -200,7 +200,7 @@ async function wireSearch() {
       p.name.toLowerCase().includes(q) || p.stitch.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
     ).slice(0, 8);
     if (!matches.length) {
-      results.innerHTML = `<div class="search-empty">No results for "${input.value}" — try a stitch name like Jaali or Bakhiya.</div>`;
+      results.innerHTML = `<div class="search-empty">No results for "${input.value}". Try a stitch name like Jaali or Bakhiya.</div>`;
       return;
     }
     results.innerHTML = matches.map(p => `

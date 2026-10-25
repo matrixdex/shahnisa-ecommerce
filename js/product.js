@@ -39,7 +39,7 @@ function renderNotFound() {
 }
 
 function renderPDP(p) {
-  document.title = `${p.name} — Shahnisa`;
+  document.title = `${p.name} | Shahnisa`;
   document.getElementById('pageDesc')?.setAttribute('content', p.description.slice(0, 155));
   const back = document.querySelector('#breadcrumb [data-back]');
   if (back) back.href = `shop.html?category=${encodeURIComponent(p.category)}`;
@@ -118,7 +118,7 @@ function renderPDP(p) {
           ${p.sizes.length ? `
           <div class="accordion-item" id="sizeGuide" data-acc>
             <button class="accordion-trigger" data-acc-trigger>Size &amp; Fit<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
-            <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">Runs true to size — if between sizes, we recommend sizing up for a relaxed fit. Available in ${p.sizes.join(', ')}.</div></div>
+            <div class="accordion-panel" data-acc-panel><div class="accordion-panel-inner">Runs true to size. If between sizes, we recommend sizing up for a relaxed fit. Available in ${p.sizes.join(', ')}.</div></div>
           </div>` : ''}
           <div class="accordion-item" data-acc>
             <button class="accordion-trigger" data-acc-trigger>Shipping &amp; Returns<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -390,7 +390,7 @@ function renderLoadError() {
     <div class="empty-state">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
       <h3>Couldn't load this product</h3>
-      <p>If you opened this page directly as a file, run a local server instead — see README.md.</p>
+      <p>If you opened this page directly as a file, run a local server instead. See README.md.</p>
       <a href="shop.html" class="btn btn-fill">Back to Shop All</a>
     </div>`;
 }

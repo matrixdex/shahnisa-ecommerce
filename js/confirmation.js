@@ -23,7 +23,7 @@ function renderConfirmation(order) {
     </div>
 
     <div class="confirm-steps">
-      <div class="confirm-step"><div class="num">1</div><h4>Order Received</h4><p>We've got it — your pieces are being pulled for packing.</p></div>
+      <div class="confirm-step"><div class="num">1</div><h4>Order Received</h4><p>We've got it. Your pieces are being pulled for packing.</p></div>
       <div class="confirm-step"><div class="num">2</div><h4>Packed &amp; Dispatched</h4><p>Hand-checked and packed with care in Lucknow.</p></div>
       <div class="confirm-step"><div class="num">3</div><h4>Delivered</h4><p>Arriving at your door by ${eta.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}.</p></div>
     </div>

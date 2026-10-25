@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
         <h3>Couldn't load the catalog</h3>
-        <p>If you opened this page directly as a file, run a local server instead — see README.md.</p>
+        <p>If you opened this page directly as a file, run a local server instead. See README.md.</p>
       </div>`;
     return;
   }

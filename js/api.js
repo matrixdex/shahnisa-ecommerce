@@ -522,7 +522,7 @@
   function payWithRazorpay(session, cartId, orderPayload) {
     return new Promise((resolve, reject) => {
       if (typeof Razorpay === 'undefined') {
-        reject(new Error('Could not load the Razorpay checkout — please try again.'));
+        reject(new Error('Could not load the Razorpay checkout. Please try again.'));
         return;
       }
       const rzp = new Razorpay({
@@ -551,7 +551,7 @@
             });
             resolve();
           } catch (err) {
-            reject(new Error('Payment could not be verified — please try again.'));
+            reject(new Error('Payment could not be verified. Please try again.'));
           }
         },
         modal: {
@@ -561,7 +561,7 @@
         },
       });
       rzp.on('payment.failed', function (response) {
-        reject(new Error((response.error && response.error.description) || 'Payment failed — please try again.'));
+        reject(new Error((response.error && response.error.description) || 'Payment failed. Please try again.'));
       });
       rzp.open();
     });
@@ -721,7 +721,7 @@
           syncCacheFromCart();
         } catch (err) {
           console.error('Could not add to cart', err);
-          notify('Could not add that to your cart — please try again.');
+          notify('Could not add that to your cart. Please try again.');
           try {
             const data = await medusaFetch(withFields(`/store/carts/${_cart.id}`));
             _cart = data.cart;
@@ -762,7 +762,7 @@
           syncCacheFromCart();
         } catch (err) {
           console.error('Could not update your cart', err);
-          notify('Could not update your cart — please try again.');
+          notify('Could not update your cart. Please try again.');
           try {
             const data = await medusaFetch(withFields(`/store/carts/${_cart.id}`));
             _cart = data.cart;

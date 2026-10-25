@@ -1,6 +1,6 @@
 {
   "meta": {
-    "note": "This file stands in for a real backend. Replace api.js's fetch('data/products.json') calls with real endpoints (e.g. GET /api/products) when your backend is ready — the rest of the site talks to api.js, not to this file directly.",
+    "note": "This file stands in for a real backend. Replace api.js's fetch('data/products.json') calls with real endpoints (e.g. GET /api/products) when your backend is ready. the rest of the site talks to api.js, not to this file directly.",
     "currency": "INR"
   },
   "collections": [
@@ -44,9 +44,9 @@
       "sizes": ["S", "M", "L", "XL"],
       "rating": 4.9,
       "reviews": 41,
-      "description": "A floor-sweeping anarkali with hand-pulled jaali lattice across the bodice — thread drawn open, strand by strand, to let the fabric breathe. Finished with a delicate taipchi border.",
+      "description": "A floor-sweeping anarkali with hand-pulled jaali lattice across the bodice, thread drawn open, strand by strand, to let the fabric breathe. Finished with a delicate taipchi border.",
       "care": "Dry clean only. Store folded in muslin to protect the jaali work.",
-      "artisanNote": "Jaali work is reserved for our most senior artisans — it takes years to learn to open the weave without tearing it."
+      "artisanNote": "Jaali work is reserved for our most senior artisans, it takes years to learn to open the weave without tearing it."
     },
     {
       "id": "p03",
@@ -64,8 +64,8 @@
       "rating": 4.7,
       "reviews": 88,
       "description": "A 3-piece straight suit set with rice-grain murri knots forming the floral buta, paired with matching dupatta and straight-cut pants.",
-      "care": "Hand wash separately. Do not wring — press out water gently and dry flat.",
-      "artisanNote": "Every murri knot is tied by hand — this suit carries roughly 4,000 individual knots."
+      "care": "Hand wash separately. Do not wring. Press out water gently and dry flat.",
+      "artisanNote": "Every murri knot is tied by hand, this suit carries roughly 4,000 individual knots."
     },
     {
       "id": "p04",
@@ -101,9 +101,9 @@
       "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
       "rating": 4.6,
       "reviews": 154,
-      "description": "Our most-loved everyday kurta — a fine taipchi running-stitch outline traces a simple floral border at the neckline and hem. Easy to wear, easy to care for.",
+      "description": "Our most-loved everyday kurta, a fine taipchi running-stitch outline traces a simple floral border at the neckline and hem. Easy to wear, easy to care for.",
       "care": "Machine washable on gentle cycle. Tumble dry low.",
-      "artisanNote": "Taipchi is the first stitch every chikankari artisan learns — simple, but unmistakably hand-done."
+      "artisanNote": "Taipchi is the first stitch every chikankari artisan learns, simple, but unmistakably hand-done."
     },
     {
       "id": "p06",
@@ -139,7 +139,7 @@
       "sizes": ["Free Size"],
       "rating": 4.7,
       "reviews": 76,
-      "description": "A sheer organza dupatta with a continuous bakhiya border — the translucent shadow effect is most visible in this weight of fabric.",
+      "description": "A sheer organza dupatta with a continuous bakhiya border, the translucent shadow effect is most visible in this weight of fabric.",
       "care": "Dry clean only.",
       "artisanNote": "Organza shows bakhiya's signature 'shadow' more clearly than any other fabric we work with."
     },
@@ -198,7 +198,7 @@
       "reviews": 18,
       "description": "A statement occasion lehenga with dense murri work across the bodice and a bakhiya-bordered dupatta, fully lined.",
       "care": "Dry clean only. Store flat, folded in muslin.",
-      "artisanNote": "Our most labour-intensive piece — over 80 hours of combined murri and bakhiya work."
+      "artisanNote": "Our most labour-intensive piece, over 80 hours of combined murri and bakhiya work."
     },
     {
       "id": "p11",
@@ -217,7 +217,7 @@
       "reviews": 39,
       "description": "Delicate hool eyelet stitches form the flower centres across a simple taipchi buta, punched and worked by hand.",
       "care": "Hand wash cold. Dry flat in shade.",
-      "artisanNote": "Each hool eyelet is punched and bound by hand — no two are perfectly identical."
+      "artisanNote": "Each hool eyelet is punched and bound by hand, no two are perfectly identical."
     },
     {
       "id": "p12",
@@ -236,7 +236,7 @@
       "reviews": 22,
       "description": "Bijli's lightning-bolt zigzag stitch borders the pallu of this silk chiffon saree, paired with an unstitched bakhiya blouse piece.",
       "care": "Dry clean only.",
-      "artisanNote": "Bijli is among the rarer stitches still practised — few artisans still take it on."
+      "artisanNote": "Bijli is among the rarer stitches still practised, few artisans still take it on."
     }
   ]
 }

@@ -89,14 +89,14 @@ async function applyShippingAndRefresh() {
     renderSummary(totals);
   } catch (err) {
     console.error('Could not select shipping method', err);
-    showToast('Could not update shipping — please try again.');
+    showToast('Could not update shipping. Please try again.');
   }
 }
 
 function renderPaymentFields() {
   const el = document.getElementById('paymentFields');
   if (selectedPayment === 'online') {
-    el.innerHTML = `<p style="font-size:1rem; color:var(--ink-muted);">Clicking "Place Order" opens a secure Razorpay window — pay by card, UPI, netbanking or wallet there.</p>`;
+    el.innerHTML = `<p style="font-size:1rem; color:var(--ink-muted);">Clicking "Place Order" opens a secure Razorpay window. Pay by card, UPI, netbanking or wallet there.</p>`;
   } else {
     el.innerHTML = `<p style="font-size:1rem; color:var(--ink-muted);">Pay in cash when your order is delivered. A small COD handling fee may apply in a live store.</p>`;
   }
@@ -118,7 +118,7 @@ function wirePromo() {
     const code = document.getElementById('promoInput').value.trim().toUpperCase();
     if (!code) return;
     const applied = await Api.applyPromoCode(code);
-    showToast(applied ? `Code applied — ${code}` : 'That code is not valid');
+    showToast(applied ? `Code applied: ${code}` : 'That code is not valid');
     renderSummary(await Api.getCartTotals());
   });
 }
@@ -192,7 +192,7 @@ async function handleSubmit(e) {
     location.href = `order-confirmation.html?order=${order.orderId}`;
   } catch (err) {
     console.error('Could not place order', err);
-    showToast(err.message || 'Could not place your order — please try again.');
+    showToast(err.message || 'Could not place your order. Please try again.');
     btn.disabled = false;
     btn.textContent = 'Place Order';
   }
@@ -236,6 +236,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await applyShippingAndRefresh();
   } catch (err) {
     console.error('Could not load shipping methods', err);
-    showToast('Could not load shipping options — please try again.');
+    showToast('Could not load shipping options. Please try again.');
   }
 });

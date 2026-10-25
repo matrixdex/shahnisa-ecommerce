@@ -16,12 +16,12 @@ async function renderNewArrivals() {
     products = await Api.getNewArrivals(10);
   } catch (err) {
     console.error('Could not load new arrivals', err);
-    track.innerHTML = `<p style="color:var(--rose-deep);">Couldn't load products. If you opened this page directly as a file, run a local server instead — see README.md.</p>`;
+    track.innerHTML = `<p style="color:var(--rose-deep);">Couldn't load products. If you opened this page directly as a file, run a local server instead. See README.md.</p>`;
     return;
   }
 
   if (!products.length) {
-    track.innerHTML = `<p style="color:var(--ink-muted);">New arrivals are on their way — check back soon.</p>`;
+    track.innerHTML = `<p style="color:var(--ink-muted);">New arrivals are on their way. Check back soon.</p>`;
     return;
   }
 
@@ -63,7 +63,7 @@ function wireNewsletter() {
     btn.disabled = true;
     btn.textContent = 'Joining…';
     await Api.subscribeNewsletter(input.value.trim());
-    showToast("You're on the list — welcome to Shahnisa.");
+    showToast("You're on the list. Welcome to Shahnisa.");
     form.reset();
     btn.disabled = false;
     btn.textContent = original;

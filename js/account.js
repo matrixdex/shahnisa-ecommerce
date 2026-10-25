@@ -68,10 +68,10 @@ function renderAuthGate() {
       }
     } catch (err) {
       console.error('Auth failed', err);
-      showToast(err.message || 'Something went wrong — please try again.');
+      showToast(err.message || 'Something went wrong. Please try again.');
       return;
     }
-    showToast(authMode === 'signup' ? 'Account created — welcome!' : 'Welcome back!');
+    showToast(authMode === 'signup' ? 'Account created. Welcome!' : 'Welcome back!');
     await renderDashboard();
   });
 }
@@ -105,7 +105,7 @@ async function renderDashboard() {
               <span class="order-status">Processing</span>
               <div class="price">${Api.money(o.totals.total)}</div>
             </div>
-          `).join('') : `<p style="color:var(--ink-muted);">No orders yet — once you place one, it'll show up here.</p><a href="shop.html" class="btn btn-outline" style="margin-top:1.5rem;">Shop All</a>`}
+          `).join('') : `<p style="color:var(--ink-muted);">No orders yet. Once you place one, it'll show up here.</p><a href="shop.html" class="btn btn-outline" style="margin-top:1.5rem;">Shop All</a>`}
         </div>
         <div id="panel-details" style="display:none;">
           <h2 style="margin-bottom:1.5rem;">Account Details</h2>
