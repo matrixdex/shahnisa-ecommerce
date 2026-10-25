@@ -16,14 +16,6 @@
   .craft-hero p { color: rgba(239,234,224,0.75); margin-top: 1.1rem; line-height: 1.8; font-size: 1.02rem; }
   .craft-hero p + p { margin-top: 1rem; }
 
-  .craft-subnav {
-    position: sticky; top: calc(var(--header-h) + env(safe-area-inset-top)); z-index: 500;
-    background: var(--bone); border-bottom: 1px solid var(--line);
-    overflow-x: auto;
-  }
-  .craft-subnav .container { display: flex; gap: 1.75rem; padding-top: 1rem; padding-bottom: 1rem; white-space: nowrap; }
-  .craft-subnav a { font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-muted); }
-  .craft-subnav a:hover { color: var(--ink); }
 
   .process-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2.5rem 0 0; }
   .process-steps .step { padding: 1.75rem; border-radius: var(--radius-md); }
@@ -31,7 +23,7 @@
   .process-steps .step h4 { font-family: var(--display); font-weight: 500; font-size: 1.05rem; margin: 0.5rem 0 0.6rem; }
   .process-steps .step p { font-size: 1rem; color: var(--ink-muted); line-height: 1.65; }
 
-  .stitch-category { padding: 2.25rem 0; scroll-margin-top: calc(var(--header-h) + 64px); }
+  .stitch-category { padding: 2.25rem 0; scroll-margin-top: var(--header-h); }
   .stitch-category-head { max-width: 640px; margin-bottom: 2.5rem; margin-left: auto; margin-right: auto; text-align: center; }
   /* Raised & Embossed's row 1 boxes (Murri/Phanda/Dhum) are taller than
      other sections' default 138px, which pushes their actual drawn
@@ -59,7 +51,7 @@
     background: transparent; border: 0; border-radius: var(--radius-md);
     padding: 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.4rem;
   }
-  .stitch-card h3 { font-family: var(--display); font-weight: 500; font-size: 1.08rem; margin: 0.4rem 0 0.6rem; }
+  .stitch-card h3 { font-family: var(--display); font-weight: 500; font-size: 1.08rem; margin: 0.4rem 0 0.6rem; -webkit-text-stroke-width: 1px; }
   .stitch-card p { font-size: 1rem; color: var(--ink-muted); line-height: 1.6; }
 
   /* ── Stitch animations — ported wholesale from
@@ -185,15 +177,6 @@
   </div>
 </section>
 
-<nav class="craft-subnav">
-  <div class="container">
-    <a href="#process">How It's Made</a>
-    <a href="#flat">Flat Stitches</a>
-    <a href="#raised">Raised &amp; Embossed</a>
-    <a href="#jaali">Jaali — Open Trellis</a>
-    <a href="#decorative">Decorative &amp; Finishing</a>
-  </div>
-</nav>
 
 <section class="stitch-category" id="process" style="padding-bottom:3.5rem;">
   <div class="container">
