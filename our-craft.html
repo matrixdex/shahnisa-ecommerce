@@ -9,6 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>" />
 <style>
   .craft-hero { background: var(--night); color: var(--bone); padding: 4rem 0 3.5rem; }
+  /* a thin outline makes every title on this page a touch bolder (the display face has one weight) */
+  h1, h2, h3, h4 { -webkit-text-stroke: 0.6px currentColor; paint-order: stroke fill; }
   .craft-hero h1 { color: var(--bone); }
   .craft-hero .container { max-width: 760px; }
   .craft-hero p { color: rgba(239,234,224,0.75); margin-top: 1.1rem; line-height: 1.8; font-size: 1.02rem; }
@@ -24,7 +26,7 @@
   .craft-subnav a:hover { color: var(--ink); }
 
   .process-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2.5rem 0 0; }
-  .process-steps .step { padding: 1.75rem; border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .process-steps .step { padding: 1.75rem; border-radius: var(--radius-md); }
   .process-steps .step .n { font-family: var(--mono); font-size: 1rem; color: var(--gold-deep); letter-spacing: 0.06em; }
   .process-steps .step h4 { font-family: var(--display); font-weight: 500; font-size: 1.05rem; margin: 0.5rem 0 0.6rem; }
   .process-steps .step p { font-size: 1rem; color: var(--ink-muted); line-height: 1.65; }
@@ -54,7 +56,7 @@
      "invisible card" convention as the homepage's Stitches at Shahnisa
      cards, per that section's earlier design. */
   .stitch-card {
-    background: transparent; border: 1px solid transparent; border-radius: var(--radius-md);
+    background: transparent; border: 0; border-radius: var(--radius-md);
     padding: 1.5rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.4rem;
   }
   .stitch-card h3 { font-family: var(--display); font-weight: 500; font-size: 1.08rem; margin: 0.4rem 0 0.6rem; }
@@ -201,17 +203,17 @@
     </div>
     <div class="process-steps">
       <div class="step">
-        <div class="n">01</div>
+        <div class="n">Step 1</div>
         <h4>Block-Printed Guideline</h4>
         <p>A hand-carved wooden block stamps the motif outline onto plain cotton, muslin or georgette in a temporary, washable dye. This is the artisan's map for everything that follows.</p>
       </div>
       <div class="step">
-        <div class="n">02</div>
+        <div class="n">Step 2</div>
         <h4>Hand Embroidery or Needlework</h4>
         <p>Working <strong>entirely by hand</strong>,  often from the reverse side of the cloth, an artisan combines several of chikankari's 32 stitches to build a single motif in process that can take days.</p>
       </div>
       <div class="step">
-        <div class="n">03</div>
+        <div class="n">Step 3</div>
         <h4>Wash &amp; Finish</h4>
         <p>The finished piece is washed to remove the printed guideline, then starched and pressed. This reveals clean embroidery in all its glory visible on both sides.</p>
       </div>
