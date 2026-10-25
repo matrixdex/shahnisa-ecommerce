@@ -193,11 +193,12 @@ async function refresh() {
   wireProductCardActions(grid, pageItems);
 
   if (totalPages > 1) {
-    let html = `<button ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">&larr;</button>`;
+    // no previous arrow on the first page, no next arrow on the last
+    let html = currentPage === 1 ? '' : `<button data-page="${currentPage - 1}" aria-label="Previous page">&larr;</button>`;
     for (let i = 1; i <= totalPages; i++) {
       html += `<button data-page="${i}" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
     }
-    html += `<button ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">&rarr;</button>`;
+    if (currentPage !== totalPages) html += `<button data-page="${currentPage + 1}" aria-label="Next page">&rarr;</button>`;
     pageEl.innerHTML = html;
     pageEl.querySelectorAll('[data-page]').forEach(btn => {
       btn.addEventListener('click', async () => {
