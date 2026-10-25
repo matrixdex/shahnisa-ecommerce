@@ -942,4 +942,4 @@ body.dark-page { background: var(--night); }
 small, sub, sup { font-size: 1rem; }
 
 /* Product-card Buy Now: 50% larger than the compact .btn-sm it was */
-.product-card-actions [data-buy-now] { font-size: 1.02rem; padding: 0.9rem 1.5rem; }
+.product-card-actions [data-buy-now] { font-size: 0.9rem; padding: 0.9rem 1.5rem; }
