@@ -62,23 +62,19 @@ function activeFilters() {
 
 function updateHeaderCopy() {
   const title = document.getElementById('shopTitle');
-  const desc = document.getElementById('shopDesc');
 
   if (state.collection) {
     const col = COLLECTIONS.find(c => c.id === state.collection);
     if (col) {
       title.textContent = col.name;
-      desc.textContent = col.description;
       return;
     }
   }
   if (state.category) {
     title.textContent = state.category;
-    desc.textContent = `Every ${state.category.toLowerCase()} piece in the Shahnisa edit.`;
     return;
   }
   title.textContent = 'All Products';
-  desc.textContent = 'Every hand-embroidered piece, in one place.';
 }
 
 function renderFacets() {
