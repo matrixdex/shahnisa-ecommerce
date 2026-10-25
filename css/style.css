@@ -704,10 +704,19 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 /* ── Pagination ────────────────────────────────────────────── */
 .pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem; }
 .pagination button {
-  width: 38px; height: 38px; border: 1px solid var(--line); border-radius: var(--radius-sm);
-  font-family: var(--mono); font-size: 1rem; transition: var(--ease);
+  position: relative; overflow: hidden; isolation: isolate;
+  width: 38px; height: 38px; border: 1px solid var(--gold-soft); border-radius: var(--radius-sm);
+  background: var(--gold-soft); color: var(--night); --btn-fill: var(--night);
+  font-family: var(--sans); font-weight: 600; font-size: 1rem; transition: var(--ease);
 }
-.pagination button.active { background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.pagination button::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: var(--btn-fill); transform: translateY(101%); transition: transform 0.6s var(--ease-out);
+}
+.pagination button:hover:not(:disabled), .pagination button:active:not(:disabled) { border-color: var(--night); color: var(--gold-soft); }
+.pagination button:hover:not(:disabled)::before, .pagination button:active:not(:disabled)::before { transform: none; }
+/* the current page stays filled dark green */
+.pagination button.active { background: var(--night); border-color: var(--night); color: var(--gold-soft); }
 .pagination button:disabled { opacity: 0.35; cursor: not-allowed; }
 
 /* ── Product detail page ──────────────────────────────────── */
