@@ -504,7 +504,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 }
 
 /* ── Product card + placeholder "pattern card" ────────────── */
-.product-card { display: block; position: relative; }
+.product-card { display: flex; flex-direction: column; position: relative; }
 .product-media {
   position: relative;
   aspect-ratio: 3/4;
@@ -514,15 +514,15 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 }
 .product-tag {
   position: absolute; top: 0.7rem; left: 0.7rem; z-index: 2;
-  font-family: var(--mono); font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
   padding: 0.32rem 0.6rem; border-radius: 2px;
 }
 .product-tag.new { background: var(--ink); color: var(--bone); }
 .product-tag.sale { background: var(--rose); color: var(--white); }
-.product-info { padding-top: 0.9rem; }
-.product-info .stitch-label { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-deep); }
-.product-info h3 { font-family: var(--sans); font-weight: 600; font-size: 1rem; color: var(--ink); margin: 0.25rem 0 0.35rem; }
-.product-info .price { font-size: 1rem; }
+.product-info { padding-top: 0.9rem; flex: 1; display: flex; flex-direction: column; }
+.product-info .stitch-label { font-family: var(--sans); font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-deep); }
+.product-info h3 { font-family: var(--display); font-weight: 400; font-size: 1.25rem; letter-spacing: 0.01em; color: var(--ink); margin: 0.25rem 0 0.35rem; }
+.product-info .price { font-family: var(--sans); font-weight: 600; font-size: 1rem; }
 /* Always-visible Add to Cart / Buy Now pair below the price — replaces
    the old hover-only Quick Add overlay, so the actions are reachable on
    touch devices without a hover state too. Both size to their own
@@ -530,7 +530,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
    icon-only, transparent/outlined button (fills solid on hover, same
    "outline that fills in" pattern as .btn-outline elsewhere); Buy Now
    is the site's standard dark .btn-primary treatment, just compact. */
-.product-card-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; align-items: stretch; }
+.product-card-actions { display: flex; gap: 0.5rem; margin-top: auto; padding-top: 0.75rem; align-items: stretch; } /* actions line up along the bottom of each row */
 .btn-icon-cart {
   flex: 0 0 auto; width: 52px; padding: 0; display: flex; align-items: center; justify-content: center;
   background: var(--gold-soft); border: 1px solid var(--gold-soft); border-radius: var(--radius-sm); --btn-fill: var(--night);
@@ -555,7 +555,7 @@ footer.site-footer { background: var(--night); color: var(--bone); padding: 4.5r
 }
 .pattern-card svg { width: 46%; height: 46%; color: var(--ink); opacity: 0.5; }
 .pattern-card .stitch-name {
-  font-family: var(--mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--ink-soft);
 }
 .pattern-card::after {
