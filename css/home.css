@@ -102,7 +102,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .light h2 { margin-bottom: 1.6rem; }
 .nums { display: flex; gap: 3.5rem; margin: 2.4rem 0 2rem; }
 .nums .n { font-family: var(--display); font-size: 3.4rem; line-height: 1; color: var(--gold-soft); }
-.nums .l { font-family: var(--mono); font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone-2); margin-top: 0.4rem; }
+.nums .l { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone-2); margin-top: 0.4rem; }
 .stage { perspective: 1400px; aspect-ratio: 4/5; position: relative; max-width: 520px; width: 100%; justify-self: center; }
 .stage::before { content: ''; position: absolute; left: 6%; right: 6%; bottom: -3%; height: 14%; background: radial-gradient(closest-side, rgba(0,0,0,0.55), transparent); pointer-events: none; }
 .flipper { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; transition: transform 1.5s cubic-bezier(0.65,0,0.35,1); }
