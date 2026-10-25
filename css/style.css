@@ -943,3 +943,7 @@ small, sub, sup { font-size: 1rem; }
 
 /* Product-card Buy Now: 50% larger than the compact .btn-sm it was */
 .product-card-actions [data-buy-now] { font-size: 0.9rem; padding: 0.9rem 1.5rem; }
+
+/* Back arrow (replaces the Home / page-name breadcrumb on sub-pages) */
+.back-arrow { width: 48px; height: 48px; padding: 0; margin-bottom: 1.75rem; }
+.back-arrow svg { width: 20px; height: 20px; }

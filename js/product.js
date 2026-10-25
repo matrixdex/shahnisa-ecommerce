@@ -41,10 +41,8 @@ function renderNotFound() {
 function renderPDP(p) {
   document.title = `${p.name} — Shahnisa`;
   document.getElementById('pageDesc')?.setAttribute('content', p.description.slice(0, 155));
-  document.getElementById('breadcrumb').innerHTML = `
-    <a href="index.html">Home</a><span class="sep">/</span>
-    <a href="shop.html?category=${encodeURIComponent(p.category)}">${p.category}</a><span class="sep">/</span>
-    <span class="current">${p.name}</span>`;
+  const back = document.querySelector('#breadcrumb [data-back]');
+  if (back) back.href = `shop.html?category=${encodeURIComponent(p.category)}`;
 
   selectedColor = p.colors[0];
   selectedSize = null;

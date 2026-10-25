@@ -380,3 +380,14 @@ document.addEventListener('partials:loaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', wireReveal);
+
+/* Back arrow on sub-pages: step back through history when we arrived from this site,
+   otherwise follow its href to the parent page. */
+document.addEventListener('click', (e) => {
+  const a = e.target.closest && e.target.closest('[data-back]');
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) {
+    e.preventDefault();
+    history.back();
+  }
+});
