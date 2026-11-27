@@ -13,7 +13,7 @@ async function renderNewArrivals() {
 
   let products;
   try {
-    products = await Api.getNewArrivals(Infinity); // every piece, newest first, so the earliest pieces close the row
+    products = await Api.getNewArrivals(10);
   } catch (err) {
     console.error('Could not load new arrivals', err);
     track.innerHTML = `<p style="color:var(--rose-deep);">Couldn't load products. If you opened this page directly as a file, run a local server instead. See README.md.</p>`;
