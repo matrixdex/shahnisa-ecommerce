@@ -6,7 +6,20 @@
 
 const GALLERY_VIEWS = ['Front', 'Embroidery Detail', 'Back', 'Styled'];
 const COLOR_HEX_PDP = {
-  'Ivory': '#f1ead9', 'Sage': '#b7c4a0', 'Blush': '#e8c3bf', 'Mint': '#bcd9c8', 'Powder Blue': '#b9d0e0'
+  'Ivory': '#f1ead9', 'Sage': '#b7c4a0', 'Blush': '#e8c3bf', 'Mint': '#bcd9c8', 'Powder Blue': '#b9d0e0',
+  'Beige': '#d8c7a6',
+  'White': '#f7f5ef',
+  'Charcoal': '#4b4b55',
+  'Ash Grey': '#c9c7c0',
+  'Lime Green': '#9fb53a',
+  'Rose Pink': '#d98aa0',
+  'Pink': '#e8a1a8',
+  'Peach': '#e8b9a2',
+  'Dusty Rose': '#d9b7b4',
+  'Silver': '#d7d7d4',
+  'Red': '#c2232c',
+  'Lilac': '#cdb6d8',
+  'Crimson Ombre': 'linear-gradient(135deg, #b8243a 50%, #efe6d8 50%)'
 };
 
 let currentProduct = null;
