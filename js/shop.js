@@ -23,6 +23,7 @@ const COLOR_HEX = {
   'Silver': '#d7d7d4',
   'Red': '#c2232c',
   'Lilac': '#cdb6d8',
+  'Gold': '#c9a24d',
   'Crimson Ombre': 'linear-gradient(135deg, #b8243a 50%, #efe6d8 50%)'
 };
 const SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'Free Size'];

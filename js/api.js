@@ -185,7 +185,6 @@
       fabric: m.fabric || '',
       price: variants.length ? variants[0].price : 0,
       isNew: !!m.isNew,
-      arrivalsLast: !!m.arrivalsLast,
       createdAt: p.created_at || '',
       colors: availableOptionValues(colorOption, variants.map(v => v.color)),
       sizes: availableOptionValues(sizeOption, variants.map(v => v.size)),
@@ -284,12 +283,10 @@
         .slice(0, limit);
     },
 
-    /** Newest pieces first; anything flagged arrivalsLast (metadata) always closes the row. */
+    /** Most recently added pieces first. */
     async getNewArrivals(limit = 8) {
       const items = await loadCatalog();
-      const newest = items.filter(p => !p.arrivalsLast).sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
-      const last = items.filter(p => p.arrivalsLast);
-      return newest.slice(0, Math.max(0, limit - last.length)).concat(last.slice(0, limit));
+      return [...items].sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || '')).slice(0, limit);
     },
 
     /* ── Checkout ──────────────────────────────────────────── */
