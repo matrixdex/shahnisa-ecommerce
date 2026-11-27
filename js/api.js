@@ -136,7 +136,7 @@
      `variants` is the one added field — {id, color, size, price} —
      so Cart.add can resolve a real Medusa variant id. */
   const PRODUCT_FIELDS = [
-    'id', 'title', 'handle', 'description', 'type.value', 'material', 'thumbnail', '*images',
+    'id', 'title', 'handle', 'description', 'created_at', 'type.value', 'material', 'thumbnail', '*images',
     'collection.title', 'collection.handle', 'collection.metadata', 'metadata',
     '*options', '*options.values', '*variants', '*variants.options', '*variants.calculated_price',
   ].join(',');
@@ -185,6 +185,8 @@
       fabric: m.fabric || '',
       price: variants.length ? variants[0].price : 0,
       isNew: !!m.isNew,
+      arrivalsLast: !!m.arrivalsLast,
+      createdAt: p.created_at || '',
       colors: availableOptionValues(colorOption, variants.map(v => v.color)),
       sizes: availableOptionValues(sizeOption, variants.map(v => v.size)),
       rating: m.rating || 0,
@@ -201,12 +203,12 @@
     if (_catalogCache) return _catalogCache;
     if (!_loadCatalogPromise) {
       _loadCatalogPromise = (async () => {
-        const cached = readSessionCache('shahnisa_catalog');
+        const cached = readSessionCache('shahnisa_catalog_v2');
         if (cached) { _catalogCache = cached; return _catalogCache; }
         const regionId = await getRegionId();
         const data = await medusaFetch(`/store/products?region_id=${regionId}&limit=100&fields=${encodeURIComponent(PRODUCT_FIELDS)}`);
         _catalogCache = data.products.map(mapProduct);
-        writeSessionCache('shahnisa_catalog', _catalogCache, CATALOG_CACHE_TTL_MS);
+        writeSessionCache('shahnisa_catalog_v2', _catalogCache, CATALOG_CACHE_TTL_MS);
         return _catalogCache;
       })();
     }
@@ -282,9 +284,12 @@
         .slice(0, limit);
     },
 
+    /** Newest pieces first; anything flagged arrivalsLast (metadata) always closes the row. */
     async getNewArrivals(limit = 8) {
       const items = await loadCatalog();
-      return items.filter(p => p.isNew).concat(items.filter(p => !p.isNew)).slice(0, limit);
+      const newest = items.filter(p => !p.arrivalsLast).sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      const last = items.filter(p => p.arrivalsLast);
+      return newest.slice(0, Math.max(0, limit - last.length)).concat(last.slice(0, limit));
     },
 
     /* ── Checkout ──────────────────────────────────────────── */
