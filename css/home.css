@@ -35,6 +35,8 @@ body.home { background: var(--night); color: var(--bone-2); }
 .hool-tick { fill: none; stroke: var(--gold); stroke-width: 3.2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-stitch 0.25s cubic-bezier(0.6,0,0.4,1) forwards; }
 .hool-dot { fill: none; stroke: var(--gold); stroke-width: 3.2; opacity: 0; animation: dot-appear 0.4s ease forwards; }
 .stitch-shape { opacity: 0; animation: dot-appear var(--dur, 0.4s) ease forwards; }
+.mukaish-piece { fill: var(--gold); stroke: var(--gold-deep); stroke-width: 0.6; }
+.mukaish-vine { stroke-width: 1.2; }
 .loop svg { display: block; width: 100%; height: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .stitch-path, .bakhiya-spine, .bakhiya-tick, .jaali-arch, .jaali-line, .jaali-pillar, .hool-tick { animation: none; stroke-dashoffset: 0; }
@@ -119,7 +121,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 .side .face span { background: rgba(13,18,14,0.82); padding: 0.3rem 0.6rem; border-radius: 2px; }
 
 /* ── Stitches at Shahnisa: each one in its own hoop ── */
-.hoops { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3.5rem; }
+.hoops { display: grid; grid-template-columns: repeat(2, minmax(0, 280px)); justify-content: center; gap: 2rem 5rem; margin-top: 3.5rem; } /* the two collections: Jaali, Mukhaish */
 .hoop { text-align: center; display: block; }
 .ring { position: relative; aspect-ratio: 1; border-radius: 50%; padding: 12px; transition: transform 1.2s var(--ease-out); background: linear-gradient(145deg, #b58a52, #6e4f26 55%, #a97f49); box-shadow: 0 18px 40px rgba(0,0,0,0.45); --gold: #8a6830; --gold-deep: #6e4f26; --dot: #8a6830; }
 .ring::after { content: ''; position: absolute; top: -9px; left: 50%; width: 22px; height: 14px; margin-left: -11px; background: linear-gradient(#6e4f26, #a97f49); border-radius: 3px 3px 0 0; }
@@ -193,7 +195,7 @@ body.home { background: var(--night); color: var(--bone-2); }
 @media (max-width: 900px) {
   .light { grid-template-columns: 1fr; }
   .stage { max-width: 420px; }
-  .hoops { grid-template-columns: 1fr 1fr; gap: 2.2rem 1.25rem; }
+  .hoops { grid-template-columns: 1fr 1fr; gap: 2.2rem 1.25rem; justify-content: stretch; }
   .hoop h3 { font-size: 1.45rem; }
   .ev { grid-template-columns: 1fr; gap: 0.4rem; padding-left: 2rem; }
   .ev::after { left: 0; }

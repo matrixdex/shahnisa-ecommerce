@@ -105,7 +105,8 @@ function renderFacets() {
   const colCounts = {};
   ALL_PRODUCTS.forEach(p => { colCounts[p.collection] = (colCounts[p.collection] || 0) + 1; });
   const colEl = document.getElementById('facetCollection');
-  colEl.innerHTML = COLLECTIONS.map(c => `
+  // only collections that actually hold pieces (empty ones stay in Medusa but off the site)
+  colEl.innerHTML = COLLECTIONS.filter(c => colCounts[c.id]).map(c => `
     <button data-facet="collection" data-value="${c.id}" class="${state.collection === c.id ? 'active' : ''}">
       <span>${c.name}</span><span class="count">${colCounts[c.id] || 0}</span>
     </button>
