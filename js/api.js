@@ -648,7 +648,12 @@
   }
 
   function findVariantId(product, variant) {
-    const match = (product.variants || []).find(v => v.color === variant.color && v.size === variant.size);
+    // A product with no Size (unstitched) or no Colour option has null there on its
+    // variants, while callers may pass undefined (e.g. product.sizes[0]) — treat both as "none".
+    const same = (a, b) => (a ?? null) === (b ?? null);
+    const variants = product.variants || [];
+    const match = variants.find(v => same(v.color, variant.color) && same(v.size, variant.size))
+      || (variants.length === 1 ? variants[0] : null);
     return match ? match.id : null;
   }
 
@@ -664,7 +669,7 @@
     subtotal() { return _cartCache.reduce((sum, l) => sum + l.qty * l.price, 0); },
 
     add(product, variant, qty = 1) {
-      const existing = _cartCache.find(l => l.productId === product.id && l.color === variant.color && l.size === variant.size);
+      const existing = _cartCache.find(l => l.productId === product.id && (l.color ?? null) === (variant.color ?? null) && (l.size ?? null) === (variant.size ?? null));
       const currentQty = existing ? existing.qty : 0;
       // Clamp to MAX_QTY_PER_ITEM here (not just in the UI) so this is the
       // one place every add-to-cart path — quick add, PDP, buy-now — is

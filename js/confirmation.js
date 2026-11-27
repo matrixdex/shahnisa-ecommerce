@@ -37,7 +37,7 @@ function renderConfirmation(order) {
               <div class="summary-line-thumb">${patternCard(l.stitch)}<span class="qty-badge">${l.qty}</span></div>
               <div>
                 <div class="summary-line-name">${l.name}</div>
-                <div class="summary-line-meta">${l.color} &middot; ${l.size}</div>
+                <div class="summary-line-meta">${[l.color, l.size].filter(Boolean).join(' &middot; ')}</div>
               </div>
               <div class="summary-line-price">${Api.money(l.price * l.qty)}</div>
             </div>

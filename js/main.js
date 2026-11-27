@@ -104,7 +104,7 @@ function renderCartDrawer() {
       <div class="cart-line-thumb">${lineThumb(l)}</div>
       <div>
         <div class="cart-line-name">${l.name}</div>
-        <div class="cart-line-meta">${l.color} &middot; ${l.size}</div>
+        <div class="cart-line-meta">${[l.color, l.size].filter(Boolean).join(' &middot; ')}</div>
         <div class="cart-line-qty">
           <div class="qty-stepper">
             <button data-qty-down aria-label="Decrease quantity">&minus;</button>

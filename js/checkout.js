@@ -28,7 +28,7 @@ function renderSummary(totals) {
       <div class="summary-line-thumb">${lineThumb(l)}</div>
       <div>
         <div class="summary-line-name">${l.name}</div>
-        <div class="summary-line-meta">${l.color} &middot; ${l.size}</div>
+        <div class="summary-line-meta">${[l.color, l.size].filter(Boolean).join(' &middot; ')}</div>
         <div class="summary-line-qty-row">
           <div class="qty-stepper">
             <button data-qty-down aria-label="Decrease quantity">&minus;</button>
