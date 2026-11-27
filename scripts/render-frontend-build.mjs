@@ -24,12 +24,17 @@ const PAGES = [
   'our-craft.html',
 ]
 const DIRS = ['assets', 'css', 'js', 'data', 'partials']
+// Browsers ask for /favicon.ico at the site root even when a page names its own icon
+const ROOT_FILES = ['favicon.ico']
 
 rmSync(dist, { recursive: true, force: true })
 mkdirSync(dist, { recursive: true })
 
 for (const page of PAGES) {
   cpSync(join(root, page), join(dist, page))
+}
+for (const file of ROOT_FILES) {
+  cpSync(join(root, file), join(dist, file))
 }
 for (const dir of DIRS) {
   cpSync(join(root, dir), join(dist, dir), { recursive: true })

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
+  <!-- The hero's paisley thread (index.html .motif), on the site's dark ground -->
+  <rect width="260" height="260" rx="56" fill="#121813"/>
+  <g transform="translate(23 4)">
+    <path d="M100,14 C146,14 168,60 156,104 C147,138 118,152 104,184 C95,204 103,222 122,226 C104,238 74,231 70,208 C66,185 84,167 98,149 C112,131 108,103 84,94 C65,87 49,99 53,118 C42,104 46,79 70,73 C90,68 99,49 88,36 C93,26 100,14 100,14 Z" fill="none" stroke="#c4975a" stroke-width="13" stroke-linejoin="round"/>
+    <circle cx="100" cy="14" r="10" fill="#efeae0"/>
+    <circle cx="53" cy="118" r="10" fill="#efeae0"/>
+    <circle cx="122" cy="226" r="10" fill="#efeae0"/>
+  </g>
+</svg>
